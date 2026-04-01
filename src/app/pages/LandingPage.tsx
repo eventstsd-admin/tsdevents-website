@@ -160,12 +160,12 @@ export function LandingPage() {
 
         {/* Hero Content Overlay */}
         <div className="absolute inset-0 z-20 flex items-center justify-center">
-          <div className="text-center text-white px-4 max-w-4xl">
+          <div className="text-center text-white px-4 max-w-4xl py-8 sm:py-0">
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+              className="text-2xl xs:text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight"
             >
               Professional{' '}
               <span className="text-amber-400">Event Planning</span>{' '}
@@ -175,7 +175,7 @@ export function LandingPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xl md:text-2xl mb-8 text-gray-200"
+              className="text-xs sm:text-sm md:text-lg lg:text-xl xl:text-2xl mb-6 sm:mb-8 text-gray-200 leading-relaxed"
             >
               Premier wedding planners & corporate event organizers. 5+ years experience, 50+ successful celebrations across India. Expert event management for unforgettable memories.
             </motion.p>

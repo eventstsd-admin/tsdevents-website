@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin, Heart } from 'lucide-react';
+import logoImage from '../images/logo without text.png';
 
 export function Footer() {
   return (
@@ -10,7 +11,7 @@ export function Footer() {
           <div>
             <div className="flex items-center space-x-2 mb-4">
               <img 
-                src="/src/app/images/logo without text.png" 
+                src={logoImage}
                 alt="TSD Events Logo"
                 className="w-10 h-10 object-contain"
               />

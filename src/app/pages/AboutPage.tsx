@@ -60,7 +60,7 @@ export function AboutPage() {
       <SEOComponent {...PAGE_SEO.about} />
       
       {/* Hero Section */}
-      <section className="relative h-[50vh] text-white flex items-center justify-center pt-20">
+      <section className="relative min-h-[40vh] sm:h-[50vh] text-white flex items-center justify-center pt-16 sm:pt-20">
         <div className="absolute inset-0">
           {/* Background Image */}
           <motion.div 
@@ -75,11 +75,11 @@ export function AboutPage() {
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
         </div>
-        <div className="relative z-10 text-center px-4 max-w-none w-3/5 mx-auto">
+        <div className="relative z-10 text-center px-4 max-w-full sm:max-w-4xl w-full sm:w-11/12 mx-auto py-8 sm:py-0">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-6xl font-bold mb-4"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
           >
             About TSD Events
           </motion.h1>
@@ -87,7 +87,7 @@ export function AboutPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-xl text-gray-300"
+            className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300"
           >
             Professional event planners creating unforgettable celebrations
           </motion.p>

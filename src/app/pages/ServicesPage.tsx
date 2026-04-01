@@ -41,7 +41,7 @@ export function ServicesPage() {
       <SEOComponent {...PAGE_SEO.services} />
       
       {/* Hero Section */}
-      <section className="relative h-[50vh] overflow-hidden pt-20">
+      <section className="relative min-h-[40vh] sm:h-[50vh] overflow-hidden pt-16 sm:pt-20">
         <div className="absolute inset-0">
           {/* Background Image */}
           <motion.div 
@@ -57,22 +57,22 @@ export function ServicesPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
         </div>
         
-        <div className="relative z-10 h-full flex items-center justify-center">
-          <div className="text-center text-white px-4 max-w-none w-3/5 mx-auto">
+        <div className="relative z-10 min-h-[40vh] sm:h-full flex items-center justify-center">
+          <div className="text-center text-white px-4 max-w-full sm:max-w-4xl w-full sm:w-11/12 mx-auto py-8 sm:py-0">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex items-center justify-center gap-2 mb-4"
+              className="flex items-center justify-center gap-2 mb-2 sm:mb-4 flex-wrap"
             >
-              <Sparkles className="w-5 h-5 text-amber-400" />
-              <span className="text-amber-400 font-medium tracking-wider uppercase text-sm">Premium Services</span>
-              <Sparkles className="w-5 h-5 text-amber-400" />
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" />
+              <span className="text-amber-400 font-medium tracking-wider uppercase text-xs sm:text-sm">Premium Services</span>
+              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" />
             </motion.div>
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-5xl md:text-6xl font-bold mb-6"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold mb-3 sm:mb-6"
             >
               {selectedCategory || 'Our Services'}
             </motion.h1>
@@ -80,7 +80,7 @@ export function ServicesPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xl text-gray-200"
+              className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-200"
             >
               {selectedCategory 
                 ? categoryDescriptions[selectedCategory]
