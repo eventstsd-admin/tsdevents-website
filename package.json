@@ -6,7 +6,8 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite",
-    "setup:supabase": "node scripts/setup-supabase.js"
+    "setup:supabase": "node scripts/setup-supabase.js",
+    "compress-images": "node compress-images.js"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
@@ -70,6 +71,7 @@
   "devDependencies": {
     "@tailwindcss/vite": "4.1.12",
     "@vitejs/plugin-react": "4.7.0",
+    "sharp": "^0.33.5",
     "tailwindcss": "4.1.12",
     "vite": "6.3.5"
   },
