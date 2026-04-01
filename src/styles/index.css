@@ -2,3 +2,60 @@
 @import './tailwind.css';
 @import './theme.css';
 @import './custom.css';
+
+/* Image Loading Animations */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.hero-fade-in {
+  animation: fadeInScale 0.8s ease-out forwards;
+}
+
+/* Hero Slide Down Animation */
+@keyframes slideDownReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px) scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.hero-slide-down {
+  animation: slideDownReveal 1.2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+/* Smooth overlay reveal */
+@keyframes overlaySlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.overlay-slide-down {
+  animation: overlaySlideDown 0.8s ease-out 0.3s forwards;
+}

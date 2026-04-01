@@ -40,12 +40,15 @@ export function ServicesPage() {
       {/* Hero Section */}
       <section className="relative h-[50vh] overflow-hidden pt-20">
         <div className="absolute inset-0">
-          <img
-            src={servicesHeroImage}
-            alt="Our Services"
-            className="w-full h-full object-cover"
+          {/* Background Image */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: `url(${servicesHeroImage})` }}
           />
+          {/* Dark Overlay */}
           <div className="absolute inset-0 bg-black/60" />
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
         </div>
         
         <div className="relative z-10 h-full flex items-center justify-center">

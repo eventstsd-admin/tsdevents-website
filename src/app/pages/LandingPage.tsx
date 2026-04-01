@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 import Slider from 'react-slick';
 import { ArrowRight, Sparkles, Users, Award, Calendar, Star, Quote } from 'lucide-react';
 import { Button } from '../components/ui/button';
+import { OptimizedImage } from '../components/OptimizedImage';
 import { pastEventOperations } from '../../supabase';
 
 // Import hero images
@@ -79,7 +80,7 @@ export function LandingPage() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % 3);
+      setCurrentSlide((prev) => (prev + 1) % heroImages.length);
     }, 4000);
     return () => clearInterval(interval);
   }, []);
@@ -127,7 +128,7 @@ export function LandingPage() {
   return (
     <div className="bg-white">
       <section className="relative w-full h-screen overflow-hidden bg-gray-900">
-        {/* Image Background Slides */}
+        {/* Original Hero Images Background - CSS Background Style */}
         <div className="absolute inset-0">
           {heroImages.map((image, idx) => (
             <motion.div
@@ -421,7 +422,7 @@ export function LandingPage() {
               ))}
             </div>
           ) : galleryPhotos.length > 0 ? (
-            // Gallery photos
+            // Gallery photos with lazy loading
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
               {galleryPhotos.map((photo, idx) => (
                 <motion.div
@@ -434,10 +435,11 @@ export function LandingPage() {
                   className="relative h-64 rounded-2xl overflow-hidden cursor-pointer shadow-lg group"
                   onClick={() => navigate('/events')}
                 >
-                  <img
+                  <OptimizedImage
                     src={photo.url}
                     alt={photo.alt_text}
                     className="w-full h-full object-cover"
+                    lazy={true}
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center">
                     <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity font-semibold text-sm bg-white/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/30">

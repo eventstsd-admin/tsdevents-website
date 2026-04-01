@@ -45,12 +45,15 @@ export function ContactPage() {
       {/* Hero Section */}
       <section className="relative h-[50vh] text-white flex items-center justify-center pt-20">
         <div className="absolute inset-0">
-          <img
-            src={contactHeroImage}
-            alt="Contact Us"
-            className="w-full h-full object-cover"
+          {/* Background Image */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: `url(${contactHeroImage})` }}
           />
+          {/* Dark Overlay */}
           <div className="absolute inset-0 bg-black/60" />
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
         </div>
         <div className="relative z-10 text-center px-4">
           <motion.h1
