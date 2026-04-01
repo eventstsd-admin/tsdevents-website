@@ -2,16 +2,17 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router';
 import { Button } from '../components/ui/button';
+import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import { ChevronRight, ArrowLeft, Sparkles } from 'lucide-react';
 import { CATEGORIES_WITH_SUBCATEGORIES } from '../../supabase';
 import religiousImage from '../images/Hero Fallback/Services/Catcard/ReligiousCat.jpeg';
 import servicesHeroImage from '../images/Hero Fallback/Services/ServiceHero.jpg';
 
 const categoryDescriptions: Record<string, string> = {
-  'Wedding': 'Make your special day unforgettable with our comprehensive wedding services',
-  'Religious': 'Sacred ceremonies organized with devotion and attention to tradition',
-  'Corporate Event': 'Professional event management for your business occasions',
-  'Decoration': 'Transform any space into a stunning masterpiece',
+  'Wedding': 'Complete wedding planning services for your perfect celebration.',
+  'Religious': 'Traditional ceremony coordination with cultural authenticity.',
+  'Corporate Event': 'Professional business event management and coordination.',
+  'Decoration': 'Creative decoration and venue transformation services.',
 };
 
 const categoryImages: Record<string, string> = {
@@ -37,13 +38,18 @@ export function ServicesPage() {
 
   return (
     <div className="bg-white min-h-screen">
+      <SEOComponent {...PAGE_SEO.services} />
+      
       {/* Hero Section */}
       <section className="relative h-[50vh] overflow-hidden pt-20">
         <div className="absolute inset-0">
           {/* Background Image */}
-          <div 
+          <motion.div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${servicesHeroImage})` }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
           />
           {/* Dark Overlay */}
           <div className="absolute inset-0 bg-black/60" />
@@ -52,7 +58,7 @@ export function ServicesPage() {
         </div>
         
         <div className="relative z-10 h-full flex items-center justify-center">
-          <div className="text-center text-white px-4 max-w-4xl">
+          <div className="text-center text-white px-4 max-w-none w-3/5 mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -74,11 +80,11 @@ export function ServicesPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xl text-gray-200 max-w-2xl mx-auto"
+              className="text-xl text-gray-200"
             >
               {selectedCategory 
                 ? categoryDescriptions[selectedCategory]
-                : 'Comprehensive event management solutions tailored to your needs'
+                : 'Expert event planning services across India for unforgettable celebrations.'
               }
             </motion.p>
           </div>

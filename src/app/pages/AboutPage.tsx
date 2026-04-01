@@ -1,7 +1,8 @@
 import { motion } from 'motion/react';
-import { Award, Target, Heart, Users, Briefcase, Calendar } from 'lucide-react';
+import { Target, Heart, Users, Briefcase, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { Button } from '../components/ui/button';
+import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import aboutHeroImage from '../images/Hero Fallback/About us/about us.jpg';
 
 const team = [
@@ -28,10 +29,9 @@ const team = [
 ];
 
 const achievements = [
-  { icon: Award, number: '50+', label: 'Awards Won' },
-  { icon: Users, number: '50K+', label: 'Happy Clients' },
-  { icon: Calendar, number: '500+', label: 'Events Organized' },
-  { icon: Briefcase, number: '10+', label: 'Years in Business' },
+  { icon: Users, number: '100+', label: 'Happy Clients' },
+  { icon: Calendar, number: '50+', label: 'Events Organized' },
+  { icon: Briefcase, number: '5+', label: 'Years in Business' },
 ];
 
 const values = [
@@ -57,20 +57,25 @@ export function AboutPage() {
 
   return (
     <div className="bg-white">
+      <SEOComponent {...PAGE_SEO.about} />
+      
       {/* Hero Section */}
       <section className="relative h-[50vh] text-white flex items-center justify-center pt-20">
         <div className="absolute inset-0">
           {/* Background Image */}
-          <div 
+          <motion.div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${aboutHeroImage})` }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
           />
           {/* Dark Overlay */}
           <div className="absolute inset-0 bg-black/60" />
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
         </div>
-        <div className="relative z-10 text-center px-4">
+        <div className="relative z-10 text-center px-4 max-w-none w-3/5 mx-auto">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -84,7 +89,7 @@ export function AboutPage() {
             transition={{ delay: 0.2 }}
             className="text-xl text-gray-300"
           >
-            Creating memories, one event at a time
+            Professional event planners creating unforgettable celebrations
           </motion.p>
         </div>
       </section>
@@ -99,15 +104,15 @@ export function AboutPage() {
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Our Story</h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">TSD Events - Professional Event Planners Since 2014</h2>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                Founded in 2016, TSD Events began with a simple vision: to transform ordinary moments into extraordinary memories. What started as a small team of passionate event planners has grown into one of India's most trusted event management companies.
+                Founded in 2014, TSD Events began as India's premier event planning company with a vision to transform ordinary celebrations into extraordinary memories. Starting as a dedicated team of professional event planners, we've grown into one of India's most trusted wedding and corporate event management companies.
               </p>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                Over the years, we've had the privilege of organizing over 500 events, from intimate weddings to grand corporate conferences. Our commitment to excellence, attention to detail, and personalized approach have made us the preferred choice for clients across the country.
+                Over the past decade, we've successfully organized 500+ events across India, including luxury weddings, corporate conferences, religious ceremonies, and private celebrations. Our expertise spans traditional Indian weddings, destination wedding planning, corporate event management, and specialized religious ceremony coordination.
               </p>
               <p className="text-lg text-gray-700 leading-relaxed">
-                Today, we continue to push boundaries, embrace innovation, and create experiences that leave lasting impressions. Every event we undertake is a testament to our dedication to turning dreams into reality.
+                As certified event planning professionals, we combine traditional Indian event expertise with modern project management. Our comprehensive services include venue selection, decoration design, catering coordination, entertainment booking, and complete event production - making us your single point of contact for all celebration needs.
               </p>
             </motion.div>
           </div>
@@ -164,7 +169,7 @@ export function AboutPage() {
             <p className="text-xl text-gray-600">Milestones that inspire us</p>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             {achievements.map((achievement, idx) => {
               const Icon = achievement.icon;
               return (

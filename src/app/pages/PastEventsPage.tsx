@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MapPin, Calendar, X, ChevronLeft, ChevronRight, Sparkles, Camera, ExternalLink } from 'lucide-react';
 import { pastEventOperations, CATEGORIES, type PastEvent } from '../../supabase';
+import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import eventsHeroImage from '../images/Hero Fallback/PastEvents/Events.jpg';
 
 export function PastEventsPage() {
@@ -74,13 +75,18 @@ export function PastEventsPage() {
 
   return (
     <>
+      <SEOComponent {...PAGE_SEO.pastEvents} />
+      
       {/* Hero Section */}
       <section className="relative h-[50vh] overflow-hidden pt-20">
         <div className="absolute inset-0">
           {/* Background Image */}
-          <div 
+          <motion.div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${eventsHeroImage})` }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
           />
           {/* Dark Overlay */}
           <div className="absolute inset-0 bg-black/50" />
@@ -89,7 +95,7 @@ export function PastEventsPage() {
         </div>
         
         <div className="relative z-10 h-full flex items-center justify-center">
-          <div className="text-center text-white px-4 max-w-4xl">
+          <div className="text-center text-white px-4 max-w-none w-3/5 mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -111,9 +117,9 @@ export function PastEventsPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-lg text-gray-200 max-w-2xl mx-auto leading-relaxed"
+              className="text-lg text-gray-200 leading-relaxed"
             >
-              Discover the magical moments we've crafted. Each event is a testament to our dedication to excellence.
+              Explore our portfolio of successfully executed events across India.
             </motion.p>
           </div>
         </div>

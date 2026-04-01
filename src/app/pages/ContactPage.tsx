@@ -6,6 +6,7 @@ import { Label } from '../components/ui/label';
 import { Textarea } from '../components/ui/textarea';
 import { toast } from 'sonner';
 import { useState } from 'react';
+import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import contactHeroImage from '../images/Hero Fallback/Contact/Contact.jpg';
 import { inquiryOperations } from '../../supabase';
 
@@ -42,26 +43,31 @@ export function ContactPage() {
 
   return (
     <div className="bg-white">
+      <SEOComponent {...PAGE_SEO.contact} />
+      
       {/* Hero Section */}
       <section className="relative h-[50vh] text-white flex items-center justify-center pt-20">
         <div className="absolute inset-0">
           {/* Background Image */}
-          <div 
+          <motion.div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${contactHeroImage})` }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
           />
           {/* Dark Overlay */}
           <div className="absolute inset-0 bg-black/60" />
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
         </div>
-        <div className="relative z-10 text-center px-4">
+        <div className="relative z-10 text-center px-4 max-w-none w-3/5 mx-auto">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-5xl md:text-6xl font-bold mb-4"
           >
-            Get In Touch
+            Contact TSD Events
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -69,7 +75,7 @@ export function ContactPage() {
             transition={{ delay: 0.2 }}
             className="text-xl text-gray-300"
           >
-            Let's discuss your dream event
+            Ready to plan your perfect event? Let's discuss your celebration.
           </motion.p>
         </div>
       </section>

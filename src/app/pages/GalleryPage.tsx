@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Masonry from 'react-responsive-masonry';
 import { Button } from '../components/ui/button';
 import { supabase, CATEGORIES } from '../../supabase';
+import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import galleryHeroImage from '../images/Hero Fallback/Gallery/GalleryHero.jpg';
 
 interface PhotoItem {
@@ -84,20 +85,25 @@ export function GalleryPage() {
 
   return (
     <div className="bg-white">
+      <SEOComponent {...PAGE_SEO.gallery} />
+      
       {/* Hero Section */}
       <section className="relative h-[50vh] text-white flex items-center justify-center pt-20">
         <div className="absolute inset-0">
           {/* Background Image */}
-          <div 
+          <motion.div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${galleryHeroImage})` }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
           />
           {/* Dark Overlay */}
           <div className="absolute inset-0 bg-black/60" />
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
         </div>
-        <div className="relative z-10 text-center px-4">
+        <div className="relative z-10 text-center px-4 max-w-none w-3/5 mx-auto">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -111,7 +117,7 @@ export function GalleryPage() {
             transition={{ delay: 0.2 }}
             className="text-xl text-gray-300"
           >
-            Moments captured, memories created
+            Professional event photography showcasing our successful celebrations.
           </motion.p>
         </div>
       </section>

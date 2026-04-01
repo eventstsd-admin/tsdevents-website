@@ -5,6 +5,7 @@ import Slider from 'react-slick';
 import { ArrowRight, Sparkles, Users, Award, Calendar, Star, Quote } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { OptimizedImage } from '../components/OptimizedImage';
+import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import { pastEventOperations } from '../../supabase';
 
 // Import hero images
@@ -28,18 +29,18 @@ const heroImages = [
 
 const services = [
   {
-    title: 'Wedding Events',
-    description: 'Transform your special day into an unforgettable celebration',
+    title: 'Wedding Event Planning',
+    description: 'Professional wedding planners specializing in traditional Indian weddings, destination weddings, and intimate ceremonies. Complete wedding management from decoration to catering.',
     icon: Sparkles,
   },
   {
-    title: 'Corporate Events',
-    description: 'Professional gatherings that leave lasting impressions',
+    title: 'Corporate Event Management',
+    description: 'Expert corporate event organizers for conferences, product launches, annual functions, and business celebrations. Professional event coordination for corporate success.',
     icon: Users,
   },
   {
-    title: 'Private Parties',
-    description: 'Intimate celebrations crafted with personal touches',
+    title: 'Religious & Private Celebrations',
+    description: 'Specialized religious ceremony planning, birthday parties, anniversaries, and family celebrations. Traditional event organization with modern touches.',
     icon: Award,
   },
 ];
@@ -66,9 +67,9 @@ const testimonials = [
 ];
 
 const stats = [
-  { number: '500+', label: 'Events Completed' },
-  { number: '50K+', label: 'Happy Clients' },
-  { number: '10+', label: 'Years Experience' },
+  { number: '50+', label: 'Events Completed' },
+  { number: '100+', label: 'Happy Clients' },
+  { number: '5+', label: 'Years Experience' },
   { number: '98%', label: 'Satisfaction Rate' },
 ];
 
@@ -127,6 +128,10 @@ export function LandingPage() {
 
   return (
     <div className="bg-white">
+      <SEOComponent 
+        {...PAGE_SEO.home}
+      />
+      
       <section className="relative w-full h-screen overflow-hidden bg-gray-900">
         {/* Original Hero Images Background - CSS Background Style */}
         <div className="absolute inset-0">
@@ -162,8 +167,9 @@ export function LandingPage() {
               transition={{ duration: 0.8 }}
               className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
             >
-              Creating Unforgettable{' '}
-              <span className="text-amber-400">Events</span>
+              Professional{' '}
+              <span className="text-amber-400">Event Planning</span>{' '}
+              Services India
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 30 }}
@@ -171,7 +177,7 @@ export function LandingPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-xl md:text-2xl mb-8 text-gray-200"
             >
-              Where dreams meet reality, and every moment becomes a cherished memory
+              Premier wedding planners & corporate event organizers. 5+ years experience, 50+ successful celebrations across India. Expert event management for unforgettable memories.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -181,10 +187,12 @@ export function LandingPage() {
             >
               <Button
                 onClick={() => navigate('/contact')}
-                className="bg-red-700/90 hover:bg-red-800/90 text-white px-8 py-6 rounded-full text-lg font-semibold shadow-2xl transition-all duration-300 border border-red-700/30"
+                className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-10 py-6 rounded-full text-lg font-bold shadow-2xl hover:shadow-red-500/25 transition-all duration-300 border border-red-600/50 hover:border-red-500 transform hover:scale-105 hover:-translate-y-1"
               >
-                Contact Us
-                <ArrowRight className="ml-2" />
+                <span className="flex items-center">
+                  Contact Us
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </span>
               </Button>
               <Button
                 onClick={() => navigate('/events')}
@@ -496,10 +504,12 @@ export function LandingPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 onClick={() => navigate('/contact')}
-                className="bg-red-700/90 hover:bg-red-800/90 text-white px-10 py-6 rounded-full text-lg font-semibold shadow-2xl transition-all duration-300 border border-red-700/30"
+                className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-12 py-6 rounded-full text-lg font-bold shadow-2xl hover:shadow-red-500/25 transition-all duration-300 border border-red-600/50 hover:border-red-500 transform hover:scale-105 hover:-translate-y-1"
               >
-                Contact Us
-                <ArrowRight className="ml-2" />
+                <span className="flex items-center">
+                  Contact Us
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </span>
               </Button>
               <Button
                 onClick={() => navigate('/events')}

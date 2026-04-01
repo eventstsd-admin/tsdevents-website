@@ -1,12 +1,15 @@
 import { RouterProvider } from 'react-router';
+// import { HelmetProvider } from 'react-helmet-async';  // Temporarily disabled until dependency installed
 import { router } from './routes';
 import { Toaster } from './components/ui/sonner';
 
 export default function App() {
   return (
-    <>
-      <RouterProvider router={router} />
-      <Toaster position="top-right" />
-    </>
+    // <HelmetProvider>  {/* Temporarily disabled until dependency installed */}
+      <>
+        <RouterProvider router={router} />
+        <Toaster position="top-right" />
+      </>
+    // </HelmetProvider>
   );
 }
