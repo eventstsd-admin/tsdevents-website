@@ -1,0 +1,38 @@
+{
+  "name": "TSD Events & Decor",
+  "short_name": "TSD Events",
+  "description": "Premium Event Management and Decoration Services",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#dc2626",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/src/app/images/logo without text.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/src/app/images/logo without text.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/src/app/images/logo without text.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["business", "lifestyle"],
+  "screenshots": [
+    {
+      "src": "/src/app/images/logo without text.png",
+      "sizes": "540x720",
+      "type": "image/png"
+    }
+  ]
+}
