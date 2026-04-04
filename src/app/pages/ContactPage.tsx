@@ -189,7 +189,7 @@ export function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-900 mb-1">Location</h3>
-                  <p className="text-gray-600">Ahmedabad, Gujarat, India</p>
+                  <p className="text-gray-600">3, Jamnasagar Flats, opp. Dharmeshwar Mahadev Road, Sabarmati Society, Dharmnagar, Sabarmati, Ahmedabad, Gujarat 380005</p>
                   <a href="https://maps.app.goo.gl/oSoJT4RoNKFvVRHU9" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-700 text-sm font-medium mt-1 inline-block">
                     Get Directions
                   </a>
