@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Button } from './ui/button';
-import logo from '../images/Tsd logo.png';
+import logo from '../images/Tsd logo.webp';
 import { CATEGORIES_WITH_SUBCATEGORIES } from '../../supabase';
 
 export function Header() {

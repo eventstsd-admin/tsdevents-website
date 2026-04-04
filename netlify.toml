@@ -2,11 +2,54 @@
   publish = "dist"
   command = "npm run build"
 
+[context.production]
+  command = "npm run build"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
+# Cache static assets aggressively
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Content-Type = "application/javascript"
+    Cache-Control = "public, max-age=31536000, immutable"
+    X-Content-Type-Options = "nosniff"
+
+# Cache images with long expiry
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Content-Type = "image/png"
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Content-Type = "image/jpeg"
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.jpeg"
+  [headers.values]
+    Content-Type = "image/jpeg"
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.webp"
+  [headers.values]
+    Content-Type = "image/webp"
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.svg"
+  [headers.values]
+    Content-Type = "image/svg+xml"
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Don't cache dynamic content
 [[headers]]
   for = "/*.json"
   [headers.values]
@@ -14,28 +57,26 @@
     Cache-Control = "no-cache, no-store, must-revalidate"
 
 [[headers]]
-  for = "/*.png"
-  [headers.values]
-    Content-Type = "image/png"
-    Cache-Control = "public, max-age=31536000"
-
-[[headers]]
   for = "/manifest.json"
   [headers.values]
     Content-Type = "application/manifest+json"
     Cache-Control = "no-cache, no-store, must-revalidate"
 
+# HTML should check for updates
 [[headers]]
-  for = "*.js"
+  for = "/"
   [headers.values]
-    Content-Type = "application/javascript"
+    Content-Type = "text/html"
+    Cache-Control = "public, max-age=3600"
 
 [[headers]]
-  for = "*.mjs"
+  for = "/*.html"
   [headers.values]
-    Content-Type = "application/javascript"
+    Content-Type = "text/html"
+    Cache-Control = "public, max-age=3600"
 
+# Enable compression
 [[headers]]
-  for = "*.ts"
+  for = "/*"
   [headers.values]
-    Content-Type = "application/javascript"
+    Content-Encoding = "gzip"

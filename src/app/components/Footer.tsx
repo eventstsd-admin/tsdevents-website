@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin, Heart } from 'lucide-react';
-import logoImage from '../images/logo without text.png';
+import logoImage from '../images/logo without text.webp';
 
 export function Footer() {
   return (

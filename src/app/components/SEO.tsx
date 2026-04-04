@@ -51,7 +51,7 @@ const DEFAULT_SEO = {
   title: 'TSD Events & Decor | Professional Wedding & Corporate Event Planners India',
   description: 'Premier event planning services in India. Expert wedding planners, corporate event organizers, and celebration specialists. 10+ years experience, 500+ successful events. Contact us for unforgettable celebrations.',
   keywords: DEFAULT_KEYWORDS,
-  image: '/src/app/images/logo without text.png',
+  image: '/src/app/images/logo without text.webp',
   url: 'https://tsdevents.com',
   author: 'TSD Events & Decor Team',
   locale: 'en_IN'

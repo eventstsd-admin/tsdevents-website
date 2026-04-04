@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Configuration
-const MAX_SIZE_KB = 200;
+const MAX_SIZE_KB = 150;
 const MAX_SIZE_BYTES = MAX_SIZE_KB * 1024;
 const IMAGES_DIR = './src/app/images';
 
@@ -21,58 +21,52 @@ function getFileSizeKB(filePath) {
   return Math.round(stats.size / 1024);
 }
 
-// Function to compress image
-async function compressImage(inputPath, outputPath) {
+// Function to compress image and create WebP version
+async function compressImage(inputPath) {
   const originalSize = getFileSizeKB(inputPath);
-  console.log(`\nProcessing: ${path.basename(inputPath)} (${originalSize} KB)`);
+  const ext = path.extname(inputPath).toLowerCase();
+  const basename = path.basename(inputPath, ext);
+  const dirname = path.dirname(inputPath);
+  const webpPath = path.join(dirname, `${basename}.webp`);
   
-  if (originalSize <= MAX_SIZE_KB) {
-    console.log(`✅ Already under ${MAX_SIZE_KB}KB - skipping`);
-    return { originalSize, finalSize: originalSize, saved: 0 };
-  }
-
-  let quality = 85; // Start with high quality
-  let finalSize = originalSize;
-  let attempts = 0;
-  const maxAttempts = 10;
-
-  while (finalSize > MAX_SIZE_KB && attempts < maxAttempts && quality > 20) {
-    try {
-      const tempPath = outputPath + '.temp';
-      
+  console.log(`\n🔄 Processing: ${path.basename(inputPath)} (${originalSize} KB)`);
+  
+  try {
+    // Create WebP version (typically 70-80% smaller)
+    await sharp(inputPath)
+      .webp({ quality: 80 })
+      .toFile(webpPath);
+    
+    const webpSize = getFileSizeKB(webpPath);
+    console.log(`   ✅ WebP created: ${webpSize} KB (saves ${originalSize - webpSize} KB)`);
+    
+    // Optimize original image
+    let finalSize = originalSize;
+    
+    if (ext === '.png') {
       await sharp(inputPath)
-        .jpeg({ quality, mozjpeg: true }) // Use mozjpeg for better compression
-        .png({ quality, compressionLevel: 9 })
-        .webp({ quality })
-        .toFile(tempPath);
-
-      finalSize = getFileSizeKB(tempPath);
-      
-      if (finalSize <= MAX_SIZE_KB) {
-        // Success! Replace original
-        fs.renameSync(tempPath, outputPath);
-        const saved = originalSize - finalSize;
-        const savedPercent = Math.round((saved / originalSize) * 100);
-        console.log(`✅ Compressed to ${finalSize} KB (saved ${saved} KB / ${savedPercent}%) at quality ${quality}`);
-        return { originalSize, finalSize, saved };
-      } else {
-        // Try lower quality
-        fs.unlinkSync(tempPath);
-        quality -= 10;
-        attempts++;
-        console.log(`   Attempt ${attempts}: ${finalSize} KB at quality ${quality} - trying lower quality...`);
-      }
-    } catch (error) {
-      console.error(`❌ Error compressing ${inputPath}:`, error.message);
-      return { originalSize, finalSize: originalSize, saved: 0, error: error.message };
+        .png({ compressionLevel: 9, progressive: true })
+        .toFile(inputPath + '.tmp');
+      fs.renameSync(inputPath + '.tmp', inputPath);
+      finalSize = getFileSizeKB(inputPath);
+    } else if (['.jpg', '.jpeg'].includes(ext)) {
+      await sharp(inputPath)
+        .jpeg({ quality: 82, mozjpeg: true, progressive: true })
+        .toFile(inputPath + '.tmp');
+      fs.renameSync(inputPath + '.tmp', inputPath);
+      finalSize = getFileSizeKB(inputPath);
     }
+    
+    const saved = originalSize - finalSize;
+    if (saved > 0) {
+      console.log(`   ✅ Original optimized: ${finalSize} KB (saved ${saved} KB)`);
+    }
+    
+    return { originalSize, finalSize, webpSize, saved, webpPath };
+  } catch (error) {
+    console.error(`   ❌ Error: ${error.message}`);
+    return { originalSize, finalSize: originalSize, saved: 0, error: error.message };
   }
-
-  if (finalSize > MAX_SIZE_KB) {
-    console.log(`⚠️  Could not compress to under ${MAX_SIZE_KB} KB. Final size: ${finalSize} KB`);
-  }
-
-  return { originalSize, finalSize, saved: originalSize - finalSize };
 }
 
 // Function to find all images recursively
@@ -100,9 +94,14 @@ function findImages(dir) {
 
 // Main compression function
 async function compressAllImages() {
-  console.log(`🖼️  TSD Website Image Compression Tool`);
-  console.log(`📁 Scanning directory: ${IMAGES_DIR}`);
-  console.log(`🎯 Target size: ${MAX_SIZE_KB} KB max per image\n`);
+  console.log(`
+╔════════════════════════════════════════════════════════════╗
+║            🖼️  TSD Image Compression Tool                  ║
+║          Optimize Images + Create WebP Versions             ║
+╚════════════════════════════════════════════════════════════╝
+  `);
+  console.log(`📁 Scanning: ${IMAGES_DIR}`);
+  console.log(`🎯 Target: ${MAX_SIZE_KB} KB max (original)\n`);
 
   if (!fs.existsSync(IMAGES_DIR)) {
     console.error(`❌ Images directory not found: ${IMAGES_DIR}`);
@@ -112,48 +111,68 @@ async function compressAllImages() {
   const images = findImages(IMAGES_DIR);
   
   if (images.length === 0) {
-    console.log('No images found to compress.');
+    console.log('ℹ️  No images found to compress.');
     return;
   }
 
-  console.log(`Found ${images.length} images to process:\n`);
+  console.log(`Found ${images.length} images\n`);
 
   let totalOriginalSize = 0;
-  let totalFinalSize = 0;
-  let processedCount = 0;
+  let totalOptimizedSize = 0;
+  let totalWebpSize = 0;
   const results = [];
 
   for (const imagePath of images) {
-    const result = await compressImage(imagePath, imagePath);
-    results.push({ path: imagePath, ...result });
+    const result = await compressImage(imagePath);
+    results.push(result);
     
     totalOriginalSize += result.originalSize;
-    totalFinalSize += result.finalSize;
-    processedCount++;
+    totalOptimizedSize += result.finalSize || result.originalSize;
+    totalWebpSize += result.webpSize || 0;
   }
 
   // Summary
-  const totalSaved = totalOriginalSize - totalFinalSize;
+  const totalSaved = totalOriginalSize - totalOptimizedSize;
   const savedPercent = totalOriginalSize > 0 ? Math.round((totalSaved / totalOriginalSize) * 100) : 0;
+  const totalBandwidthSavings = totalSaved + totalWebpSize;
+  const bandwidthSavingsPercent = totalOriginalSize > 0 ? Math.round((totalBandwidthSavings / totalOriginalSize) * 100) : 0;
 
-  console.log(`\n📊 COMPRESSION SUMMARY`);
-  console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
-  console.log(`Images processed: ${processedCount}`);
-  console.log(`Total original size: ${totalOriginalSize} KB`);
-  console.log(`Total final size: ${totalFinalSize} KB`);
-  console.log(`Total saved: ${totalSaved} KB (${savedPercent}%)`);
-  console.log(`Average size per image: ${Math.round(totalFinalSize / processedCount)} KB`);
+  console.log(`
+╔════════════════════════════════════════════════════════════╗
+║                   📊 COMPRESSION SUMMARY                   ║
+╚════════════════════════════════════════════════════════════╝
+
+  Images processed: ${results.length}
   
-  // Show any images still over limit
-  const oversized = results.filter(r => r.finalSize > MAX_SIZE_KB);
-  if (oversized.length > 0) {
-    console.log(`\n⚠️  Images still over ${MAX_SIZE_KB} KB:`);
-    oversized.forEach(img => {
-      console.log(`   ${path.basename(img.path)}: ${img.finalSize} KB`);
-    });
-  } else {
-    console.log(`\n✅ All images are now under ${MAX_SIZE_KB} KB!`);
-  }
+  Original total:        ${totalOriginalSize} KB
+  Optimized total:       ${totalOptimizedSize} KB (↓${savedPercent}%)
+  WebP total:            ${totalWebpSize} KB
+  
+  Optimized savings:     ${totalSaved} KB
+  Bandwidth savings*:    ${totalBandwidthSavings} KB (↓${bandwidthSavingsPercent}%)
+  
+  Avg optimized size:    ${Math.round(totalOptimizedSize / results.length)} KB
+  Avg WebP size:         ${Math.round(totalWebpSize / results.length)} KB
+
+  * Bandwidth savings = Optimized + WebP (modern browsers serve WebP)
+  
+╔════════════════════════════════════════════════════════════╗
+║                  💡 IMPLEMENTATION TIPS                    ║
+╚════════════════════════════════════════════════════════════╝
+
+  To use WebP with fallback, update your <img> tags:
+  
+  <picture>
+    <source srcSet="image.webp" type="image/webp" />
+    <img src="image.jpg" alt="..." />
+  </picture>
+  
+  Or use in CSS:
+  background-image: url('image.webp');
+  
+  This will automatically serve WebP to modern browsers
+  (Chrome, Firefox, Edge, Safari 14+) saving ~70-80% bandwidth!
+`);
 }
 
 // Run the compression
