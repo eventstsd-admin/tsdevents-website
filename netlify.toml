@@ -10,13 +10,19 @@
   to = "/index.html"
   status = 200
 
-# Cache static assets aggressively
+# Cache JavaScript files
 [[headers]]
-  for = "/assets/*"
+  for = "/assets/*.js"
   [headers.values]
-    Content-Type = "application/javascript"
+    Content-Type = "application/javascript; charset=utf-8"
     Cache-Control = "public, max-age=31536000, immutable"
-    X-Content-Type-Options = "nosniff"
+
+# Cache CSS files
+[[headers]]
+  for = "/assets/*.css"
+  [headers.values]
+    Content-Type = "text/css; charset=utf-8"
+    Cache-Control = "public, max-age=31536000, immutable"
 
 # Cache WebP images
 [[headers]]
@@ -50,11 +56,11 @@
 [[headers]]
   for = "/"
   [headers.values]
-    Content-Type = "text/html"
+    Content-Type = "text/html; charset=utf-8"
     Cache-Control = "public, max-age=3600"
 
 [[headers]]
   for = "/*.html"
   [headers.values]
-    Content-Type = "text/html"
+    Content-Type = "text/html; charset=utf-8"
     Cache-Control = "public, max-age=3600"
