@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { MapPin, Calendar, X, ChevronLeft, ChevronRight, Sparkles, Camera, ExternalLink } from 'lucide-react';
+import { MapPin, Calendar, X, ChevronLeft, ChevronRight, Camera, ExternalLink, Phone, Mail } from 'lucide-react';
 import { pastEventOperations, CATEGORIES, type PastEvent } from '../../supabase';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import eventsHeroImage from '../images/Hero Fallback/PastEvents/Events.jpg';
@@ -127,10 +127,10 @@ export function PastEventsPage() {
           >
             <button
               onClick={() => setSelectedCategory(null)}
-              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+              className={`px-6 py-3 font-medium transition-all duration-300 ${
                 selectedCategory === null
-                  ? 'bg-red-700 text-white shadow-lg scale-105'
-                  : 'bg-white text-gray-600 border border-gray-200 hover:border-red-400 hover:text-red-600 hover:shadow-md'
+                  ? 'bg-red-600 text-white shadow-md'
+                  : 'bg-white text-gray-600 border border-gray-200 hover:border-red-400 hover:text-red-600'
               }`}
             >
               All Events
@@ -139,10 +139,10 @@ export function PastEventsPage() {
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                className={`px-6 py-3 font-medium transition-all duration-300 ${
                   selectedCategory === category
-                    ? 'bg-red-700 text-white shadow-lg scale-105'
-                    : 'bg-white text-gray-600 border border-gray-200 hover:border-red-400 hover:text-red-600 hover:shadow-md'
+                    ? 'bg-red-600 text-white shadow-md'
+                    : 'bg-white text-gray-600 border border-gray-200 hover:border-red-400 hover:text-red-600'
                 }`}
               >
                 {category}
@@ -155,7 +155,7 @@ export function PastEventsPage() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="bg-red-50 border border-red-200 rounded-2xl p-6 mb-8 text-red-700 text-center"
+              className="bg-red-50 border border-red-200 p-6 mb-8 text-red-700 text-center"
             >
               {error}
             </motion.div>
@@ -178,108 +178,81 @@ export function PastEventsPage() {
               animate={{ opacity: 1, scale: 1 }}
               className="text-center py-20"
             >
-              <div className="w-24 h-24 mx-auto mb-6 bg-amber-50 rounded-full flex items-center justify-center">
-                <Camera className="w-12 h-12 text-amber-500" />
+              <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 flex items-center justify-center">
+                <Camera className="w-12 h-12 text-gray-400" />
               </div>
               <p className="text-xl text-gray-600 mb-2">
                 {selectedCategory
                   ? `No events found in ${selectedCategory}`
                   : 'No events added yet'}
               </p>
-              <p className="text-gray-400">Check back soon for updates!</p>
+              <p className="text-gray-400">Check back soon for updates.</p>
             </motion.div>
           )}
 
-          {/* Events Grid - Premium Cards with Enhanced Animations */}
+          {/* Events Grid - Premium Cards */}
           {!loading && filteredEvents.length > 0 && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
               {filteredEvents.map((event, index) => (
                 <motion.div
                   key={event.id}
-                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ delay: index * 0.1, type: "spring", stiffness: 100 }}
-                  whileHover={{ y: -12, scale: 1.02 }}
-                  className="group relative bg-white/90 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] transition-all duration-500 cursor-pointer border border-gray-100/50"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ y: -4 }}
+                  className="group bg-white overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-100"
                   onClick={() => openEventDetails(event)}
                 >
                   {/* Image Container */}
-                  <div className="relative h-72 overflow-hidden">
+                  <div className="relative h-64 overflow-hidden">
                     {event.thumbnail_url ? (
-                      <motion.img
+                      <img
                         src={event.thumbnail_url}
                         alt={event.title}
-                        className="w-full h-full object-cover"
-                        whileHover={{ scale: 1.15 }}
-                        transition={{ duration: 0.6 }}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     ) : (
-                      <div className="w-full h-full bg-red-700 flex items-center justify-center">
+                      <div className="w-full h-full bg-red-600 flex items-center justify-center">
                         <Camera className="w-16 h-16 text-white/50" />
                       </div>
                     )}
                     
-                    {/* Glassmorphic Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
+                    {/* Dark Overlay */}
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-all duration-300" />
                     
-                    {/* Animated Shine Effect on Hover */}
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                      <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-                    </div>
-                    
-                    {/* Category Badge - Glassmorphic */}
-                    <motion.div 
-                      className="absolute top-4 left-4"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 + 0.2 }}
-                    >
-                      <span className="px-4 py-2 bg-white/90 backdrop-blur-md text-red-700 text-xs font-bold uppercase tracking-wider rounded-full shadow-lg border border-white/50">
+                    {/* Category Badge */}
+                    <div className="absolute top-4 left-4">
+                      <span className="px-3 py-1.5 bg-white text-red-600 text-xs font-bold uppercase tracking-wider">
                         {event.category}
                       </span>
-                    </motion.div>
+                    </div>
                     
-                    {/* Photo Count - Glassmorphic */}
+                    {/* Photo Count */}
                     {event.photo_urls && event.photo_urls.length > 0 && (
-                      <motion.div 
-                        className="absolute top-4 right-4 flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-md text-white text-sm font-semibold rounded-full border border-white/30"
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1 + 0.2 }}
-                      >
+                      <div className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 bg-black/50 text-white text-sm font-medium">
                         <Camera className="w-4 h-4" />
-                        {event.photo_urls.length} Photos
-                      </motion.div>
+                        {event.photo_urls.length}
+                      </div>
                     )}
 
-                    {/* Title Overlay - Enhanced */}
-                    <div className="absolute bottom-0 left-0 right-0 p-6">
-                      <motion.h3 
-                        className="text-2xl font-bold text-white mb-3 line-clamp-2 drop-shadow-lg"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 + 0.3 }}
-                      >
+                    {/* Title Overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 p-5">
+                      <h3 className="text-xl font-bold text-white mb-2 line-clamp-2">
                         {event.title}
-                      </motion.h3>
-                      <motion.div 
-                        className="flex items-center text-white/90 text-sm bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full w-fit"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 + 0.4 }}
-                      >
+                      </h3>
+                      <div className="flex items-center text-white/90 text-sm">
                         <Calendar className="w-4 h-4 mr-2" />
                         {formatDate(event.event_date)}
-                      </motion.div>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Card Footer - Glassmorphic */}
-                  <div className="p-5 bg-white/95 backdrop-blur-sm border-t border-gray-100">
+                  {/* Card Footer */}
+                  <div className="p-4 bg-white border-t border-gray-100">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center text-gray-500 text-sm group-hover:text-red-600 transition-colors">
                         {event.location && (
@@ -289,24 +262,13 @@ export function PastEventsPage() {
                           </>
                         )}
                       </div>
-                      <motion.button 
-                        whileHover={{ scale: 1.08, boxShadow: "0 10px 25px -5px rgba(185, 28, 28, 0.4)" }}
-                        whileTap={{ scale: 0.95 }}
-                        className="px-6 py-2.5 bg-red-700 hover:bg-red-800 text-white text-sm font-bold rounded-full shadow-lg transition-all"
+                      <button 
+                        className="px-5 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold transition-all"
                       >
                         View Details
-                      </motion.button>
+                      </button>
                     </div>
                   </div>
-
-                  {/* Hover Glow Effect */}
-                  <motion.div 
-                    className="absolute inset-0 rounded-3xl pointer-events-none"
-                    initial={{ opacity: 0 }}
-                    whileHover={{ opacity: 1 }}
-                  >
-                    <div className="absolute inset-0 rounded-3xl ring-2 ring-amber-400/60 shadow-[0_0_30px_rgba(245,158,11,0.3)]" />
-                  </motion.div>
                 </motion.div>
               ))}
             </motion.div>
@@ -320,18 +282,18 @@ export function PastEventsPage() {
               transition={{ delay: 0.3 }}
               className="mt-24"
             >
-              <div className="bg-white border border-gray-200 rounded-2xl p-10 shadow-lg">
+              <div className="bg-white border border-gray-200 p-10 shadow-sm">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                   <div className="space-y-2">
-                    <p className="text-5xl font-bold text-red-700">{events.length}+</p>
+                    <p className="text-5xl font-bold text-red-600">{events.length}+</p>
                     <p className="text-gray-600 font-medium">Events Completed</p>
                   </div>
                   <div className="space-y-2">
-                    <p className="text-5xl font-bold text-amber-600">{CATEGORIES.length}</p>
+                    <p className="text-5xl font-bold text-amber-500">{CATEGORIES.length}</p>
                     <p className="text-gray-600 font-medium">Service Categories</p>
                   </div>
                   <div className="space-y-2">
-                    <p className="text-5xl font-bold text-red-700">
+                    <p className="text-5xl font-bold text-red-600">
                       {events.reduce((sum, e) => sum + (e.photo_urls?.length || 0), 0)}+
                     </p>
                     <p className="text-gray-600 font-medium">Captured Moments</p>
@@ -350,24 +312,36 @@ export function PastEventsPage() {
               className="mt-20 text-center"
             >
               <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                Ready to Create Magic?
+                Ready to Create Your Event?
               </h2>
               <p className="text-gray-600 mb-8 max-w-2xl mx-auto text-lg">
                 Let's discuss your vision and bring your dream event to life.
               </p>
-              <div className="flex flex-wrap justify-center gap-4">
+              <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <a
-                  href="/contact"
-                  className="inline-flex items-center gap-2 bg-red-700 hover:bg-red-800 text-white font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg"
+                  href="https://wa.me/919825413606?text=Hi%2C%20I%20want%20to%20plan%20an%20event.%20Can%20you%20share%20details%3F"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-8 transition-all shadow-md"
                 >
-                  Contact Us
-                  <ExternalLink className="w-5 h-5" />
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+                  </svg>
+                  Contact on WhatsApp
                 </a>
                 <a
-                  href="/services"
-                  className="inline-flex items-center gap-2 bg-white border-2 border-red-200 hover:border-red-400 text-red-700 font-bold py-4 px-8 rounded-full transition-all hover:shadow-lg"
+                  href="mailto:info@tsdevents.in"
+                  className="inline-flex items-center justify-center gap-2 bg-white border border-gray-300 hover:border-red-400 text-red-600 font-semibold py-4 px-8 transition-all"
                 >
-                  Explore Services
+                  <Mail className="w-5 h-5" />
+                  Write an Email
+                </a>
+                <a
+                  href="tel:+919825413606"
+                  className="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold py-4 px-8 transition-all shadow-md"
+                >
+                  <Phone className="w-5 h-5" />
+                  Call Us
                 </a>
               </div>
             </motion.div>
@@ -382,28 +356,24 @@ export function PastEventsPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
             onClick={closeEventDetails}
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.85, y: 50 }}
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.85, y: 50 }}
-              transition={{ type: "spring", damping: 20, stiffness: 200 }}
-              className="relative bg-white/95 backdrop-blur-xl rounded-3xl max-w-6xl w-full max-h-[85vh] overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] border border-white/20"
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3 }}
+              className="relative bg-white max-w-6xl w-full max-h-[85vh] overflow-hidden shadow-xl"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
-              <motion.button
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                whileHover={{ scale: 1.15, rotate: 90 }}
-                whileTap={{ scale: 0.9 }}
+              <button
                 onClick={closeEventDetails}
-                className="absolute top-4 right-4 z-20 w-12 h-12 bg-white/90 backdrop-blur-md hover:bg-white rounded-full shadow-2xl flex items-center justify-center transition-all border border-gray-200"
+                className="absolute top-4 right-4 z-20 w-10 h-10 bg-white hover:bg-gray-100 shadow-md flex items-center justify-center transition-all"
               >
-                <X className="w-6 h-6 text-gray-800" />
-              </motion.button>
+                <X className="w-5 h-5 text-gray-800" />
+              </button>
 
               {/* Horizontal Layout Container */}
               <div className="flex flex-col lg:flex-row h-full max-h-[85vh]">
@@ -415,10 +385,10 @@ export function PastEventsPage() {
                       <AnimatePresence mode="wait">
                         <motion.img
                           key={currentPhotoIndex}
-                          initial={{ opacity: 0, scale: 1.1, x: 100 }}
-                          animate={{ opacity: 1, scale: 1, x: 0 }}
-                          exit={{ opacity: 0, scale: 0.95, x: -100 }}
-                          transition={{ duration: 0.4, ease: "easeInOut" }}
+                          initial={{ opacity: 0, x: 50 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -50 }}
+                          transition={{ duration: 0.3 }}
                           src={selectedEvent.photo_urls[currentPhotoIndex]}
                           alt={`${selectedEvent.title} - Photo ${currentPhotoIndex + 1}`}
                           className="w-full h-full object-cover"
@@ -428,112 +398,73 @@ export function PastEventsPage() {
                       {/* Navigation Arrows */}
                       {selectedEvent.photo_urls.length > 1 && (
                         <>
-                          <motion.button
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            whileHover={{ scale: 1.15, backgroundColor: "rgba(255,255,255,0.95)" }}
-                            whileTap={{ scale: 0.9 }}
+                          <button
                             onClick={prevPhoto}
-                            className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 backdrop-blur-md rounded-full shadow-2xl flex items-center justify-center transition-all border border-white/50"
+                            className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white shadow-md flex items-center justify-center transition-all"
                           >
-                            <ChevronLeft className="w-6 h-6 text-gray-800" />
-                          </motion.button>
-                          <motion.button
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            whileHover={{ scale: 1.15, backgroundColor: "rgba(255,255,255,0.95)" }}
-                            whileTap={{ scale: 0.9 }}
+                            <ChevronLeft className="w-5 h-5 text-gray-800" />
+                          </button>
+                          <button
                             onClick={nextPhoto}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 backdrop-blur-md rounded-full shadow-2xl flex items-center justify-center transition-all border border-white/50"
+                            className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white shadow-md flex items-center justify-center transition-all"
                           >
-                            <ChevronRight className="w-6 h-6 text-gray-800" />
-                          </motion.button>
+                            <ChevronRight className="w-5 h-5 text-gray-800" />
+                          </button>
                         </>
                       )}
 
                       {/* Photo Counter */}
-                      <motion.div 
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                        className="absolute top-4 left-4 bg-black/60 backdrop-blur-lg text-white px-4 py-2 rounded-full text-sm font-semibold"
-                      >
+                      <div className="absolute top-4 left-4 bg-black/60 text-white px-3 py-1.5 text-sm font-medium">
                         {currentPhotoIndex + 1} / {selectedEvent.photo_urls.length}
-                      </motion.div>
+                      </div>
 
                       {/* Thumbnail Strip at Bottom */}
                       {selectedEvent.photo_urls.length > 1 && (
-                        <motion.div 
-                          initial={{ opacity: 0, y: 30 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.3 }}
-                          className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 p-2 bg-black/40 backdrop-blur-xl rounded-xl"
-                        >
+                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 p-2 bg-black/50">
                           {selectedEvent.photo_urls.map((url, idx) => (
-                            <motion.button
+                            <button
                               key={idx}
-                              whileHover={{ scale: 1.1 }}
-                              whileTap={{ scale: 0.95 }}
                               onClick={() => setCurrentPhotoIndex(idx)}
-                              className={`w-12 h-12 rounded-lg overflow-hidden transition-all ${
+                              className={`w-12 h-12 overflow-hidden transition-all ${
                                 idx === currentPhotoIndex 
-                                  ? 'ring-2 ring-amber-400 scale-110' 
+                                  ? 'ring-2 ring-amber-500 scale-110' 
                                   : 'opacity-60 hover:opacity-100'
                               }`}
                             >
                               <img src={url} alt="" className="w-full h-full object-cover" />
-                            </motion.button>
+                            </button>
                           ))}
-                        </motion.div>
+                        </div>
                       )}
                     </div>
                   ) : (
-                    <div className="h-[40vh] lg:h-full bg-red-700 flex items-center justify-center">
+                    <div className="h-[40vh] lg:h-full bg-red-600 flex items-center justify-center">
                       <Camera className="w-24 h-24 text-white/30" />
                     </div>
                   )}
                 </div>
 
                 {/* Right Side - Event Details */}
-                <motion.div 
-                  initial={{ opacity: 0, x: 30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="lg:w-1/2 p-8 overflow-y-auto max-h-[45vh] lg:max-h-full bg-white"
-                >
+                <div className="lg:w-1/2 p-8 overflow-y-auto max-h-[45vh] lg:max-h-full bg-white">
                   {/* Category Badge */}
-                  <motion.span 
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="inline-block px-4 py-2 bg-red-600 text-white text-xs font-bold uppercase tracking-wider rounded-full mb-4 shadow-lg"
-                  >
+                  <span className="inline-block px-3 py-1.5 bg-red-600 text-white text-xs font-bold uppercase tracking-wider mb-4">
                     {selectedEvent.category}
-                  </motion.span>
+                  </span>
 
                   {/* Title */}
-                  <motion.h2 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6"
-                  >
+                  <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6">
                     {selectedEvent.title}
-                  </motion.h2>
+                  </h2>
 
-                  {/* Event Details - Stacked on right side */}
-                  <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="space-y-4 mb-6"
-                  >
-                    <div className="flex items-center gap-4 p-4 bg-amber-50 rounded-xl border border-amber-100">
-                      <div className="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center shadow-md">
-                        <Calendar className="w-6 h-6 text-white" />
+                  {/* Event Details */}
+                  <div className="space-y-4 mb-6">
+                    <div className="flex items-center gap-4 p-4 bg-amber-50 border-l-4 border-amber-500">
+                      <div className="w-10 h-10 bg-amber-500 flex items-center justify-center">
+                        <Calendar className="w-5 h-5 text-white" />
                       </div>
                       <div>
                         <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Event Date</p>
-                        <p className="text-gray-900 font-bold">{formatDate(selectedEvent.event_date)}</p>
+                        <p className="text-gray-900 font-semibold">{formatDate(selectedEvent.event_date)}</p>
                       </div>
                     </div>
                     
@@ -542,49 +473,39 @@ export function PastEventsPage() {
                         href={selectedEvent.location}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-4 p-4 bg-red-50 rounded-xl border border-red-100 hover:bg-red-100 transition-all group"
+                        className="flex items-center gap-4 p-4 bg-red-50 border-l-4 border-red-600 hover:bg-red-100 transition-all group"
                       >
-                        <div className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                          <MapPin className="w-6 h-6 text-white" />
+                        <div className="w-10 h-10 bg-red-600 flex items-center justify-center">
+                          <MapPin className="w-5 h-5 text-white" />
                         </div>
                         <div>
                           <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Location</p>
-                          <p className="text-red-700 font-bold group-hover:text-red-800 flex items-center gap-2">
+                          <p className="text-red-600 font-semibold flex items-center gap-2">
                             View on Map
-                            <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            <ExternalLink className="w-4 h-4" />
                           </p>
                         </div>
                       </a>
                     )}
-                  </motion.div>
+                  </div>
 
                   {/* Description */}
                   {selectedEvent.description && (
-                    <motion.div 
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.3 }}
-                      className="mb-6 p-4 bg-gray-50 rounded-xl border border-gray-100"
-                    >
+                    <div className="mb-6 p-4 bg-gray-50 border-l-4 border-gray-300">
                       <h3 className="text-sm font-bold text-gray-900 mb-2 uppercase tracking-wide">About this Event</h3>
                       <p className="text-gray-600 leading-relaxed text-sm">{selectedEvent.description}</p>
-                    </motion.div>
+                    </div>
                   )}
 
                   {/* CTA Button */}
-                  <motion.a
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 }}
-                    whileHover={{ scale: 1.02, boxShadow: "0 15px 30px -5px rgba(185, 28, 28, 0.4)" }}
-                    whileTap={{ scale: 0.98 }}
+                  <a
                     href="/contact"
-                    className="flex items-center justify-center gap-3 w-full bg-red-700 hover:bg-red-800 text-white font-bold py-4 px-6 rounded-xl text-center transition-all shadow-lg"
+                    className="flex items-center justify-center gap-3 w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-4 px-6 text-center transition-all shadow-md"
                   >
                     Interested? Contact Us
                     <ExternalLink className="w-5 h-5" />
-                  </motion.a>
-                </motion.div>
+                  </a>
+                </div>
               </div>
             </motion.div>
           </motion.div>

@@ -253,13 +253,13 @@ export function EventDetailsPage() {
 
                 <Button
                   onClick={() => navigate('/contact')}
-                  className="w-full bg-red-700/90 hover:bg-red-800/90 text-white py-6 rounded-full text-lg font-semibold shadow-xl hover:shadow-2xl transition-all border border-red-700/30"
+                  className="w-full bg-red-600 hover:bg-red-700 text-white py-6 text-lg font-semibold shadow-md transition-all"
                 >
                   <Calendar className="mr-2" />
                   Contact Us
                 </Button>
 
-                <div className="bg-gray-50 rounded-2xl p-6">
+                <div className="bg-gray-50 p-6">
                   <h4 className="font-semibold text-gray-900 mb-3">Need Help?</h4>
                   <p className="text-sm text-gray-600 mb-4">
                     Our event specialists are ready to assist you

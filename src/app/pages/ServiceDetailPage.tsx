@@ -150,12 +150,12 @@ export function ServiceDetailPage() {
   if (!service) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="text-center glass-white rounded-3xl p-12 shadow-xl">
+        <div className="text-center bg-white p-12 shadow-sm border border-gray-200">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Service Not Found</h2>
           <p className="text-gray-600 mb-6">The service you're looking for doesn't exist.</p>
           <Button
             onClick={() => navigate('/services')}
-            className="bg-red-800 hover:bg-red-900 text-white px-8 py-3 rounded-full"
+            className="bg-red-600 hover:bg-red-700 text-white px-8 py-3"
           >
             Back to Services
           </Button>
@@ -180,7 +180,7 @@ export function ServiceDetailPage() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               onClick={() => navigate('/services')}
-              className="flex items-center text-white mb-6 hover:text-amber-400 transition-colors"
+              className="flex items-center text-white mb-6 hover:text-amber-500 transition-colors"
             >
               <ArrowLeft className="mr-2" />
               Back to Services
@@ -196,7 +196,7 @@ export function ServiceDetailPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-xl text-amber-400"
+              className="text-xl text-amber-500"
             >
               {service.tagline}
             </motion.p>
@@ -211,7 +211,7 @@ export function ServiceDetailPage() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="max-w-4xl mx-auto glass-white rounded-3xl p-8 md:p-12 shadow-xl"
+            className="max-w-4xl mx-auto bg-white p-8 md:p-12 shadow-sm border border-gray-200"
           >
             <h2 className="text-3xl font-bold text-gray-900 mb-4">About This Service</h2>
             <p className="text-lg text-gray-700 leading-relaxed">{service.description}</p>
@@ -220,7 +220,7 @@ export function ServiceDetailPage() {
       </section>
 
       {/* Past Events */}
-      <section className="py-16 bg-amber-50/50">
+      <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -236,15 +236,15 @@ export function ServiceDetailPage() {
             </p>
           </motion.div>
 
-          <div className="space-y-12 max-w-6xl mx-auto">
+          <div className="space-y-8 max-w-6xl mx-auto">
             {service.pastEvents.map((event, idx) => (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                transition={{ duration: 0.4, delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                className="glass-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300"
+                className="bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100"
               >
                 <div className={`grid grid-cols-1 lg:grid-cols-2 ${idx % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
                   <div className={`relative h-72 lg:h-auto ${idx % 2 === 1 ? 'lg:order-2' : ''}`}>
@@ -257,17 +257,17 @@ export function ServiceDetailPage() {
                   </div>
                   <div className={`p-8 lg:p-10 flex flex-col justify-center ${idx % 2 === 1 ? 'lg:order-1' : ''}`}>
                     <h3 className="text-2xl font-bold text-gray-900 mb-3">{event.title}</h3>
-                    <div className="flex flex-wrap gap-4 mb-4">
-                      <span className="flex items-center text-sm text-gray-600 bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-full border border-gray-200/50">
-                        <Calendar className="w-4 h-4 mr-1.5 text-red-700/90" />
+                    <div className="flex flex-wrap gap-3 mb-4">
+                      <span className="flex items-center text-sm text-gray-600 bg-gray-100 px-3 py-1.5">
+                        <Calendar className="w-4 h-4 mr-1.5 text-red-600" />
                         {event.date}
                       </span>
-                      <span className="flex items-center text-sm text-gray-600 bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-full border border-gray-200/50">
-                        <MapPin className="w-4 h-4 mr-1.5 text-red-700/90" />
+                      <span className="flex items-center text-sm text-gray-600 bg-gray-100 px-3 py-1.5">
+                        <MapPin className="w-4 h-4 mr-1.5 text-red-600" />
                         {event.location}
                       </span>
-                      <span className="flex items-center text-sm text-gray-600 bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-full border border-gray-200/50">
-                        <Users className="w-4 h-4 mr-1.5 text-red-700/90" />
+                      <span className="flex items-center text-sm text-gray-600 bg-gray-100 px-3 py-1.5">
+                        <Users className="w-4 h-4 mr-1.5 text-red-600" />
                         {event.guests} Guests
                       </span>
                     </div>
@@ -275,7 +275,7 @@ export function ServiceDetailPage() {
                     <div>
                       <Button
                         onClick={() => navigate(`/contact?service=${encodeURIComponent(service.title)}`)}
-                        className="bg-red-700/90 hover:bg-red-800/90 text-white px-6 py-2.5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-red-700/30"
+                        className="bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 shadow-md transition-all duration-300"
                       >
                         Get a Quote
                         <ArrowRight className="ml-2 w-4 h-4" />
@@ -290,7 +290,7 @@ export function ServiceDetailPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-red-700/90 text-white">
+      <section className="py-20 bg-red-600 text-white">
         <div className="container mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -300,20 +300,20 @@ export function ServiceDetailPage() {
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Want a Similar Event?
             </h2>
-            <p className="text-xl text-red-200 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-red-100 mb-8 max-w-2xl mx-auto">
               Let us create a customized {service.title.toLowerCase()} experience tailored to your vision and budget.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 onClick={() => navigate(`/contact?service=${encodeURIComponent(service.title)}`)}
-                className="bg-white text-red-700/90 hover:bg-gray-100 px-10 py-6 rounded-full text-lg font-semibold shadow-2xl border border-white/20"
+                className="bg-white text-red-600 hover:bg-gray-100 px-10 py-6 text-lg font-semibold shadow-lg"
               >
                 Contact Us
                 <ArrowRight className="ml-2" />
               </Button>
               <Button
                 onClick={() => navigate('/events')}
-                className="bg-transparent border-2 border-white text-white hover:bg-white/10 px-10 py-6 rounded-full text-lg font-semibold backdrop-blur-sm"
+                className="bg-transparent border-2 border-white text-white hover:bg-white/10 px-10 py-6 text-lg font-semibold"
               >
                 View Our Work
               </Button>

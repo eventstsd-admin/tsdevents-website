@@ -474,7 +474,7 @@ export function AboutPage() {
       </section>
 
       {/* Values Section */}
-      <section className="py-20 bg-amber-50">
+      <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -486,7 +486,7 @@ export function AboutPage() {
             <p className="text-xl text-gray-600">The principles that guide everything we do</p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {values.map((value, idx) => {
               const Icon = value.icon;
               return (
@@ -496,10 +496,10 @@ export function AboutPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1 }}
                   viewport={{ once: true }}
-                  className="bg-white rounded-2xl p-8 shadow-lg text-center"
+                  className="bg-white p-8 shadow-sm text-center border-t-4 border-red-600"
                 >
-                  <div className="bg-red-700/90 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-6">
-                    <Icon className="w-8 h-8 text-white" />
+                  <div className="bg-red-600 w-14 h-14 flex items-center justify-center mx-auto mb-6">
+                    <Icon className="w-7 h-7 text-white" />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-3">{value.title}</h3>
                   <p className="text-gray-600">{value.description}</p>
@@ -511,7 +511,7 @@ export function AboutPage() {
       </section>
 
       {/* Achievements Section */}
-      <section className="py-20">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -535,8 +535,8 @@ export function AboutPage() {
                   viewport={{ once: true }}
                   className="text-center"
                 >
-                  <div className="bg-amber-500 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <Icon className="w-10 h-10 text-white" />
+                  <div className="bg-amber-500 w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <Icon className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="text-4xl font-bold text-gray-900 mb-2">
                     {achievement.number}
@@ -564,7 +564,7 @@ export function AboutPage() {
             </p>
           </motion.div>
 
-          <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
             {team.slice(0, 3).map((member, idx) => (
               <motion.div
                 key={idx}
@@ -572,25 +572,25 @@ export function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white rounded-2xl overflow-hidden shadow-lg group w-full max-w-xs"
+                className="bg-white overflow-hidden shadow-sm group w-full max-w-xs"
               >
                 <div className="relative h-64 overflow-hidden">
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-black/30" />
+                  <div className="absolute inset-0 bg-black/20" />
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold text-gray-900 mb-1">{member.name}</h3>
-                  <p className="text-red-700/90 font-medium">{member.role}</p>
+                  <p className="text-red-600 font-medium">{member.role}</p>
                 </div>
               </motion.div>
             ))}
           </div>
 
-          <div className="flex flex-wrap justify-center gap-8 max-w-4xl mx-auto mt-8">
+          <div className="flex flex-wrap justify-center gap-6 max-w-4xl mx-auto mt-6">
             {team.slice(3).map((member, idx) => (
               <motion.div
                 key={idx + 3}
@@ -598,19 +598,19 @@ export function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: (idx + 3) * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white rounded-2xl overflow-hidden shadow-lg group w-full max-w-xs"
+                className="bg-white overflow-hidden shadow-sm group w-full max-w-xs"
               >
                 <div className="relative h-64 overflow-hidden">
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-black/30" />
+                  <div className="absolute inset-0 bg-black/20" />
                 </div>
                 <div className="p-6 text-center">
                   <h3 className="text-xl font-bold text-gray-900 mb-1">{member.name}</h3>
-                  <p className="text-red-700/90 font-medium">{member.role}</p>
+                  <p className="text-red-600 font-medium">{member.role}</p>
                 </div>
               </motion.div>
             ))}
@@ -619,7 +619,7 @@ export function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-red-700/90 text-white">
+      <section className="py-20 bg-red-600 text-white">
         <div className="container mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -630,11 +630,11 @@ export function AboutPage() {
               Ready to Work With Us?
             </h2>
             <p className="text-xl text-red-100 mb-8 max-w-2xl mx-auto">
-              Let's create something amazing together. Get in touch today!
+              Let's create something amazing together. Get in touch today.
             </p>
             <Button
               onClick={() => navigate('/contact')}
-              className="bg-white text-red-700/90 hover:bg-gray-100 px-10 py-6 rounded-full text-lg font-semibold shadow-2xl border border-white/20"
+              className="bg-white text-red-600 hover:bg-gray-100 px-10 py-6 rounded-md text-lg font-semibold shadow-lg"
             >
               Contact Us
             </Button>

@@ -13,7 +13,7 @@
 -- Note: The admin user must be created in Supabase Auth first
 -- Auth Dashboard > Users > Create new user
 -- Email: admin@tsd.in
--- Password: Admin@tsd.2010
+-- Password: [SET YOUR OWN SECURE PASSWORD]
 -- Auto confirm: YES
 -- After creating the user, run this query to add admin role:
 

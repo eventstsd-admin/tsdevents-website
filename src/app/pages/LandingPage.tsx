@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router';
 import Slider from 'react-slick';
-import { ArrowRight, Sparkles, Users, Award, Calendar, Star, Quote } from 'lucide-react';
+import { ArrowRight, Users, Award, Calendar, Star, Quote, MessageCircle, Phone, Mail, Heart } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { OptimizedImage } from '../components/OptimizedImage';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
@@ -13,12 +13,10 @@ import heroImage1 from '../images/Hero Fallback/HomePage/1.jpeg';
 import heroImage2 from '../images/Hero Fallback/HomePage/2.jpeg';
 import heroImage3 from '../images/Hero Fallback/HomePage/3.jpeg';
 
-// Hero section with gradient backgrounds
-const heroBackgrounds = [
-  'bg-gradient-to-br from-purple-900 via-red-900 to-amber-900',
-  'bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900',
-  'bg-gradient-to-br from-red-950 via-orange-900 to-amber-800',
-];
+// Import service card images
+import weddingCardImage from '../images/Hero Fallback/HomePage/Cards/weddingcard.jpg';
+import corpCardImage from '../images/Hero Fallback/HomePage/Cards/corpcard.jpg';
+import religiousCardImage from '../images/Hero Fallback/HomePage/Cards/religiousandbdaycard.jpg';
 
 // Hero images for slideshow
 const heroImages = [
@@ -31,17 +29,20 @@ const services = [
   {
     title: 'Wedding Event Planning',
     description: 'Professional wedding planners specializing in traditional Indian weddings, destination weddings, and intimate ceremonies. Complete wedding management from decoration to catering.',
-    icon: Sparkles,
+    icon: Heart,
+    image: weddingCardImage,
   },
   {
     title: 'Corporate Event Management',
     description: 'Expert corporate event organizers for conferences, product launches, annual functions, and business celebrations. Professional event coordination for corporate success.',
     icon: Users,
+    image: corpCardImage,
   },
   {
     title: 'Religious & Private Celebrations',
     description: 'Specialized religious ceremony planning, birthday parties, anniversaries, and family celebrations. Traditional event organization with modern touches.',
     icon: Award,
+    image: religiousCardImage,
   },
 ];
 
@@ -283,18 +284,20 @@ export function LandingPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="text-2xl xs:text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight"
+              style={{ fontFamily: 'Playfair Display, serif' }}
             >
-              Professional{' '}
-              <span className="text-amber-400">Event Planning</span>{' '}
-              Services India
+              Exceptional{' '}
+              <span className="text-amber-400">Event Management</span>{' '}
+              in Ahmedabad
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xs sm:text-sm md:text-lg lg:text-xl xl:text-2xl mb-6 sm:mb-8 text-gray-200 leading-relaxed"
+              className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl mb-6 sm:mb-8 text-gray-200 leading-relaxed max-w-3xl mx-auto"
             >
-              Premier wedding planners & corporate event organizers. 12+ years experience, 500+ successful celebrations across India. Expert event management for unforgettable memories.
+              From weddings to corporate events — we create unforgettable experiences. 
+              12+ years of excellence, 500+ successful celebrations across India.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -303,19 +306,17 @@ export function LandingPage() {
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
               <Button
-                onClick={() => navigate('/contact')}
-                className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-10 py-6 rounded-full text-lg font-bold shadow-2xl hover:shadow-red-500/25 transition-all duration-300 border border-red-600/50 hover:border-red-500 transform hover:scale-105 hover:-translate-y-1"
+                onClick={() => window.open('https://wa.me/919825413606?text=Hi%2C%20I%20want%20to%20plan%20an%20event.%20Can%20you%20share%20details%3F', '_blank')}
+                className="bg-green-600 hover:bg-green-700 text-white px-10 py-6 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
               >
-                <span className="flex items-center">
-                  Contact Us
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </span>
+                <MessageCircle className="mr-2 w-5 h-5" />
+                Get Free Quote on WhatsApp
               </Button>
               <Button
                 onClick={() => navigate('/events')}
-                className="bg-white/15 backdrop-blur-xl hover:bg-white/25 text-white border border-white/40 px-8 py-6 rounded-full text-lg font-semibold transition-all duration-300"
+                className="bg-white/10 hover:bg-white/20 text-white border border-white/30 px-8 py-6 rounded-md text-lg font-semibold transition-all duration-300"
               >
-                Explore Events
+                View Our Events
               </Button>
             </motion.div>
           </div>
@@ -327,10 +328,10 @@ export function LandingPage() {
             <button
               key={idx}
               onClick={() => setCurrentSlide(idx)}
-              className={`transition-all duration-300 rounded-full ${
+              className={`transition-all duration-300 ${
                 currentSlide === idx
-                  ? 'bg-amber-500 w-4 h-4'
-                  : 'bg-white/50 w-3 h-3 hover:bg-white/70'
+                  ? 'bg-red-600 w-8 h-2 rounded-sm'
+                  : 'bg-white/50 w-2 h-2 rounded-sm hover:bg-white/70'
               }`}
               aria-label={`Go to slide ${idx + 1}`}
             />
@@ -340,12 +341,8 @@ export function LandingPage() {
 
       {/* Stats Section */}
       <section className="py-20 bg-white relative overflow-hidden">
-        {/* Decorative background elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-red-500/5 rounded-full -mr-48 -mt-48" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-amber-500/5 rounded-full -ml-40 -mb-40" />
-        
         <div className="container mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {stats.map((stat, idx) => (
               <motion.div
                 key={idx}
@@ -353,12 +350,12 @@ export function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                className="text-center p-6 rounded-2xl bg-gradient-to-br from-gray-50/80 to-gray-100/50 border border-gray-200/50 backdrop-blur-sm hover:shadow-lg transition-shadow"
+                className="text-center p-6 bg-gray-50 border border-gray-100 hover:shadow-md transition-shadow"
               >
                 <h3 className="text-4xl md:text-5xl font-bold text-red-600 mb-2">
                   {stat.number}
                 </h3>
-                <p className="text-gray-800 font-medium">{stat.label}</p>
+                <p className="text-gray-700 font-medium">{stat.label}</p>
               </motion.div>
             ))}
           </div>
@@ -366,10 +363,7 @@ export function LandingPage() {
       </section>
 
       {/* About Us Section */}
-      <section className="py-20 bg-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/5 rounded-full -mr-48 -mt-48 blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-red-500/5 rounded-full -ml-40 -mb-40 blur-3xl" />
-        
+      <section className="py-20 bg-gray-50 relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -378,7 +372,7 @@ export function LandingPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
               About TSD Events & Decor
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -386,14 +380,14 @@ export function LandingPage() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
             {/* Main Mission */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="lg:col-span-3 bg-gradient-to-br from-red-700/10 via-amber-500/5 to-red-600/5 rounded-3xl p-8 md:p-12 border border-red-200/30"
+              className="lg:col-span-3 bg-white p-8 md:p-12 border-l-4 border-red-600"
             >
               <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
                 Our Mission
@@ -409,7 +403,7 @@ export function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               viewport={{ once: true }}
-              className="lg:col-span-2 bg-gradient-to-br from-amber-500/10 via-orange-400/5 to-amber-600/5 rounded-3xl p-8 border border-amber-200/30"
+              className="lg:col-span-2 bg-white p-8 border-l-4 border-amber-500"
             >
               <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
                 Our Expertise
@@ -425,7 +419,7 @@ export function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
-              className="lg:col-span-1 bg-gradient-to-br from-purple-500/10 via-red-400/5 to-purple-600/5 rounded-3xl p-8 border border-purple-200/30"
+              className="lg:col-span-1 bg-white p-8 border-l-4 border-red-600"
             >
               <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
                 Our Promise
@@ -438,12 +432,50 @@ export function LandingPage() {
         </div>
       </section>
 
+      {/* CTA Section - Let's Plan Your Dream Event */}
+      <section className="py-16 bg-amber-500 relative overflow-hidden">
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Let's Plan Your Dream Event
+            </h2>
+            <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
+              Ready to create something extraordinary? Our expert team is here to bring your vision to life.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                onClick={() => window.open('https://wa.me/919825413606?text=Hi%2C%20I%20want%20to%20plan%20an%20event.%20Can%20you%20share%20details%3F', '_blank')}
+                className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
+              >
+                <MessageCircle className="mr-2 w-5 h-5" />
+                Contact on WhatsApp
+              </Button>
+              <Button
+                onClick={() => window.location.href = 'mailto:info@tsdevents.in'}
+                className="bg-white hover:bg-gray-100 text-amber-600 px-8 py-4 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
+              >
+                <Mail className="mr-2 w-5 h-5" />
+                Write an Email
+              </Button>
+              <Button
+                onClick={() => window.location.href = 'tel:+919825413606'}
+                className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
+              >
+                <Phone className="mr-2 w-5 h-5" />
+                Call Us
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Featured Services Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-50 via-white to-gray-50/50 relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-20 right-10 w-72 h-72 bg-amber-500/8 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-red-500/5 rounded-full blur-3xl" />
-        
+      <section className="py-20 bg-white relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -452,15 +484,15 @@ export function LandingPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Our Premium Services
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Our Services
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Expertly curated experiences tailored to your vision
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {services.map((service, idx) => {
               const Icon = service.icon;
               return (
@@ -470,20 +502,30 @@ export function LandingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: idx * 0.1 }}
                   viewport={{ once: true }}
-                  whileHover={{ y: -10 }}
-                  className="group relative overflow-hidden rounded-3xl shadow-xl cursor-pointer bg-gradient-to-br from-red-800 to-red-900"
+                  whileHover={{ y: -5 }}
+                  className="group relative overflow-hidden cursor-pointer"
                   onClick={() => navigate('/services')}
                 >
-                  <div className="relative h-96 p-8 flex flex-col justify-end">
-                    <div className="glass rounded-2xl p-6">
-                      <div className="mb-3">
+                  <div className="relative h-[450px]">
+                    {/* Background Image */}
+                    <img 
+                      src={service.image} 
+                      alt={service.title}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    {/* Dark Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
+                    
+                    {/* Content */}
+                    <div className="absolute bottom-0 left-0 right-0 p-8">
+                      <div className="mb-4">
                         <Icon className="w-10 h-10 text-amber-400" />
                       </div>
-                      <h3 className="text-2xl font-bold text-white mb-2">
+                      <h3 className="text-2xl font-bold text-white mb-3">
                         {service.title}
                       </h3>
-                      <p className="text-gray-200 text-sm">{service.description}</p>
-                      <div className="mt-3 flex items-center text-amber-400 group-hover:translate-x-2 transition-transform">
+                      <p className="text-gray-300 text-sm mb-4">{service.description}</p>
+                      <div className="flex items-center text-amber-400 group-hover:translate-x-2 transition-transform">
                         <span className="font-semibold text-sm">Learn More</span>
                         <ArrowRight className="ml-2 w-4 h-4" />
                       </div>
@@ -497,10 +539,7 @@ export function LandingPage() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-24 bg-gradient-to-b from-amber-50/60 via-orange-50/30 to-white relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-0 left-0 w-80 h-80 bg-amber-400/10 rounded-full -ml-40 -mt-40 blur-3xl" />
-        <div className="absolute bottom-10 right-0 w-96 h-96 bg-red-500/5 rounded-full -mr-48 blur-3xl" />
+      <section className="py-24 bg-gray-50 relative overflow-hidden">
         <div className="container mx-auto px-4 mb-16 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -509,11 +548,11 @@ export function LandingPage() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
               Client Testimonials
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Hear what our happy clients have to say about their unforgettable events
+              Hear what our clients have to say about their events
             </p>
           </motion.div>
         </div>
@@ -523,61 +562,39 @@ export function LandingPage() {
           <Slider {...testimonialSettings}>
           {testimonials.map((testimonial, idx) => (
             <div key={idx} className="w-full">
-              <div className="bg-gradient-to-br from-white via-amber-50/40 to-orange-50/20 py-16 md:py-24 relative">
-                <div className="absolute top-0 right-0 w-40 h-40 bg-amber-400/10 rounded-full -mr-20 -mt-20 blur-3xl" />
-                <div className="absolute bottom-0 left-0 w-40 h-40 bg-red-400/10 rounded-full -ml-20 -mb-20 blur-3xl" />
+              <div className="bg-white py-16 md:py-20 relative">
                 
                 <div className="container mx-auto px-4 relative z-10">
-                  <div className="max-w-4xl mx-auto flex flex-col justify-between min-h-[350px]">
+                  <div className="max-w-4xl mx-auto flex flex-col justify-between min-h-[300px]">
                     {/* Quote Icon */}
                     <div className="mb-6">
-                      <Quote className="w-14 h-14 text-amber-500/80" />
+                      <Quote className="w-12 h-12 text-red-600" />
                     </div>
 
                     {/* Rating */}
-                    <div className="flex gap-2 mb-6">
+                    <div className="flex gap-1 mb-6">
                       {[...Array(testimonial.rating)].map((_, i) => (
-                        <motion.div
-                          key={i}
-                          initial={{ scale: 0, rotate: -180 }}
-                          animate={{ scale: 1, rotate: 0 }}
-                          transition={{ duration: 0.4, delay: i * 0.1 }}
-                        >
-                          <Star className="w-6 h-6 fill-amber-400 text-amber-400" />
-                        </motion.div>
+                        <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
                       ))}
                     </div>
 
                     {/* Testimonial Text */}
-                    <motion.p
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.2 }}
-                      className="text-lg md:text-xl text-gray-700 mb-8 italic leading-relaxed flex-grow"
-                    >
+                    <p className="text-lg md:text-xl text-gray-700 mb-8 italic leading-relaxed flex-grow">
                       "{testimonial.text}"
-                    </motion.p>
+                    </p>
 
                     {/* Author Info */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.3 }}
-                      className="flex items-center gap-4 pt-6 border-t border-amber-200/30"
-                    >
-                      <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        className="w-16 h-16 rounded-full bg-red-700 flex items-center justify-center text-white text-xl font-bold shadow-lg flex-shrink-0"
-                      >
+                    <div className="flex items-center gap-4 pt-6 border-t border-gray-200">
+                      <div className="w-14 h-14 bg-red-600 flex items-center justify-center text-white text-lg font-bold flex-shrink-0">
                         {testimonial.name.charAt(0)}
-                      </motion.div>
+                      </div>
                       <div>
                         <h4 className="font-semibold text-gray-900 text-lg">
                           {testimonial.name}
                         </h4>
                         <p className="text-gray-600 text-sm">{testimonial.event}</p>
                       </div>
-                    </motion.div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -588,11 +605,7 @@ export function LandingPage() {
       </section>
 
       {/* Gallery Preview Section */}
-      <section className="py-20 bg-gradient-to-b from-white via-gray-50/50 to-white relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-40 right-20 w-64 h-64 bg-red-500/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl" />
-        
+      <section className="py-20 bg-white relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -601,11 +614,11 @@ export function LandingPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
               Our Event Gallery
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              A glimpse of the magic we've created
+              A glimpse of the events we've created
             </p>
           </motion.div>
 
@@ -615,7 +628,7 @@ export function LandingPage() {
               {[...Array(4)].map((_, idx) => (
                 <div
                   key={idx}
-                  className="h-64 rounded-2xl bg-gray-200 animate-pulse"
+                  className="h-64 bg-gray-200 animate-pulse"
                 />
               ))}
             </div>
@@ -629,8 +642,8 @@ export function LandingPage() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
                   viewport={{ once: true }}
-                  whileHover={{ scale: 1.05 }}
-                  className="relative h-64 rounded-2xl overflow-hidden cursor-pointer shadow-lg group"
+                  whileHover={{ scale: 1.02 }}
+                  className="relative h-64 overflow-hidden cursor-pointer group"
                   onClick={() => navigate('/events')}
                 >
                   <OptimizedImage
@@ -639,9 +652,9 @@ export function LandingPage() {
                     className="w-full h-full object-cover"
                     lazy={true}
                   />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center">
-                    <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity font-semibold text-sm bg-white/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/30">
-                      View
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
+                    <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity font-semibold text-sm bg-black/50 px-4 py-2">
+                      View Gallery
                     </span>
                   </div>
                 </motion.div>
@@ -650,11 +663,11 @@ export function LandingPage() {
           ) : (
             // No photos available
             <div className="text-center py-12">
-              <div className="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <Sparkles className="w-10 h-10 text-gray-400" />
+              <div className="w-24 h-24 bg-gray-100 mx-auto mb-4 flex items-center justify-center">
+                <Calendar className="w-10 h-10 text-gray-400" />
               </div>
               <p className="text-gray-500 text-lg">
-                Gallery coming soon! Events photos will appear here.
+                Gallery coming soon! Event photos will appear here.
               </p>
             </div>
           )}
@@ -662,7 +675,7 @@ export function LandingPage() {
           <div className="text-center">
             <Button
               onClick={() => navigate('/events')}
-              className="bg-red-700/90 hover:bg-red-800/90 text-white px-8 py-6 rounded-full text-lg font-semibold shadow-xl border border-red-700/30"
+              className="bg-red-600 hover:bg-red-700 text-white px-8 py-6 rounded-md text-lg font-semibold shadow-lg"
             >
               View Full Gallery
               <ArrowRight className="ml-2" />
@@ -672,11 +685,7 @@ export function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-red-700/95 via-red-700/90 to-red-700/95 text-white relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -mr-48 -mt-48 blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-amber-500/10 rounded-full -ml-40 -mb-40 blur-3xl" />
-        
+      <section className="py-20 bg-red-600 text-white relative overflow-hidden">
         <div className="container mx-auto px-4 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -684,28 +693,26 @@ export function LandingPage() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <Calendar className="w-16 h-16 text-white mx-auto mb-6" />
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Ready to Create Magic?
+            <Calendar className="w-14 h-14 text-amber-400 mx-auto mb-6" />
+            <h2 className="text-4xl md:text-5xl font-bold mb-6" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Ready to Create Your Event?
             </h2>
-            <p className="text-xl text-amber-100 mb-8 max-w-2xl mx-auto">
-              Let's turn your vision into reality. Get in touch today and start planning your dream event!
+            <p className="text-xl text-red-100 mb-8 max-w-2xl mx-auto">
+              Let's turn your vision into reality. Get in touch today and start planning your dream event.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
-                onClick={() => navigate('/contact')}
-                className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-12 py-6 rounded-full text-lg font-bold shadow-2xl hover:shadow-red-500/25 transition-all duration-300 border border-red-600/50 hover:border-red-500 transform hover:scale-105 hover:-translate-y-1"
+                onClick={() => window.open('https://wa.me/919825413606?text=Hi%2C%20I%20want%20to%20plan%20an%20event.%20Can%20you%20share%20details%3F', '_blank')}
+                className="bg-green-600 hover:bg-green-700 text-white px-10 py-6 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
               >
-                <span className="flex items-center">
-                  Contact Us
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </span>
+                <MessageCircle className="mr-2 w-5 h-5" />
+                Get Quote on WhatsApp
               </Button>
               <Button
-                onClick={() => navigate('/events')}
-                className="bg-white/15 backdrop-blur-xl hover:bg-white/25 text-white border border-white/40 px-10 py-6 rounded-full text-lg font-semibold transition-all duration-300"
+                onClick={() => navigate('/contact')}
+                className="bg-white hover:bg-gray-100 text-red-600 px-10 py-6 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
               >
-                View Our Work
+                Contact Us
               </Button>
             </div>
           </motion.div>

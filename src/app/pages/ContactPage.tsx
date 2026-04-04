@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Phone, Mail, Clock, Send, MessageCircle } from 'lucide-react';
+import { Phone, Mail, Clock, Send, MessageCircle, MapPin, User, Calendar } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
@@ -35,9 +35,20 @@ export function ContactPage() {
     name: '',
     email: '',
     phone: '',
+    eventType: '',
     subject: '',
     message: '',
   });
+
+  const eventTypes = [
+    'Wedding',
+    'Corporate Event',
+    'Birthday Party',
+    'Anniversary',
+    'Religious Ceremony',
+    'Social Gathering',
+    'Other',
+  ];
 
   // Prefill form if service parameter is provided
   useEffect(() => {
@@ -62,11 +73,11 @@ export function ContactPage() {
       await inquiryOperations.create({
         customer_name: formData.name,
         email: formData.email,
-        message: `${formData.subject ? `Subject: ${formData.subject}\n\n` : ''}${formData.message}${formData.phone ? `\n\nPhone: ${formData.phone}` : ''}`,
+        message: `${formData.eventType ? `Event Type: ${formData.eventType}\n` : ''}${formData.subject ? `Subject: ${formData.subject}\n\n` : ''}${formData.message}${formData.phone ? `\n\nPhone: ${formData.phone}` : ''}`,
       });
       
       toast.success('Message sent successfully! We will get back to you soon.');
-      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+      setFormData({ name: '', email: '', phone: '', eventType: '', subject: '', message: '' });
     } catch (error) {
       console.error('Error submitting inquiry:', error);
       toast.error('Failed to send message. Please try again.');
@@ -80,7 +91,7 @@ export function ContactPage() {
     }
 
     // Format the message for WhatsApp
-    const whatsappMessage = `Hi TSD Events & Decor,\n\nName: ${formData.name}\nEmail: ${formData.email}\n${formData.phone ? `Phone: ${formData.phone}\n` : ''}${formData.subject ? `Subject: ${formData.subject}\n` : ''}Message: ${formData.message}`;
+    const whatsappMessage = `Hi TSD Events & Decor,\n\nName: ${formData.name}\nEmail: ${formData.email}\n${formData.phone ? `Phone: ${formData.phone}\n` : ''}${formData.eventType ? `Event Type: ${formData.eventType}\n` : ''}${formData.subject ? `Subject: ${formData.subject}\n` : ''}Message: ${formData.message}`;
     
     // WhatsApp Business number (replace with actual number)
     const phoneNumber = '919825413606';
@@ -120,7 +131,7 @@ export function ContactPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
           >
-            Contact TSD Events & Decor
+            Contact Us
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -128,143 +139,195 @@ export function ContactPage() {
             transition={{ delay: 0.2 }}
             className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300"
           >
-            Ready to plan your perfect event? Let's discuss your celebration.
+            Ready to plan your event? Let's discuss your celebration.
           </motion.p>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section className="py-20">
+      {/* Contact Section - Vertical Layout */}
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4 max-w-3xl">
-          <div className="grid grid-cols-1 gap-12">
-            {/* Contact Form */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Send Us a Message</h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Contact Information - First */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-16"
+          >
+            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center" style={{ fontFamily: 'Playfair Display, serif' }}>Contact Information</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <div className="flex items-start space-x-4 p-6 bg-gray-50 border-l-4 border-red-600">
+                <div className="bg-red-600 p-3">
+                  <Phone className="w-5 h-5 text-white" />
+                </div>
                 <div>
-                  <Label htmlFor="name">Full Name *</Label>
+                  <h3 className="font-bold text-gray-900 mb-1">Phone</h3>
+                  <p className="text-gray-600">+91 98254 13606</p>
+                  <a href="tel:+919825413606" className="text-red-600 hover:text-red-700 text-sm font-medium mt-1 inline-block">
+                    Call Now
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-4 p-6 bg-gray-50 border-l-4 border-amber-500">
+                <div className="bg-amber-500 p-3">
+                  <Mail className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 mb-1">Email</h3>
+                  <p className="text-gray-600">info@tsdevents.in</p>
+                  <a href="mailto:info@tsdevents.in" className="text-amber-600 hover:text-amber-700 text-sm font-medium mt-1 inline-block">
+                    Send Email
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-4 p-6 bg-gray-50 border-l-4 border-red-600">
+                <div className="bg-red-600 p-3">
+                  <MapPin className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 mb-1">Location</h3>
+                  <p className="text-gray-600">Ahmedabad, Gujarat, India</p>
+                  <a href="https://maps.app.goo.gl/oSoJT4RoNKFvVRHU9" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-700 text-sm font-medium mt-1 inline-block">
+                    Get Directions
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-4 p-6 bg-gray-50 border-l-4 border-amber-500">
+                <div className="bg-amber-500 p-3">
+                  <Clock className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 mb-1">Business Hours</h3>
+                  <p className="text-gray-600">Monday - Saturday: 9:00 AM - 7:00 PM</p>
+                  <p className="text-gray-500 text-sm">Sunday: By Appointment</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick WhatsApp CTA */}
+            <div className="bg-green-600 p-6 text-white text-center">
+              <h3 className="font-bold text-xl mb-2">Prefer WhatsApp?</h3>
+              <p className="text-green-100 mb-4">Get instant response on WhatsApp. We typically reply within minutes.</p>
+              <a
+                href="https://wa.me/919825413606?text=Hi%2C%20I%20want%20to%20plan%20an%20event.%20Can%20you%20share%20details%3F"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center bg-white text-green-600 px-6 py-3 font-bold hover:bg-green-50 transition-colors"
+              >
+                <MessageCircle className="mr-2 w-5 h-5" />
+                Chat on WhatsApp
+              </a>
+            </div>
+          </motion.div>
+
+          {/* Contact Form - Below */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-gray-50 p-8 border border-gray-100"
+          >
+            <h2 className="text-3xl font-bold text-gray-900 mb-2 text-center" style={{ fontFamily: 'Playfair Display, serif' }}>Send Us a Message</h2>
+            <p className="text-gray-600 mb-8 text-center">Fill out the form and we'll get back to you within 24 hours.</p>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="name" className="flex items-center gap-2 mb-2">
+                    <User className="w-4 h-4 text-red-600" />
+                    Full Name *
+                  </Label>
                   <Input
                     id="name"
                     placeholder="Your name"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="p-4 border-2"
+                    className="p-4 border-2 focus:border-red-500 transition-colors"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="email">Email Address *</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="your@email.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="p-4 border-2"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="phone">Phone Number</Label>
+                  <Label htmlFor="phone" className="flex items-center gap-2 mb-2">
+                    <Phone className="w-4 h-4 text-red-600" />
+                    Phone Number *
+                  </Label>
                   <Input
                     id="phone"
                     type="tel"
                     placeholder="+91 98254 13606"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="p-4 border-2"
+                    className="p-4 border-2 focus:border-red-500 transition-colors"
                   />
                 </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="subject">Subject</Label>
+                  <Label htmlFor="email" className="flex items-center gap-2 mb-2">
+                    <Mail className="w-4 h-4 text-red-600" />
+                    Email Address *
+                  </Label>
                   <Input
-                    id="subject"
-                    placeholder="What is this regarding?"
-                    value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="p-4 border-2"
+                    id="email"
+                    type="email"
+                    placeholder="your@email.com"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="p-4 border-2 focus:border-red-500 transition-colors"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="message">Message *</Label>
-                  <Textarea
-                    id="message"
-                    placeholder="Tell us about your event requirements..."
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="p-4 border-2 min-h-[150px]"
-                  />
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Button
-                    type="submit"
-                    className="bg-red-700/90 hover:bg-red-800/90 text-white py-6 rounded-full text-lg font-semibold border border-red-700/30"
+                  <Label htmlFor="eventType" className="flex items-center gap-2 mb-2">
+                    <Calendar className="w-4 h-4 text-red-600" />
+                    Event Type
+                  </Label>
+                  <select
+                    id="eventType"
+                    value={formData.eventType}
+                    onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
+                    className="w-full p-4 border-2 focus:border-red-500 transition-colors bg-white text-gray-700"
                   >
-                    <Send className="mr-2" />
-                    Send Message
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={handleSendWhatsApp}
-                    className="bg-green-600 hover:bg-green-700 text-white py-6 rounded-full text-lg font-semibold border border-green-700/30 transition-all duration-300"
-                  >
-                    <MessageCircle className="mr-2" />
-                    Send via WhatsApp
-                  </Button>
+                    <option value="">Select event type</option>
+                    {eventTypes.map((type) => (
+                      <option key={type} value={type}>{type}</option>
+                    ))}
+                  </select>
                 </div>
-              </form>
-            </motion.div>
-
-            {/* Contact Info */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="space-y-8"
-            >
+              </div>
               <div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-6">Contact Information</h2>
-                <p className="text-gray-600 mb-8">
-                  Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
-                </p>
+                <Label htmlFor="message" className="flex items-center gap-2 mb-2">
+                  <MessageCircle className="w-4 h-4 text-red-600" />
+                  Message *
+                </Label>
+                <Textarea
+                  id="message"
+                  placeholder="Tell us about your event requirements, guest count, preferred dates..."
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  className="p-4 border-2 min-h-[120px] focus:border-red-500 transition-colors"
+                />
               </div>
-
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4 p-6 bg-white/70 backdrop-blur-xl rounded-2xl border border-white/40 shadow-sm">
-                  <div className="bg-red-700/90 p-3 rounded-xl">
-                    <Phone className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Phone</h3>
-                    <p className="text-gray-600">+91 98254 13606</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4 p-6 bg-white/70 backdrop-blur-xl rounded-2xl border border-white/40 shadow-sm">
-                  <div className="bg-red-700/90 p-3 rounded-xl">
-                    <Mail className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
-                    <p className="text-gray-600">info@tsdevents.in</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4 p-6 bg-white/70 backdrop-blur-xl rounded-2xl border border-white/40 shadow-sm">
-                  <div className="bg-red-700/90 p-3 rounded-xl">
-                    <Clock className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Business Hours</h3>
-                    <p className="text-gray-600">Monday - Saturday: 9:00 AM - 7:00 PM</p>
-                    <p className="text-gray-600">Sunday: By Appointment</p>
-                  </div>
-                </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <Button
+                  type="submit"
+                  className="bg-red-600 hover:bg-red-700 text-white py-6 rounded-md text-lg font-semibold transition-all duration-300"
+                >
+                  <Send className="mr-2 w-5 h-5" />
+                  Send Message
+                </Button>
+                <Button
+                  type="button"
+                  onClick={handleSendWhatsApp}
+                  className="bg-green-600 hover:bg-green-700 text-white py-6 rounded-md text-lg font-semibold transition-all duration-300"
+                >
+                  <MessageCircle className="mr-2 w-5 h-5" />
+                  Send via WhatsApp
+                </Button>
               </div>
-            </motion.div>
-          </div>
+            </form>
+          </motion.div>
         </div>
       </section>
 
@@ -285,7 +348,7 @@ export function ContactPage() {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="rounded-3xl overflow-hidden shadow-2xl bg-white"
+            className="overflow-hidden shadow-lg bg-white"
           >
             <iframe 
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3671.8957428524776!2d72.5917318!3d23.0787576!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e8363c5a639fb%3A0xf8887980584dde31!2sTSD%20Events%20and%20Decor!5e0!3m2!1sen!2sin!4v1740826412000"

@@ -1,9 +1,11 @@
 import { motion } from 'motion/react';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import Masonry from 'react-responsive-masonry';
 import { Button } from '../components/ui/button';
 import { supabase, CATEGORIES } from '../../supabase';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
+import { MessageCircle, Phone, Mail } from 'lucide-react';
 import galleryHeroImage from '../images/Hero Fallback/Gallery/GalleryHero.jpg';
 
 interface PhotoItem {
@@ -18,6 +20,7 @@ const IMAGES_PER_PAGE = 10;
 const MAX_IMAGES = 50;
 
 export function GalleryPage() {
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [photos, setPhotos] = useState<PhotoItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -125,21 +128,19 @@ export function GalleryPage() {
       {/* Filter Section */}
       <section className="py-8 border-b bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-3">
             {categoryFilters.map((category) => (
-              <motion.button
+              <button
                 key={category}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-2 rounded-full font-medium transition-all ${
+                className={`px-6 py-2 font-medium transition-all ${
                   selectedCategory === category
-                    ? 'bg-red-700/90 text-white shadow-lg'
+                    ? 'bg-red-600 text-white'
                     : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
                 }`}
               >
                 {category}
-              </motion.button>
+              </button>
             ))}
           </div>
         </div>
@@ -166,20 +167,19 @@ export function GalleryPage() {
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.3 }}
                     viewport={{ once: true }}
-                    whileHover={{ scale: 1.05 }}
-                    className="relative overflow-hidden rounded-2xl shadow-lg cursor-pointer group"
+                    whileHover={{ scale: 1.02 }}
+                    className="relative overflow-hidden cursor-pointer group"
                   >
                     <img
                       src={image.url}
                       alt={image.alt_text}
-                      className="w-full h-auto"
+                      className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                      <div className="p-4">
-                        <span className="text-white font-semibold text-lg">
-                          {image.category}
-                        </span>
-                      </div>
+                    {/* Category overlay on hover */}
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                      <span className="text-white text-lg font-semibold uppercase tracking-wider">
+                        {image.category}
+                      </span>
                     </div>
                   </motion.div>
                 ))}
@@ -194,7 +194,7 @@ export function GalleryPage() {
                 onClick={loadMoreImages}
                 disabled={loadingMore}
                 variant="ghost"
-                className="text-black hover:text-gray-700 bg-white hover:bg-gray-50 border border-gray-200 px-6 py-2 text-sm font-medium rounded-lg transition-all duration-300"
+                className="text-black hover:text-gray-700 bg-white hover:bg-gray-50 border border-gray-200 px-6 py-2 text-sm font-medium transition-all duration-300"
               >
                 {loadingMore ? (
                   <div className="flex items-center">
@@ -209,6 +209,48 @@ export function GalleryPage() {
               </Button>
             </div>
           )}
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 bg-red-600 text-white relative overflow-hidden">
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Want Similar Events for Your Celebration?
+            </h2>
+            <p className="text-lg text-red-100 mb-8 max-w-2xl mx-auto">
+              Let us create memorable moments for your special occasion. Get a free consultation today.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                onClick={() => window.open('https://wa.me/919825413606?text=Hi%2C%20I%20saw%20your%20gallery%20and%20I%27m%20interested%20in%20planning%20an%20event.%20Can%20you%20help%3F', '_blank')}
+                className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
+              >
+                <MessageCircle className="mr-2 w-5 h-5" />
+                Contact on WhatsApp
+              </Button>
+              <Button
+                onClick={() => window.location.href = 'mailto:info@tsdevents.in'}
+                className="bg-white hover:bg-gray-100 text-red-600 px-8 py-4 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
+              >
+                <Mail className="mr-2 w-5 h-5" />
+                Write an Email
+              </Button>
+              <Button
+                onClick={() => window.location.href = 'tel:+919825413606'}
+                className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
+              >
+                <Phone className="mr-2 w-5 h-5" />
+                Call Us
+              </Button>
+            </div>
+          </motion.div>
         </div>
       </section>
     </div>

@@ -59,6 +59,8 @@ export interface Booking {
   client_name: string;
   event_type: string;
   date: string;
+  city?: string;
+  number_of_guests?: number;
   status: 'confirmed' | 'pending' | 'in_progress';
   amount: number;
   created_at?: string;

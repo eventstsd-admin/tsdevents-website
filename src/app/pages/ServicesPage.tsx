@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router';
 import { Button } from '../components/ui/button';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
-import { ChevronRight, ArrowLeft, Sparkles } from 'lucide-react';
+import { ChevronRight, ArrowLeft, MessageCircle, Phone, Mail } from 'lucide-react';
 import { CATEGORIES_WITH_SUBCATEGORIES } from '../../supabase';
 import religiousImage from '../images/Hero Fallback/Services/Catcard/ReligiousCat.jpeg';
 import servicesHeroImage from '../images/Hero Fallback/Services/ServiceHero.jpg';
@@ -59,15 +59,6 @@ export function ServicesPage() {
         
         <div className="relative z-10 min-h-[40vh] sm:h-full flex items-center justify-center">
           <div className="text-center text-white px-4 max-w-full sm:max-w-4xl w-full sm:w-11/12 mx-auto py-8 sm:py-0">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-center justify-center gap-2 mb-2 sm:mb-4 flex-wrap"
-            >
-              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" />
-              <span className="text-amber-400 font-medium tracking-wider uppercase text-xs sm:text-sm">Premium Services</span>
-              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" />
-            </motion.div>
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -126,19 +117,19 @@ export function ServicesPage() {
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.1 }}
-                      whileHover={{ y: -8, scale: 1.02 }}
+                      whileHover={{ y: -5 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => handleCategoryClick(category)}
-                      className="group relative overflow-hidden rounded-3xl cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500"
+                      className="group relative overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-500"
                     >
                       {/* Background Image */}
                       <div className="absolute inset-0">
                         <img 
                           src={categoryImages[category]} 
                           alt={category}
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20 group-hover:from-black/95 transition-all duration-500" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
                       </div>
                       
                       {/* Content */}
@@ -158,17 +149,14 @@ export function ServicesPage() {
                           <span className="text-amber-400 font-medium">
                             {CATEGORIES_WITH_SUBCATEGORIES[category].length} Services
                           </span>
-                          <motion.div 
-                            className="flex items-center gap-2 text-white group-hover:text-amber-400 transition-colors"
-                            whileHover={{ x: 5 }}
-                          >
+                          <div className="flex items-center gap-2 text-white group-hover:text-amber-400 transition-colors">
                             <span className="font-medium">Explore</span>
                             <ChevronRight className="w-5 h-5" />
-                          </motion.div>
+                          </div>
                         </div>
 
                         {/* Decorative Border */}
-                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 via-amber-500 to-red-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
                       </div>
                     </motion.div>
                   ))}
@@ -216,11 +204,11 @@ export function ServicesPage() {
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.05 }}
-                      whileHover={{ y: -6, scale: 1.02 }}
-                      className="group relative overflow-hidden rounded-2xl bg-white border-2 border-gray-100 hover:border-red-400 shadow-md hover:shadow-xl transition-all duration-300"
+                      whileHover={{ y: -4 }}
+                      className="group relative overflow-hidden bg-white border border-gray-200 hover:border-red-400 shadow-sm hover:shadow-md transition-all duration-300"
                     >
                       {/* Top Accent Bar */}
-                      <div className="h-2 bg-gradient-to-r from-red-500 to-amber-500" />
+                      <div className="h-1 bg-red-600" />
                       
                       {/* Content */}
                       <div className="p-6">
@@ -230,12 +218,12 @@ export function ServicesPage() {
                         </span>
                         
                         {/* Title */}
-                        <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-red-700 transition-colors relative z-10">
+                        <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-red-600 transition-colors relative z-10">
                           {subcategory}
                         </h3>
                         
                         {/* Divider */}
-                        <div className="h-0.5 w-12 bg-red-500 mb-4 group-hover:w-20 transition-all duration-300" />
+                        <div className="h-0.5 w-12 bg-red-600 mb-4 group-hover:w-20 transition-all duration-300" />
                         
                         {/* CTA Button */}
                         <Button
@@ -243,15 +231,12 @@ export function ServicesPage() {
                             e.stopPropagation();
                             navigate(`/contact?service=${encodeURIComponent(subcategory)}`);
                           }}
-                          className="w-full bg-red-700 hover:bg-red-800 text-white font-medium rounded-lg transition-all group-hover:shadow-lg"
+                          className="w-full bg-red-600 hover:bg-red-700 text-white font-medium rounded-md transition-all"
                         >
                           Get a Quote
                           <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                         </Button>
                       </div>
-
-                      {/* Corner Decoration */}
-                      <div className="absolute -bottom-8 -right-8 w-24 h-24 bg-red-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </motion.div>
                   ))}
                 </div>
@@ -262,25 +247,42 @@ export function ServicesPage() {
       </section>
 
       {/* Bottom CTA Section */}
-      <section className="bg-red-800 py-16 px-4">
-        <div className="container mx-auto max-w-4xl text-center">
+      <section className="bg-red-600 py-16 px-4 relative overflow-hidden">
+        <div className="container mx-auto max-w-4xl text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl font-bold text-white mb-4">
-              Ready to Plan Your Event?
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Let's Plan Your Dream Event
             </h2>
             <p className="text-red-100 text-lg mb-8 max-w-2xl mx-auto">
               Our expert team is ready to bring your vision to life with our comprehensive event services
             </p>
-            <Button
-              onClick={() => navigate('/contact')}
-              className="bg-white hover:bg-gray-100 text-red-700 hover:text-red-800 font-bold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-lg"
-            >
-              Contact Us
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                onClick={() => window.open('https://wa.me/919825413606?text=Hi%2C%20I%27m%20interested%20in%20your%20event%20services.%20Can%20you%20share%20details%3F', '_blank')}
+                className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
+              >
+                <MessageCircle className="mr-2 w-5 h-5" />
+                Contact on WhatsApp
+              </Button>
+              <Button
+                onClick={() => window.location.href = 'mailto:info@tsdevents.in'}
+                className="bg-white hover:bg-gray-100 text-red-600 px-8 py-4 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
+              >
+                <Mail className="mr-2 w-5 h-5" />
+                Write an Email
+              </Button>
+              <Button
+                onClick={() => window.location.href = 'tel:+919825413606'}
+                className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
+              >
+                <Phone className="mr-2 w-5 h-5" />
+                Call Us
+              </Button>
+            </div>
           </motion.div>
         </div>
       </section>
