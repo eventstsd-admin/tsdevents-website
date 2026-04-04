@@ -17,7 +17,7 @@ self.addEventListener('fetch', (event) => {
           "orientation": "portrait-primary",
           "icons": [
             {
-              "src": "/icon.svg",
+              "src": "/icon-simple.svg",
               "sizes": "any",
               "type": "image/svg+xml",
               "purpose": "any"
