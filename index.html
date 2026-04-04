@@ -6,39 +6,16 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="icon" type="image/png" href="/logo.png" />
       <link rel="apple-touch-icon" href="/logo.png" />
-      <link rel="manifest" id="manifest" href="manifest.json" />
+      <link rel="manifest" href="manifest.json" />
       <meta name="theme-color" content="#dc2626" />
       <meta name="description" content="Premium Event Management and Decoration Services" />
       <title>TSD Events & Decor</title>
       
       <script>
-        // Create dynamic manifest based on current path
-        (function() {
-          const currentPath = window.location.pathname || '/';
-          
-          const manifest = {
-            "name": "TSD Events & Decor",
-            "short_name": "TSD Events",
-            "description": "Premium Event Management and Decoration Services",
-            "start_url": currentPath,
-            "display": "standalone",
-            "background_color": "#ffffff",
-            "theme_color": "#dc2626",
-            "orientation": "portrait-primary",
-            "icons": [
-              {
-                "src": "/icon.svg",
-                "sizes": "any",
-                "type": "image/svg+xml"
-              }
-            ],
-            "categories": ["business", "lifestyle"]
-          };
-          
-          const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
-          const url = URL.createObjectURL(blob);
-          document.getElementById('manifest').href = url;
-        })();
+        // Register service worker for dynamic manifest
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        }
       </script>
     </head>
 
