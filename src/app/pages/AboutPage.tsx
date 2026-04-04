@@ -6,6 +6,10 @@ import { Button } from '../components/ui/button';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import aboutHeroImage from '../images/Hero Fallback/About us/about us.jpg';
 
+// Cloudinary URL
+const aboutHeroUrl = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312256/about_us_z7oifs.webp';
+const aboutHeroImageToUse = aboutHeroUrl;
+
 const team = [
   {
     name: 'Timir Shah',
@@ -419,7 +423,7 @@ export function AboutPage() {
           {/* Background Image */}
           <motion.div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url(${aboutHeroImage})` }}
+            style={{ backgroundImage: `url(${aboutHeroImageToUse})` }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}

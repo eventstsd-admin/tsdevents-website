@@ -9,6 +9,10 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import contactHeroImage from '../images/Hero Fallback/Contact/Contact.jpg';
+
+// Cloudinary URL
+const contactHeroUrl = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312246/Contact_n6tmxs.webp';
+const contactHeroImageToUse = contactHeroUrl;
 import { inquiryOperations } from '../../supabase';
 
 // Service-specific quote message templates
@@ -115,7 +119,7 @@ export function ContactPage() {
           {/* Background Image */}
           <motion.div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url(${contactHeroImage})` }}
+            style={{ backgroundImage: `url(${contactHeroImageToUse})` }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}

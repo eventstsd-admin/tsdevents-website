@@ -5,8 +5,13 @@ import { Button } from '../components/ui/button';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import { ChevronRight, ArrowLeft, MessageCircle, Phone, Mail } from 'lucide-react';
 import { CATEGORIES_WITH_SUBCATEGORIES } from '../../supabase';
-import religiousImage from '../images/Hero Fallback/Services/Catcard/ReligiousCat.jpeg';
+// Cloudinary category card image
+const religiousImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312393/ReligiousCat_zak58e.webp';
 import servicesHeroImage from '../images/Hero Fallback/Services/ServiceHero.jpg';
+
+// Cloudinary URL
+const servicesHeroUrl = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312408/ServiceHero_to54cv.webp';
+const servicesHeroImageToUse = servicesHeroUrl;
 
 const categoryDescriptions: Record<string, string> = {
   'Wedding': 'Complete wedding planning services for your perfect celebration.',
@@ -46,7 +51,7 @@ export function ServicesPage() {
           {/* Background Image */}
           <motion.div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url(${servicesHeroImage})` }}
+            style={{ backgroundImage: `url(${servicesHeroImageToUse})` }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}

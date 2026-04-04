@@ -9,6 +9,78 @@ interface PastEventUploadProps {
   eventTitle: string;
 }
 
+// Image compression function with strict 100KB limit
+async function compressImage(file: File): Promise<File> {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target?.result as string;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        // Aggressive dimension reduction
+        const MAX_DIMENSION = 800;
+        if (width > height && width > MAX_DIMENSION) {
+          height = (height * MAX_DIMENSION) / width;
+          width = MAX_DIMENSION;
+        } else if (height > MAX_DIMENSION) {
+          width = (width * MAX_DIMENSION) / height;
+          height = MAX_DIMENSION;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+        }
+
+        // Recursive compression function with quality reduction loop
+        const compressWithQuality = (quality: number, attempt: number): void => {
+          if (quality < 0.1 || attempt > 10) {
+            // Fallback: accept whatever we have if quality gets too low
+            canvas.toBlob((blob) => {
+              const compressedFile = new File([blob || new Blob()], file.name, {
+                type: 'image/jpeg',
+              });
+              resolve(compressedFile);
+            }, 'image/jpeg', 0.1);
+            return;
+          }
+
+          canvas.toBlob((blob) => {
+            if (!blob) {
+              resolve(file);
+              return;
+            }
+
+            // If under 100KB, we're done
+            if (blob.size <= 100 * 1024) {
+              const compressedFile = new File([blob], file.name, {
+                type: 'image/jpeg',
+              });
+              resolve(compressedFile);
+              return;
+            }
+
+            // Still too large, reduce quality and try again
+            const newQuality = quality - 0.1;
+            compressWithQuality(newQuality, attempt + 1);
+          }, 'image/jpeg', quality);
+        };
+
+        // Start with quality 0.8
+        compressWithQuality(0.8, 0);
+      };
+    };
+  });
+}
+
 export function PastEventUpload({ eventId, eventTitle }: PastEventUploadProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
@@ -20,6 +92,7 @@ export function PastEventUpload({ eventId, eventTitle }: PastEventUploadProps) {
 
     if (totalFiles > 5) {
       toast.error(`Maximum 5 photos per event. You have ${files.length} selected.`);
+      e.target.value = '';
       return;
     }
 
@@ -53,6 +126,11 @@ export function PastEventUpload({ eventId, eventTitle }: PastEventUploadProps) {
 
       for (const file of files) {
         try {
+          // Compress image before upload
+          const compressedFile = await compressImage(file);
+          const fileSizeKb = (compressedFile.size / 1024).toFixed(2);
+          console.log(`Compressed ${file.name}: ${fileSizeKb}KB`);
+
           // Get signed parameters from Edge Function
           const signResponse = await fetch(
             `${supabaseUrl}/functions/v1/sign-cloudinary-upload`,
@@ -77,7 +155,7 @@ export function PastEventUpload({ eventId, eventTitle }: PastEventUploadProps) {
 
           // Upload to Cloudinary with signature
           const formData = new FormData();
-          formData.append('file', file);
+          formData.append('file', compressedFile);
           formData.append('upload_preset', upload_preset);
           formData.append('signature', signature);
           formData.append('timestamp', timestamp.toString());

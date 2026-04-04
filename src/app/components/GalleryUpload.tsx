@@ -4,10 +4,91 @@ import { supabase } from '../../supabase';
 import { Button } from './ui/button';
 import { Upload } from 'lucide-react';
 
+// Image compression function with strict 100KB limit
+async function compressImage(file: File): Promise<File> {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target?.result as string;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        // Aggressive dimension reduction
+        const MAX_DIMENSION = 800;
+        if (width > height && width > MAX_DIMENSION) {
+          height = (height * MAX_DIMENSION) / width;
+          width = MAX_DIMENSION;
+        } else if (height > MAX_DIMENSION) {
+          width = (width * MAX_DIMENSION) / height;
+          height = MAX_DIMENSION;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+        }
+
+        // Recursive compression function with quality reduction loop
+        const compressWithQuality = (quality: number, attempt: number): void => {
+          if (quality < 0.1 || attempt > 10) {
+            // Fallback: accept whatever we have if quality gets too low
+            canvas.toBlob((blob) => {
+              const compressedFile = new File([blob || new Blob()], file.name, {
+                type: 'image/jpeg',
+              });
+              resolve(compressedFile);
+            }, 'image/jpeg', 0.1);
+            return;
+          }
+
+          canvas.toBlob((blob) => {
+            if (!blob) {
+              resolve(file);
+              return;
+            }
+
+            // If under 100KB, we're done
+            if (blob.size <= 100 * 1024) {
+              const compressedFile = new File([blob], file.name, {
+                type: 'image/jpeg',
+              });
+              resolve(compressedFile);
+              return;
+            }
+
+            // Still too large, reduce quality and try again
+            const newQuality = quality - 0.1;
+            compressWithQuality(newQuality, attempt + 1);
+          }, 'image/jpeg', quality);
+        };
+
+        // Start with quality 0.8
+        compressWithQuality(0.8, 0);
+      };
+    };
+  });
+}
+
 export function GalleryUpload() {
   const [file, setFile] = useState<File | null>(null);
   const [category, setCategory] = useState('Wedding');
   const [loading, setLoading] = useState(false);
+
+  const MAX_FILE_SIZE = 100 * 1024; // 100KB
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (!selectedFile) return;
+
+    setFile(selectedFile);
+  };
 
   const handleUpload = async () => {
     if (!file) {
@@ -17,6 +98,22 @@ export function GalleryUpload() {
 
     setLoading(true);
     try {
+      let uploadFile = file;
+
+      // Auto-compress if over 100KB
+      if (file.size > MAX_FILE_SIZE) {
+        toast.loading('Compressing image...');
+        uploadFile = await compressImage(file);
+
+        // Verify compression worked
+        if (uploadFile.size > MAX_FILE_SIZE) {
+          toast.error(`Image still too large after compression (${(uploadFile.size / 1024).toFixed(2)}KB). Try a simpler image.`);
+          setLoading(false);
+          return;
+        }
+        toast.success(`Image compressed to ${(uploadFile.size / 1024).toFixed(2)}KB`);
+      }
+
       const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
       const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
@@ -51,7 +148,7 @@ export function GalleryUpload() {
 
       // Upload to Cloudinary with signature
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('file', uploadFile);
       formData.append('upload_preset', upload_preset);
       formData.append('signature', signature);
       formData.append('timestamp', timestamp);

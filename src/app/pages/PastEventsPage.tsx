@@ -5,6 +5,10 @@ import { pastEventOperations, CATEGORIES, type PastEvent } from '../../supabase'
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import eventsHeroImage from '../images/Hero Fallback/PastEvents/Events.jpg';
 
+// Cloudinary URL
+const eventsHeroUrl = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312358/Events_bx0xhi.webp';
+const eventsHeroImageToUse = eventsHeroUrl;
+
 export function PastEventsPage() {
   const [events, setEvents] = useState<PastEvent[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -83,7 +87,7 @@ export function PastEventsPage() {
           {/* Background Image */}
           <motion.div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url(${eventsHeroImage})` }}
+            style={{ backgroundImage: `url(${eventsHeroImageToUse})` }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}

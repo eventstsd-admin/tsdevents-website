@@ -8,6 +8,10 @@ import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import { MessageCircle, Phone, Mail } from 'lucide-react';
 import galleryHeroImage from '../images/Hero Fallback/Gallery/GalleryHero.jpg';
 
+// Cloudinary URL
+const galleryHeroUrl = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312277/GalleryHero_j8bvra.jpg';
+const galleryHeroImageToUse = galleryHeroUrl;
+
 interface PhotoItem {
   id: number;
   url: string;
@@ -96,7 +100,7 @@ export function GalleryPage() {
           {/* Background Image */}
           <motion.div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url(${galleryHeroImage})` }}
+            style={{ backgroundImage: `url(${galleryHeroImageToUse})` }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}

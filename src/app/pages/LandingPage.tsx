@@ -8,22 +8,17 @@ import { OptimizedImage } from '../components/OptimizedImage';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import { pastEventOperations } from '../../supabase';
 
-// Import hero images
-import heroImage1 from '../images/Hero Fallback/HomePage/1.jpeg';
-import heroImage2 from '../images/Hero Fallback/HomePage/2.jpeg';
-import heroImage3 from '../images/Hero Fallback/HomePage/3.jpeg';
-
-// Import service card images
-import weddingCardImage from '../images/Hero Fallback/HomePage/Cards/weddingcard.jpg';
-import corpCardImage from '../images/Hero Fallback/HomePage/Cards/corpcard.jpg';
-import religiousCardImage from '../images/Hero Fallback/HomePage/Cards/religiousandbdaycard.jpg';
-
-// Hero images for slideshow
+// Cloudinary hero images for slideshow
 const heroImages = [
-  heroImage1,
-  heroImage2,
-  heroImage3,
+  'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312300/1_pwqiu8.jpg',
+  'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312301/2_pji1ep.webp',
+  'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312302/3_ottjec.jpg',
 ];
+
+// Cloudinary service card images
+const weddingCardImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312333/weddingcard_f0eq9x.jpg';
+const corpCardImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312333/corpcard_raxo2g.jpg';
+const religiousCardImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312333/religiousandbdaycard_ghaw71.jpg';
 
 const services = [
   {

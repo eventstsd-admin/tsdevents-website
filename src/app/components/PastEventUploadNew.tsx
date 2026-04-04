@@ -10,7 +10,7 @@ interface PastEventUploadProps {
   onUploadComplete?: () => void;
 }
 
-// Image compression function
+// Image compression function with strict 100KB limit
 async function compressImage(file: File): Promise<File> {
   return new Promise((resolve) => {
     const reader = new FileReader();
@@ -23,14 +23,14 @@ async function compressImage(file: File): Promise<File> {
         let width = img.width;
         let height = img.height;
 
-        // Calculate new dimensions while maintaining aspect ratio
-        const maxSize = 1200;
-        if (width > height && width > maxSize) {
-          height = (height * maxSize) / width;
-          width = maxSize;
-        } else if (height > maxSize) {
-          width = (width * maxSize) / height;
-          height = maxSize;
+        // Aggressive dimension reduction
+        const MAX_DIMENSION = 800;
+        if (width > height && width > MAX_DIMENSION) {
+          height = (height * MAX_DIMENSION) / width;
+          width = MAX_DIMENSION;
+        } else if (height > MAX_DIMENSION) {
+          width = (width * MAX_DIMENSION) / height;
+          height = MAX_DIMENSION;
         }
 
         canvas.width = width;
@@ -41,40 +41,42 @@ async function compressImage(file: File): Promise<File> {
           ctx.drawImage(img, 0, 0, width, height);
         }
 
-        // Compress with quality adjustment
-        let quality = 0.8;
-        canvas.toBlob(
-          (blob) => {
+        // Recursive compression function with quality reduction loop
+        const compressWithQuality = (quality: number, attempt: number): void => {
+          if (quality < 0.1 || attempt > 10) {
+            // Fallback: accept whatever we have if quality gets too low
+            canvas.toBlob((blob) => {
+              const compressedFile = new File([blob || new Blob()], file.name, {
+                type: 'image/jpeg',
+              });
+              resolve(compressedFile);
+            }, 'image/jpeg', 0.1);
+            return;
+          }
+
+          canvas.toBlob((blob) => {
             if (!blob) {
               resolve(file);
               return;
             }
 
-            // If still too large, reduce quality
-            if (blob.size > 200 * 1024) {
-              quality = 0.6;
-              canvas.toBlob(
-                (finalBlob) => {
-                  const compressedFile = new File(
-                    [finalBlob || blob],
-                    file.name,
-                    { type: 'image/jpeg' }
-                  );
-                  resolve(compressedFile);
-                },
-                'image/jpeg',
-                quality
-              );
-            } else {
+            // If under 100KB, we're done
+            if (blob.size <= 100 * 1024) {
               const compressedFile = new File([blob], file.name, {
                 type: 'image/jpeg',
               });
               resolve(compressedFile);
+              return;
             }
-          },
-          'image/jpeg',
-          quality
-        );
+
+            // Still too large, reduce quality and try again
+            const newQuality = quality - 0.1;
+            compressWithQuality(newQuality, attempt + 1);
+          }, 'image/jpeg', quality);
+        };
+
+        // Start with quality 0.8
+        compressWithQuality(0.8, 0);
       };
     };
   });
@@ -87,10 +89,21 @@ export function PastEventUploadNew({ eventId, eventTitle, onUploadComplete }: Pa
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files || []);
+    const MAX_FILE_SIZE = 100 * 1024; // 100KB
     const totalFiles = files.length + selectedFiles.length;
 
     if (totalFiles > 5) {
       toast.error(`Maximum 5 photos per event. You have ${files.length} selected.`);
+      e.target.value = '';
+      return;
+    }
+
+    // Validate file sizes before adding
+    const oversizedFiles = selectedFiles.filter(f => f.size > MAX_FILE_SIZE);
+    if (oversizedFiles.length > 0) {
+      const sizes = oversizedFiles.map(f => `${f.name} (${(f.size / 1024).toFixed(2)}KB)`).join(', ');
+      toast.error(`These images exceed 100KB: ${sizes}. Please compress before uploading.`);
+      e.target.value = '';
       return;
     }
 
