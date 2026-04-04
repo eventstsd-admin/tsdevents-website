@@ -213,10 +213,8 @@ export const cloudinaryUpload = {
         throw new Error(`Failed to delete image: ${response.statusText}`);
       }
 
-      const result = await response.json();
-      console.log('✅ Deleted from Cloudinary:', result);
+      await response.json();
     } catch (error) {
-      console.error('❌ Failed to delete from Cloudinary:', error);
       throw error;
     }
   },
@@ -225,24 +223,17 @@ export const cloudinaryUpload = {
    * Delete multiple images from Cloudinary via Supabase Edge Function
    */
   async deleteMultiple(urls: string[]): Promise<void> {
-    console.log('🔍 DEBUG: URLs to delete:', urls);
-    
     const publicIds = urls
       .map(url => this.extractPublicId(url))
       .filter((id): id is string => id !== null);
 
-    console.log('🔍 DEBUG: Extracted public IDs:', publicIds);
-
     if (publicIds.length === 0) {
-      console.warn('⚠️ No valid public IDs found');
       return;
     }
 
     try {
       const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
       const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-      
-      console.log('🔍 DEBUG: Calling edge function at:', `${supabaseUrl}/functions/v1/delete-cloudinary-images`);
 
       const response = await fetch(
         `${supabaseUrl}/functions/v1/delete-cloudinary-images`,
@@ -257,19 +248,12 @@ export const cloudinaryUpload = {
         }
       );
 
-      console.log('🔍 DEBUG: Response status:', response.status);
-      console.log('🔍 DEBUG: Response ok:', response.ok);
-      
-      const result = await response.json();
-      console.log('🔍 DEBUG: Response body:', result);
-
       if (!response.ok) {
         throw new Error(`Failed to delete images: ${response.statusText}`);
       }
 
-      console.log(`✅ Deleted ${result.deleted} images from Cloudinary`);
+      await response.json();
     } catch (error) {
-      console.error('❌ Failed to delete images from Cloudinary:', error);
       throw error;
     }
   },

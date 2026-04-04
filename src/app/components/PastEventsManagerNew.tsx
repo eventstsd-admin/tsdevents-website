@@ -241,15 +241,9 @@ export function PastEventsManagerNew() {
       if (eventToDelete?.photo_urls && eventToDelete.photo_urls.length > 0) {
         toast.info(`Deleting ${eventToDelete.photo_urls.length} photos from Cloudinary...`);
         
-        console.log('🔍 DEBUG: Calling cloudinary delete...');
-        
         // Step 2: Delete all images from Cloudinary
         const { cloudinaryUpload } = await import('../../cloudinary');
         await cloudinaryUpload.deleteMultiple(eventToDelete.photo_urls);
-        
-        console.log('🔍 DEBUG: Cloudinary delete completed');
-      } else {
-        console.warn('⚠️ No photo URLs found for this event - skipping Cloudinary deletion');
       }
 
       // Step 3: Delete event_photos records (CASCADE will handle this, but being explicit)
