@@ -6,24 +6,10 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="icon" type="image/png" href="/logo.png" />
       <link rel="apple-touch-icon" href="/logo.png" />
-      <link rel="manifest" id="manifest-link" href="manifest.json" />
+      <link rel="manifest" href="manifest.json" />
       <meta name="theme-color" content="#dc2626" />
       <meta name="description" content="Premium Event Management and Decoration Services" />
       <title>TSD Events & Decor</title>
-      
-      <script>
-        // Update manifest path based on current location
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('/service-worker.js').catch(() => {});
-        }
-        
-        // Update manifest start_url based on current path
-        (function() {
-          const currentPath = window.location.pathname || '/';
-          const manifestLink = document.getElementById('manifest-link');
-          manifestLink.href = `manifest.json?path=${encodeURIComponent(currentPath)}&t=${Date.now()}`;
-        })();
-      </script>
     </head>
 
     <body>
