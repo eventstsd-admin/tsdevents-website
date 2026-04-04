@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { MapPin, Calendar, X, ChevronLeft, ChevronRight, Camera, ExternalLink, Phone, Mail } from 'lucide-react';
+import { MapPin, Calendar, X, ChevronLeft, ChevronRight, Camera, ExternalLink, Phone, Mail, Users } from 'lucide-react';
 import { pastEventOperations, CATEGORIES, type PastEvent } from '../../supabase';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import eventsHeroImage from '../images/Hero Fallback/PastEvents/Events.jpg';
@@ -384,7 +384,7 @@ export function PastEventsPage() {
                 {/* Left Side - Photo Gallery */}
                 <div className="lg:w-1/2 relative bg-gray-900">
                   {selectedEvent.photo_urls && selectedEvent.photo_urls.length > 0 ? (
-                    <div className="relative h-[40vh] lg:h-full overflow-hidden">
+                    <div className="relative h-[40vh] lg:h-[85vh] overflow-hidden flex items-center justify-center">
                       {/* Main Image with Slide Animation */}
                       <AnimatePresence mode="wait">
                         <motion.img
@@ -395,7 +395,7 @@ export function PastEventsPage() {
                           transition={{ duration: 0.3 }}
                           src={selectedEvent.photo_urls[currentPhotoIndex]}
                           alt={`${selectedEvent.title} - Photo ${currentPhotoIndex + 1}`}
-                          className="w-full h-full object-cover"
+                          className="max-w-full max-h-full w-auto h-auto object-contain"
                         />
                       </AnimatePresence>
                       
@@ -492,6 +492,32 @@ export function PastEventsPage() {
                       </a>
                     )}
                   </div>
+
+                  {/* City */}
+                  {selectedEvent.city && (
+                    <div className="mb-4 flex items-center gap-4 p-4 bg-red-50 border-l-4 border-red-600">
+                      <div className="w-10 h-10 bg-red-600 flex items-center justify-center flex-shrink-0">
+                        <MapPin className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">City</p>
+                        <p className="text-gray-900 font-semibold">{selectedEvent.city}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Number of Guests */}
+                  {selectedEvent.number_of_guests && (
+                    <div className="mb-4 flex items-center gap-4 p-4 bg-amber-50 border-l-4 border-amber-600">
+                      <div className="w-10 h-10 bg-amber-600 flex items-center justify-center flex-shrink-0">
+                        <Users className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Number of Guests</p>
+                        <p className="text-gray-900 font-semibold">{selectedEvent.number_of_guests.toLocaleString()}</p>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Description */}
                   {selectedEvent.description && (

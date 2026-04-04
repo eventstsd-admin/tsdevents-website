@@ -8,7 +8,6 @@ interface RateLimitConfig {
 
 const DEFAULT_LIMITS = {
   contact: { maxRequests: 3, windowMs: 60000 }, // 3 per minute
-  booking: { maxRequests: 2, windowMs: 60000 }, // 2 per minute
   inquiry: { maxRequests: 5, windowMs: 300000 }, // 5 per 5 minutes
   upload: { maxRequests: 10, windowMs: 60000 }, // 10 per minute
 };
@@ -62,7 +61,6 @@ class RateLimiter {
 
 // Create rate limiters for different endpoints
 export const contactFormLimiter = new RateLimiter(DEFAULT_LIMITS.contact);
-export const bookingFormLimiter = new RateLimiter(DEFAULT_LIMITS.booking);
 export const inquiryLimiter = new RateLimiter(DEFAULT_LIMITS.inquiry);
 export const uploadLimiter = new RateLimiter(DEFAULT_LIMITS.upload);
 

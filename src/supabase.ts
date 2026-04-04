@@ -54,17 +54,7 @@ export const ALL_SUBCATEGORIES = Object.values(CATEGORIES_WITH_SUBCATEGORIES).fl
 export const getSubcategories = (category: string): string[] => CATEGORIES_WITH_SUBCATEGORIES[category] || [];
 
 // Types for database tables
-export interface Booking {
-  id: string;
-  client_name: string;
-  event_type: string;
-  date: string;
-  city?: string;
-  number_of_guests?: number;
-  status: 'confirmed' | 'pending' | 'in_progress';
-  amount: number;
-  created_at?: string;
-}
+// Booking interface removed - see unused/BookingFlow.tsx
 
 export interface Event {
   id: string;
@@ -91,6 +81,8 @@ export interface PastEvent {
   subcategory?: string;
   event_date: string; // DATE format (YYYY-MM-DD)
   location?: string;
+  city?: string;
+  number_of_guests?: number;
   created_at?: string;
   updated_at?: string;
   // Virtual fields from joins
@@ -99,53 +91,7 @@ export interface PastEvent {
 }
 
 // Booking operations
-export const bookingOperations = {
-  async getAll() {
-    const { data, error } = await supabase
-      .from('bookings')
-      .select('*')
-      .order('created_at', { ascending: false });
-    if (error) throw error;
-    return data;
-  },
-
-  async getRecent(limit: number = 10) {
-    const { data, error } = await supabase
-      .from('bookings')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(limit);
-    if (error) throw error;
-    return data;
-  },
-
-  async create(booking: Omit<Booking, 'id'>) {
-    const { data, error } = await supabase
-      .from('bookings')
-      .insert([booking])
-      .select();
-    if (error) throw error;
-    return data[0];
-  },
-
-  async update(id: string, booking: Partial<Booking>) {
-    const { data, error } = await supabase
-      .from('bookings')
-      .update(booking)
-      .eq('id', id)
-      .select();
-    if (error) throw error;
-    return data[0];
-  },
-
-  async delete(id: string) {
-    const { error } = await supabase
-      .from('bookings')
-      .delete()
-      .eq('id', id);
-    if (error) throw error;
-  },
-};
+// bookingOperations removed - see unused/BookingFlow.tsx
 
 // Event operations
 export const eventOperations = {
@@ -219,15 +165,11 @@ export const inquiryOperations = {
 export const statsOperations = {
   async getStats() {
     try {
-      const bookings = await bookingOperations.getAll();
-      const totalBookings = bookings?.length || 0;
-      const revenue = bookings?.reduce((sum, booking) => sum + (booking.amount || 0), 0) || 0;
-      const confirmedBookings = bookings?.filter(b => b.status === 'confirmed').length || 0;
-
+      // Booking functionality removed - stats now show placeholder values
       return {
-        totalBookings,
-        revenue,
-        activeClients: confirmedBookings,
+        totalBookings: 0,
+        revenue: 0,
+        activeClients: 0,
         avgRating: 4.8,
       };
     } catch (error) {
@@ -248,7 +190,17 @@ export const pastEventOperations = {
     const { data, error } = await supabase
       .from('past_events')
       .select(`
-        *,
+        id,
+        title,
+        description,
+        category,
+        subcategory,
+        event_date,
+        location,
+        city,
+        number_of_guests,
+        created_at,
+        updated_at,
         event_photos (url)
       `)
       .order('event_date', { ascending: false });

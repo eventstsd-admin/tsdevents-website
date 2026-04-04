@@ -1,0 +1,168 @@
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+
+const CLOUDINARY_CLOUD_NAME = Deno.env.get('CLOUDINARY_CLOUD_NAME')!
+const CLOUDINARY_API_KEY = Deno.env.get('CLOUDINARY_API_KEY')!
+const CLOUDINARY_API_SECRET = Deno.env.get('CLOUDINARY_API_SECRET')!
+
+interface DeleteRequest {
+  publicIds: string[]
+}
+
+// CORS headers
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+}
+
+// Helper: Extract public_id from Cloudinary URL
+function extractPublicId(url: string): string | null {
+  try {
+    const regex = /\/v\d+\/(.+)\.(jpg|jpeg|png|gif|webp)$/i
+    const match = url.match(regex)
+    return match ? match[1] : null
+  } catch {
+    return null
+  }
+}
+
+// Helper: Create signature for Cloudinary API
+function createSignature(params: Record<string, string>, secret: string): string {
+  const sortedKeys = Object.keys(params).sort()
+  const signString = sortedKeys.map(key => `${key}=${params[key]}`).join('&') + secret
+  
+  const encoder = new TextEncoder()
+  const data = encoder.encode(signString)
+  
+  return crypto.subtle.digest('SHA-1', data).then(hashBuffer => {
+    const hashArray = Array.from(new Uint8Array(hashBuffer))
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
+  })
+}
+
+// Helper: Delete single image from Cloudinary
+async function deleteFromCloudinary(publicId: string): Promise<any> {
+  const timestamp = Math.round(new Date().getTime() / 1000).toString()
+  
+  // Create signature
+  const params = {
+    public_id: publicId,
+    timestamp: timestamp,
+  }
+  
+  const signature = await createSignature(params, CLOUDINARY_API_SECRET)
+
+  // Make DELETE request to Cloudinary
+  const formData = new FormData()
+  formData.append('public_id', publicId)
+  formData.append('timestamp', timestamp)
+  formData.append('api_key', CLOUDINARY_API_KEY)
+  formData.append('signature', signature)
+
+  const response = await fetch(
+    `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/destroy`,
+    {
+      method: 'POST',
+      body: formData,
+    }
+  )
+
+  return response.json()
+}
+
+serve(async (req) => {
+  // Handle CORS preflight
+  if (req.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 200,
+      headers: corsHeaders,
+    })
+  }
+
+  try {
+    // Only allow POST
+    if (req.method !== 'POST') {
+      return new Response(
+        JSON.stringify({ error: 'Method not allowed' }),
+        { 
+          status: 405, 
+          headers: { 
+            'Content-Type': 'application/json',
+            ...corsHeaders
+          } 
+        }
+      )
+    }
+
+    // Check environment variables
+    if (!CLOUDINARY_CLOUD_NAME || !CLOUDINARY_API_KEY || !CLOUDINARY_API_SECRET) {
+      return new Response(
+        JSON.stringify({ error: 'Cloudinary credentials not configured' }),
+        { 
+          status: 500, 
+          headers: { 
+            'Content-Type': 'application/json',
+            ...corsHeaders
+          } 
+        }
+      )
+    }
+
+    // Parse request body
+    const { publicIds }: DeleteRequest = await req.json()
+
+    if (!publicIds || !Array.isArray(publicIds)) {
+      return new Response(
+        JSON.stringify({ error: 'publicIds array is required' }),
+        { 
+          status: 400, 
+          headers: { 
+            'Content-Type': 'application/json',
+            ...corsHeaders
+          } 
+        }
+      )
+    }
+
+    // Delete all images
+    const results = []
+    for (const publicId of publicIds) {
+      try {
+        const result = await deleteFromCloudinary(publicId)
+        results.push({ publicId, result })
+      } catch (error) {
+        results.push({ publicId, error: error.message })
+      }
+    }
+
+    return new Response(
+      JSON.stringify({
+        success: true,
+        deleted: results.length,
+        results,
+      }),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+          ...corsHeaders,
+        },
+      }
+    )
+  } catch (error) {
+    console.error('Edge function error:', error)
+    return new Response(
+      JSON.stringify({ 
+        error: error.message || 'Internal server error',
+        details: 'Check edge function logs for more information'
+      }),
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+          ...corsHeaders,
+        },
+      }
+    )
+  }
+})

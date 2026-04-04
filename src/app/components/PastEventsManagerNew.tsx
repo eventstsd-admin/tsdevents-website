@@ -18,6 +18,9 @@ interface PastEvent {
 
 interface EventWithPhotos extends PastEvent {
   photo_count: number;
+  photo_urls?: string[];
+  city?: string;
+  number_of_guests?: number;
   expanded: boolean;
 }
 
@@ -33,6 +36,8 @@ export function PastEventsManagerNew() {
     subcategory: '',
     event_date: '',
     location: '',
+    city: '',
+    number_of_guests: '',
   });
 
   useEffect(() => {
@@ -52,7 +57,9 @@ export function PastEventsManagerNew() {
           subcategory,
           event_date,
           location,
-          event_photos (id)
+          city,
+          number_of_guests,
+          event_photos (id, url)
         `)
         .order('event_date', { ascending: false });
 
@@ -71,7 +78,10 @@ export function PastEventsManagerNew() {
         subcategory: event.subcategory,
         event_date: event.event_date,
         location: event.location,
+        city: event.city,
+        number_of_guests: event.number_of_guests,
         photo_count: event.event_photos?.length || 0,
+        photo_urls: event.event_photos?.map((p: any) => p.url) || [],
         expanded: false,
       }));
 
@@ -86,8 +96,8 @@ export function PastEventsManagerNew() {
 
   const handleAddEvent = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newEvent.title || !newEvent.event_date || !newEvent.category || !newEvent.subcategory) {
-      toast.error('Please fill in all required fields (including subcategory)');
+    if (!newEvent.title || !newEvent.event_date || !newEvent.category || !newEvent.subcategory || !newEvent.city || !newEvent.number_of_guests) {
+      toast.error('Please fill in all required fields (title, date, category, subcategory, city, and number of guests)');
       return;
     }
 
@@ -118,6 +128,8 @@ export function PastEventsManagerNew() {
         subcategory: '',
         event_date: '',
         location: '',
+        city: '',
+        number_of_guests: '',
       });
       setSelectedImages([]);
       setShowAddForm(false);
@@ -215,9 +227,40 @@ export function PastEventsManagerNew() {
   };
 
   const handleDeleteEvent = async (eventId: string) => {
-    if (!confirm('Delete this event and all its photos?')) return;
+    if (!confirm('Delete this event and all its photos permanently?')) return;
 
+    setLoading(true);
     try {
+      // Step 1: Get event with all photo URLs
+      const eventToDelete = events.find(e => e.id === eventId);
+      
+      console.log('🔍 DEBUG: Event to delete:', eventToDelete);
+      console.log('🔍 DEBUG: Photo URLs:', eventToDelete?.photo_urls);
+      console.log('🔍 DEBUG: Photo URLs length:', eventToDelete?.photo_urls?.length);
+      
+      if (eventToDelete?.photo_urls && eventToDelete.photo_urls.length > 0) {
+        toast.info(`Deleting ${eventToDelete.photo_urls.length} photos from Cloudinary...`);
+        
+        console.log('🔍 DEBUG: Calling cloudinary delete...');
+        
+        // Step 2: Delete all images from Cloudinary
+        const { cloudinaryUpload } = await import('../../cloudinary');
+        await cloudinaryUpload.deleteMultiple(eventToDelete.photo_urls);
+        
+        console.log('🔍 DEBUG: Cloudinary delete completed');
+      } else {
+        console.warn('⚠️ No photo URLs found for this event - skipping Cloudinary deletion');
+      }
+
+      // Step 3: Delete event_photos records (CASCADE will handle this, but being explicit)
+      const { error: photosError } = await supabase
+        .from('event_photos')
+        .delete()
+        .eq('event_id', eventId);
+
+      if (photosError) console.warn('Error deleting photo records:', photosError);
+
+      // Step 4: Delete the event itself
       const { error } = await supabase
         .from('past_events')
         .delete()
@@ -225,11 +268,13 @@ export function PastEventsManagerNew() {
 
       if (error) throw error;
 
-      toast.success('Event deleted');
+      toast.success('Event and all photos deleted successfully');
       fetchEvents();
     } catch (error) {
       console.error('Error deleting event:', error);
       toast.error('Failed to delete event');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -343,6 +388,23 @@ export function PastEventsManagerNew() {
                     </select>
                   </div>
                 )}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Input
+                  placeholder="City *"
+                  value={newEvent.city}
+                  onChange={(e) => setNewEvent({ ...newEvent, city: e.target.value })}
+                  required
+                />
+                <Input
+                  type="number"
+                  placeholder="Number of Guests *"
+                  value={newEvent.number_of_guests}
+                  onChange={(e) => setNewEvent({ ...newEvent, number_of_guests: e.target.value })}
+                  min="1"
+                  required
+                />
               </div>
 
               <Input
@@ -461,6 +523,18 @@ export function PastEventsManagerNew() {
                     <div>
                       <p className="text-sm font-medium text-gray-700 mb-1">Description:</p>
                       <p className="text-gray-600">{event.description}</p>
+                    </div>
+                  )}
+                  {event.city && (
+                    <div>
+                      <p className="text-sm font-medium text-gray-700 mb-1">City:</p>
+                      <p className="text-gray-600">{event.city}</p>
+                    </div>
+                  )}
+                  {event.number_of_guests && (
+                    <div>
+                      <p className="text-sm font-medium text-gray-700 mb-1">Number of Guests:</p>
+                      <p className="text-gray-600">{event.number_of_guests.toLocaleString()}</p>
                     </div>
                   )}
                   {event.location && (

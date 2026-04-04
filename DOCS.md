@@ -109,7 +109,7 @@ These files provide in-depth information about the project:
    └─ Get from supabase.com project settings
 
 3. Database: Run SQL from supabase/SCHEMA.md in Supabase
-   └─ Creates bookings, events, inquiries tables
+   └─ Creates events, inquiries, photos tables
 
 4. Develop: npm run dev
    └─ Start development server on http://localhost:5173
@@ -124,7 +124,7 @@ These files provide in-depth information about the project:
 
 ### Supabase Integration
 - All database operations are in `src/supabase.ts`
-- Import what you need: `import { bookingOperations } from '@/supabase'`
+- Import what you need: `import { pastEventOperations } from '@/supabase'`
 - Async/await pattern for all database calls
 - Error handling with try/catch recommended
 
@@ -132,7 +132,7 @@ These files provide in-depth information about the project:
 - Located at `/admin` route
 - Loads data from Supabase automatically
 - Shows helpful error messages if not configured
-- Four main sections: Dashboard, Bookings, Events, Inquiries
+- Main sections: Dashboard, Past Events, Photos
 
 ### Environment Variables
 - `VITE_SUPABASE_URL` - Your Supabase project URL
@@ -141,8 +141,8 @@ These files provide in-depth information about the project:
 - Use `.env.example` as template
 
 ### Database Tables
-- **bookings** - Customer event bookings
-- **events** - Available event packages
+- **past_events** - Past event records with details
+- **event_photos** - Photo gallery for events
 - **inquiries** - Customer inquiries/messages
 - All tables have timestamps and proper indexing
 
@@ -214,7 +214,6 @@ Before going live, make sure you've:
 - [ ] Executed database schema
 - [ ] Updated `.env` with credentials
 - [ ] Tested admin dashboard
-- [ ] Created test bookings
 - [ ] Verified all features work
 - [ ] Reviewed PROJECT_STRUCTURE.md
 
