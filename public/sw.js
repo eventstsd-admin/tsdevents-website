@@ -3,10 +3,30 @@ self.addEventListener('fetch', event => {
   if (event.request.url.includes('manifest.json')) {
     event.respondWith(
       (async () => {
-        // Get the path from the referrer or client URL
-        const clientUrl = event.clientId ? (await self.clients.get(event.clientId))?.url : event.request.referrer;
-        const url = new URL(clientUrl || 'https://tsdevents.netlify.app');
-        const path = url.pathname || '/';
+        // Try to get path from client storage first
+        let path = '/';
+        try {
+          const clients = await self.clients.matchAll({ type: 'window' });
+          if (clients.length > 0) {
+            // Send message to client to get stored path
+            const response = await new Promise(resolve => {
+              const messageChannel = new MessageChannel();
+              clients[0].postMessage(
+                { type: 'GET_PATH' },
+                [messageChannel.port2]
+              );
+              messageChannel.port1.onmessage = (e) => resolve(e.data);
+            }).catch(() => ({ path: '/' }));
+            path = response?.path || '/';
+          }
+        } catch (e) {
+          // Fallback to parsing URL
+          const clientUrl = event.request.referrer;
+          if (clientUrl) {
+            const url = new URL(clientUrl);
+            path = url.pathname || '/';
+          }
+        }
         
         const manifest = {
           "name": "TSD Events & Decor",
@@ -32,5 +52,12 @@ self.addEventListener('fetch', event => {
         });
       })()
     );
+  }
+});
+
+// Handle messages from clients
+self.addEventListener('message', event => {
+  if (event.data.type === 'GET_PATH') {
+    event.ports[0].postMessage({ path: localStorage.getItem('app-path') || '/' });
   }
 });

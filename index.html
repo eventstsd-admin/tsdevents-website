@@ -12,6 +12,9 @@
       <title>TSD Events & Decor</title>
       
       <script>
+        // Store current path in localStorage for service worker to use
+        localStorage.setItem('app-path', window.location.pathname || '/');
+        
         // Register service worker for dynamic manifest
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.register('/sw.js').catch(() => {});
