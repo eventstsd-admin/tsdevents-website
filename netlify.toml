@@ -18,31 +18,35 @@
     Cache-Control = "public, max-age=31536000, immutable"
     X-Content-Type-Options = "nosniff"
 
-# Cache images with long expiry
+# Cache WebP images
+[[headers]]
+  for = "/*.webp"
   [headers.values]
     Content-Type = "image/webp"
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Cache SVG images
 [[headers]]
   for = "/*.svg"
   [headers.values]
     Content-Type = "image/svg+xml"
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Don't cache dynamic content
+# Don't cache dynamic JSON
 [[headers]]
   for = "/*.json"
   [headers.values]
     Content-Type = "application/json"
     Cache-Control = "no-cache, no-store, must-revalidate"
 
+# Don't cache manifest
 [[headers]]
   for = "/manifest.json"
   [headers.values]
     Content-Type = "application/manifest+json"
     Cache-Control = "no-cache, no-store, must-revalidate"
 
-# HTML should check for updates
+# Cache HTML with short expiry
 [[headers]]
   for = "/"
   [headers.values]
