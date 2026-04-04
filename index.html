@@ -10,6 +10,15 @@
       <meta name="theme-color" content="#dc2626" />
       <meta name="description" content="Premium Event Management and Decoration Services" />
       <title>TSD Events & Decor</title>
+      
+      <script>
+        // Unregister old service worker if it exists
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(registrations => {
+            registrations.forEach(reg => reg.unregister());
+          });
+        }
+      </script>
     </head>
 
     <body>
