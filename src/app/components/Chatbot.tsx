@@ -1,53 +1,148 @@
-import { useState } from 'react';
-import { MessageCircle, X, Send } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { MessageCircle, X, Send, Loader } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Button } from './ui/button';
+import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/generative-ai';
 
-const chatbotResponses: Record<string, string> = {
-  wedding: "We'd love to help plan your dream wedding! 💍 Our wedding packages start from ₹3 lakh (Basic), ₹6 lakh (Premium), and ₹12 lakh+ (Luxury). We cover venue selection, decor, catering, photography, and entertainment. Would you like to book a consultation?",
-  corporate: "Great choice! 🏢 Our corporate event services include conferences, team building, product launches, and annual parties. We handle everything from venue booking to AV equipment and catering. Packages start from ₹2 lakh. What type of corporate event are you planning?",
-  budget: "We have flexible packages to suit various budgets! 💰 Basic: ₹2-4 lakh, Premium: ₹5-8 lakh, Luxury: ₹10 lakh+. Each tier includes venue, decor, catering, and coordination. Tell us your budget and we'll customize the perfect package!",
-  private: "Private parties are our specialty! 🎉 Whether it's a birthday, anniversary, or intimate gathering, we create magical experiences. Packages start from ₹1.5 lakh. What's the occasion you're celebrating?",
-  concert: "Live entertainment at its best! 🎵 We organize concerts, music shows, and cultural festivals. From stage setup to sound systems and artist coordination - we handle it all. Let's discuss your vision!",
-  contact: "📞 You can reach us at: +91 98254 13606 | 📧 info@tsdevents.in | Or visit the 'Contact' page to reach out. We're available Mon-Sat, 9 AM - 7 PM.",
-  default: "Hello! 👋 I'm here to help with all your event planning queries. Ask me about: Wedding planning, Corporate events, Budget packages, Private parties, Concerts & shows, or Contact details. How can I assist you today?",
-};
+// Initialize Gemini API with your Google AI Studio API key
+const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GOOGLE_AI_API_KEY);
 
-export function Chatbot() {
+export function Chatbot({ hideWhatsAppButton = false }: { hideWhatsAppButton?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{ text: string; isBot: boolean }[]>([
-    { text: chatbotResponses.default, isBot: true },
+    { text: "Hello! 👋 I'm TSD Events & Decor AI Assistant. I'm here to help you with questions about our event planning and décor services. How can I assist you today?", isBot: true },
   ]);
   const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
-  const handleSend = () => {
+  // Auto-scroll to bottom when new message arrives
+  useEffect(() => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
+  }, [messages, isLoading]);
+
+  const handleSend = async () => {
     if (!input.trim()) return;
 
     const userMessage = input.trim();
     setMessages((prev) => [...prev, { text: userMessage, isBot: false }]);
     setInput('');
+    setIsLoading(true);
 
-    // Simple keyword matching
-    setTimeout(() => {
-      let response = chatbotResponses.default;
-      const lowerInput = userMessage.toLowerCase();
+    try {
+      // Initialize the model
+      const model = genAI.getGenerativeModel({ 
+        model: 'gemini-3.1-flash-lite-preview',
+        systemInstruction: `You are TSD Events & Decor AI Assistant, representing TSD Events & Decor - India's premier event planning and décor company with 12+ years of experience, 500+ successfully managed events, and 300+ happy clients.
 
-      if (lowerInput.includes('wedding') || lowerInput.includes('marriage') || lowerInput.includes('shaadi')) {
-        response = chatbotResponses.wedding;
-      } else if (lowerInput.includes('corporate') || lowerInput.includes('business') || lowerInput.includes('conference')) {
-        response = chatbotResponses.corporate;
-      } else if (lowerInput.includes('budget') || lowerInput.includes('price') || lowerInput.includes('cost') || lowerInput.includes('lakh')) {
-        response = chatbotResponses.budget;
-      } else if (lowerInput.includes('party') || lowerInput.includes('birthday') || lowerInput.includes('anniversary')) {
-        response = chatbotResponses.private;
-      } else if (lowerInput.includes('concert') || lowerInput.includes('show') || lowerInput.includes('music')) {
-        response = chatbotResponses.concert;
-      } else if (lowerInput.includes('contact') || lowerInput.includes('phone') || lowerInput.includes('email')) {
-        response = chatbotResponses.contact;
-      }
+        COMPANY BRIEF:
+        TSD Events & Decor is a professional event planning, management, and décor company based in India. We specialize in comprehensive event organization across all categories, from intimate private celebrations to large-scale corporate functions with bespoke decoration solutions. Our team is committed to turning your vision into reality with meticulous planning, creative execution, and flawless coordination.
+
+        PRICING INFORMATION (ONLY SHARE WHEN ASKED):
+        Use this ONLY when user asks about: "price", "cost", "quote", "plan", "package", "budget", "estimate", "pricing", or similar pricing-related keywords.
+        IMPORTANT: If user asks about a specific category or subcategory, ONLY show that specific pricing, not all categories.
+
+        **SPECIFIC SERVICE PRICING:**
+        • Traditional Weddings: ₹3-15 lakh
+        • Destination Weddings: ₹10-30 lakh+
+        • Reception Planning: ₹2-10 lakh
+        • Conferences: ₹5-25 lakh
+        • Product Launches: ₹3-15 lakh
+        • Team Building Events: ₹2-10 lakh
+        • Birthday Parties: ₹1-5 lakh
+        • Anniversary Events: ₹2-8 lakh
+        • Social Gatherings: ₹1-5 lakh
+        • Concerts & Shows: ₹5-30 lakh+
+        • Charity Galas: ₹4-20 lakh
+        • Cultural Festivals: ₹5-25 lakh
+
+        **MAIN CATEGORIES (Show only if user asks about general categories):**
+        • Weddings: ₹3-30 lakh+ (Traditional, destination, reception planning)
+        • Corporate Events: ₹2-25 lakh (Conferences, product launches, team building)
+        • Private Events: ₹1-5 lakh (Birthday parties, anniversaries, social gatherings)
+        • Entertainment: ₹5-30 lakh+ (Concerts, shows, cultural festivals)
+        • Fundraising: ₹4-20 lakh (Charity galas, benefit events)
+
+        PRICING FACTORS:
+        • Guest count (100 guests vs 500+ guests)
+        • Venue selection and location
+        • Decoration and setup complexity
+        • Catering options and cuisine
+        • Entertainment and services
+        • Duration and timeline
+
+        RESPONSE FORMAT - VERY IMPORTANT:
+        - Keep all responses to MAXIMUM 6-7 lines only
+        - Use **bold** for important keywords and service names
+        - Use bullet points (•) for lists
+        - Use clear headers with dashes like: SERVICE NAME ---
+        - Use line breaks to separate sections
+        - ONLY show pricing table when user asks about cost/quote/plan/budget/estimate
+        - If user mentions a SPECIFIC subcategory (e.g., "traditional weddings", "product launch"), show ONLY that service's pricing
+        - If user asks about a general CATEGORY (e.g., "wedding packages"), show all that category's services
+        - If user asks "what are your prices?" or similar, show main categories only
+        - For general greetings or service inquiries, just describe the service briefly
+        - Be extremely concise and direct
+        - Format every response clearly and structurally
+
+        IMPORTANT INSTRUCTIONS:
+        - ONLY answer questions related to TSD Events & Decor services, company details, event planning, décor, estimations, and entertainment
+        - If a user asks about unrelated topics, politely redirect them back to TSD Events & Decor services
+        - For specific pricing and package details, direct them to contact: +91 98254 13606 or visit the contact page
+        - Always be professional, friendly, and helpful
+        - Keep responses BRIEF (6-7 lines maximum)
+        - Do NOT provide information or assistance on topics outside of TSD Events & Decor domain
+        - DO NOT show pricing table on simple greetings like "hi", "hello", "thanks", casual messages
+        - ONLY SHOW PRICING when explicitly asked about quotes, costs, plans, budgets, or estimates
+        
+        CONTACT INFO:
+        Phone: +91 98254 13606
+        Email: info@tsdevents.in
+        Hours: Mon-Sat, 9 AM - 7 PM`
+      });
+
+      // Create chat session
+      const chat = model.startChat({
+        history: messages
+          .filter(msg => msg.text) // Filter out empty messages
+          .slice(1) // Skip the initial bot greeting message
+          .map(msg => ({
+            role: msg.isBot ? 'model' : 'user',
+            parts: [{ text: msg.text }],
+          })),
+        generationConfig: {
+          maxOutputTokens: 150,
+          temperature: 0.7,
+        },
+        safetySettings: [
+          {
+            category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+            threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+          },
+          {
+            category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+            threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+          },
+        ],
+      });
+
+      // Send message and get response
+      const result = await chat.sendMessage(userMessage);
+      const response = await result.response.text();
 
       setMessages((prev) => [...prev, { text: response, isBot: true }]);
-    }, 500);
+    } catch (error) {
+      console.error('Error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to get a response from the AI';
+      setMessages((prev) => [...prev, { 
+        text: `Sorry, I encountered an error: ${errorMessage}. Please try again or contact us at +91 98254 13606.`, 
+        isBot: true 
+      }]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -77,7 +172,7 @@ export function Chatbot() {
             initial={{ opacity: 0, y: 100, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 100, scale: 0.8 }}
-            className="fixed bottom-6 right-6 z-50 w-96 h-[500px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-200"
+            className="fixed bottom-4 right-4 left-4 sm:left-auto sm:bottom-6 sm:right-6 z-50 w-auto sm:w-96 h-[70vh] sm:h-[500px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-200"
             style={{ fontFamily: 'Poppins, sans-serif' }}
           >
             {/* Header */}
@@ -87,7 +182,7 @@ export function Chatbot() {
                   <MessageCircle size={20} />
                 </div>
                 <div>
-                  <h3 className="font-semibold">TSD Events Assistant</h3>
+                  <h3 className="font-semibold">TSD Events & Decor Assistant</h3>
                   <p className="text-xs opacity-90">Online - Ask us anything!</p>
                 </div>
               </div>
@@ -97,20 +192,26 @@ export function Chatbot() {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
+            <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50">
               {messages.map((msg, idx) => (
                 <div key={idx} className={`flex ${msg.isBot ? 'justify-start' : 'justify-end'}`}>
                   <div
-                    className={`max-w-[80%] p-3 rounded-2xl ${
-                      msg.isBot
-                        ? 'bg-white text-gray-800 shadow-sm'
-                        : 'bg-red-700/90 text-white'
-                    }`}
+                    className={`max-w-[80%] p-4 rounded-2xl ${msg.isBot ? 'bg-white text-gray-800 shadow-sm' : 'bg-red-700/90 text-white'}`}
                   >
-                    <p className="text-sm">{msg.text}</p>
+                    <p className={`text-sm leading-relaxed font-medium whitespace-pre-wrap break-words ${msg.isBot ? 'text-gray-900' : 'text-white'}`}>
+                      {msg.text}
+                    </p>
                   </div>
                 </div>
               ))}
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="bg-white text-gray-800 shadow-sm p-4 rounded-2xl flex items-center space-x-2">
+                    <Loader size={16} className="animate-spin" />
+                    <p className="text-sm font-medium">Typing...</p>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Input */}
@@ -120,15 +221,17 @@ export function Chatbot() {
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                  onKeyPress={(e) => e.key === 'Enter' && !isLoading && handleSend()}
                   placeholder="Ask about our events..."
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:border-amber-500 text-sm"
+                  disabled={isLoading}
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:border-amber-500 text-sm disabled:bg-gray-100 disabled:text-gray-500"
                 />
                 <Button
                   onClick={handleSend}
-                  className="bg-red-700/90 text-white p-2 rounded-full hover:bg-red-800/90 hover:shadow-lg"
+                  disabled={isLoading}
+                  className="bg-red-700/90 text-white p-2 rounded-full hover:bg-red-800/90 hover:shadow-lg disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
-                  <Send size={20} />
+                  {isLoading ? <Loader size={20} className="animate-spin" /> : <Send size={20} />}
                 </Button>
               </div>
             </div>
@@ -137,21 +240,23 @@ export function Chatbot() {
       </AnimatePresence>
 
       {/* WhatsApp Button */}
-      <motion.a
-        href="https://wa.me/919825413606?text=Hi! I'm interested in TSD Events services"
-        target="_blank"
-        rel="noopener noreferrer"
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        className="fixed bottom-6 left-6 z-50 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:shadow-green-500/50 transition-shadow"
-        style={{ fontFamily: 'Poppins, sans-serif' }}
-      >
-        <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-        </svg>
-      </motion.a>
+      {!hideWhatsAppButton && (
+        <motion.a
+          href="https://wa.me/919825413606?text=Hi! I'm interested in TSD Events & Decor services"
+          target="_blank"
+          rel="noopener noreferrer"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="fixed bottom-6 left-6 z-50 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:shadow-green-500/50 transition-shadow"
+          style={{ fontFamily: 'Poppins, sans-serif' }}
+        >
+          <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+          </svg>
+        </motion.a>
+      )}
     </>
   );
 }

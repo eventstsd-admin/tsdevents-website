@@ -13,8 +13,8 @@
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://tsdevents.com/logo.png</image:loc>
-      <image:title>TSD Events - Professional Event Planners India</image:title>
-      <image:caption>Premier event planning services for weddings, corporate events, and celebrations</image:caption>
+      <image:title>TSD Events & Decor - Professional Event Planners India</image:title>
+      <image:caption>Premier event planning and décor services for weddings, corporate events, and celebrations</image:caption>
     </image:image>
   </url>
 
@@ -42,8 +42,8 @@
     <priority>0.7</priority>
     <image:image>
       <image:loc>https://tsdevents.com/gallery-hero.jpg</image:loc>
-      <image:title>TSD Events Gallery - Event Planning Portfolio</image:title>
-      <image:caption>Stunning photos of our wedding and corporate event portfolio</image:caption>
+      <image:title>TSD Events & Decor Gallery - Event Planning & Décor Portfolio</image:title>
+      <image:caption>Stunning photos of our wedding and corporate event portfolio with professional décor</image:caption>
     </image:image>
   </url>
 

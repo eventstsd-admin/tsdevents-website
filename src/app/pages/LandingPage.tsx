@@ -9,7 +9,7 @@ import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import { pastEventOperations } from '../../supabase';
 
 // Import hero images
-import heroImage1 from '../images/Hero Fallback/HomePage/1.jpg';
+import heroImage1 from '../images/Hero Fallback/HomePage/1.jpeg';
 import heroImage2 from '../images/Hero Fallback/HomePage/2.jpeg';
 import heroImage3 from '../images/Hero Fallback/HomePage/3.jpeg';
 
@@ -50,7 +50,7 @@ const testimonials = [
     name: 'Priya & Raj Sharma',
     event: 'Wedding Ceremony',
     rating: 5,
-    text: 'TSD Events made our dream wedding come true! Every detail was perfect, from the decor to the coordination. Our guests are still talking about how amazing it was.',
+    text: 'TSD Events & Decor made our dream wedding come true! Every detail was perfect, from the decor to the coordination. Our guests are still talking about how amazing it was.',
   },
   {
     name: 'Sunita Patel',
@@ -67,9 +67,9 @@ const testimonials = [
 ];
 
 const stats = [
-  { number: '50+', label: 'Events Completed' },
-  { number: '100+', label: 'Happy Clients' },
-  { number: '5+', label: 'Years Experience' },
+  { number: '500+', label: 'Events Managed' },
+  { number: '300+', label: 'Happy Clients' },
+  { number: '12+', label: 'Years Experience' },
   { number: '98%', label: 'Satisfaction Rate' },
 ];
 
@@ -101,6 +101,123 @@ export function LandingPage() {
     };
 
     fetchGalleryPhotos();
+  }, []);
+
+  // Premium SEO - JSON-LD Structured Data
+  useEffect(() => {
+    // 1. Business & Product Schema
+    const productSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: 'Professional Event Management Services India',
+      description: 'Complete event management solutions including wedding planning, corporate events, decoration, and coordination services',
+      brand: {
+        '@type': 'Brand',
+        name: 'TSD Events & Decor',
+      },
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.9',
+        bestRating: '5',
+        worstRating: '1',
+        ratingCount: '450',
+        reviewCount: '450',
+      },
+      offers: {
+        '@type': 'AggregateOffer',
+        priceCurrency: 'INR',
+        lowPrice: '200000',
+        highPrice: '5000000',
+        offerCount: 4,
+        availability: 'https://schema.org/InStock',
+      },
+    };
+
+    // 2. WebSite Schema with SearchAction
+    const websiteSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'TSD Events & Decor - Event Management Company India',
+      url: 'https://tsdeventsanddecor.com',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: {
+          '@type': 'EntryPoint',
+          urlTemplate: 'https://tsdeventsanddecor.com/search?q={search_term_string}',
+        },
+        query_input: 'required name=search_term_string',
+      },
+    };
+
+    // 3. Rich Testimonials / Review Aggregate
+    const reviewSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'LocalBusiness',
+      name: 'TSD Events & Decor',
+      review: [
+        {
+          '@type': 'Review',
+          author: { '@type': 'Person', name: 'Priya & Raj Sharma' },
+          reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+          reviewBody: 'TSD Events & Decor made our dream wedding come true! Every detail was perfect.',
+        },
+        {
+          '@type': 'Review',
+          author: { '@type': 'Person', name: 'Sunita Patel' },
+          reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+          reviewBody: 'Professional, punctual, and perfect! They handled our 500+ guest corporate event flawlessly.',
+        },
+        {
+          '@type': 'Review',
+          author: { '@type': 'Person', name: 'Amit Kumar' },
+          reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+          reviewBody: 'They transformed a simple party into a grand celebration with amazing attention to detail.',
+        },
+      ],
+    };
+
+    // 4. Event Schema Examples
+    const eventExampleSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Event',
+      name: 'Professional Event Management Services',
+      description: 'Comprehensive event management for weddings, corporate events, and celebrations across India',
+      organizer: {
+        '@type': 'Organization',
+        name: 'TSD Events & Decor',
+        url: 'https://tsdeventsanddecor.com',
+      },
+      eventType: [
+        'Wedding',
+        'Conference',
+        'CorporateEvent',
+        'SocialEvent',
+      ],
+      audience: { '@type': 'Audience', audienceType: 'General Public' },
+    };
+
+    // Create and append all schemas
+    const schemas = [
+      productSchema,
+      websiteSchema,
+      reviewSchema,
+      eventExampleSchema,
+    ];
+
+    schemas.forEach((schema, index) => {
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.innerHTML = JSON.stringify(schema);
+      script.setAttribute('data-seo-landing', `schema-${index}`);
+      document.head.appendChild(script);
+    });
+
+    // Cleanup
+    return () => {
+      document.head.querySelectorAll('script[data-seo-landing]').forEach((script) => {
+        script.remove();
+      });
+    };
   }, []);
 
   const heroSettings = {
@@ -177,7 +294,7 @@ export function LandingPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-xs sm:text-sm md:text-lg lg:text-xl xl:text-2xl mb-6 sm:mb-8 text-gray-200 leading-relaxed"
             >
-              Premier wedding planners & corporate event organizers. 5+ years experience, 50+ successful celebrations across India. Expert event management for unforgettable memories.
+              Premier wedding planners & corporate event organizers. 12+ years experience, 500+ successful celebrations across India. Expert event management for unforgettable memories.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -244,6 +361,79 @@ export function LandingPage() {
                 <p className="text-gray-800 font-medium">{stat.label}</p>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About Us Section */}
+      <section className="py-20 bg-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/5 rounded-full -mr-48 -mt-48 blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-red-500/5 rounded-full -ml-40 -mb-40 blur-3xl" />
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              About TSD Events & Decor
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Your trusted partner for creating unforgettable experiences
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+            {/* Main Mission */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="lg:col-span-3 bg-gradient-to-br from-red-700/10 via-amber-500/5 to-red-600/5 rounded-3xl p-8 md:p-12 border border-red-200/30"
+            >
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                Our Mission
+              </h3>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                TSD Events & Decor is your trusted partner for creating unforgettable experiences, offering end-to-end event management and décor solutions in Ahmedabad. With a commitment to creativity, precision, and excellence, we transform every occasion into a seamless and memorable celebration.
+              </p>
+            </motion.div>
+
+            {/* Services Specialization */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="lg:col-span-2 bg-gradient-to-br from-amber-500/10 via-orange-400/5 to-amber-600/5 rounded-3xl p-8 border border-amber-200/30"
+            >
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                Our Expertise
+              </h3>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                We specialize in a wide range of services, including <span className="font-semibold text-red-700">weddings, corporate events, religious functions, exhibitions, and digital marketing solutions</span> making us a true one-stop destination for all your event needs.
+              </p>
+            </motion.div>
+
+            {/* Our Process */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="lg:col-span-1 bg-gradient-to-br from-purple-500/10 via-red-400/5 to-purple-600/5 rounded-3xl p-8 border border-purple-200/30"
+            >
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                Our Promise
+              </h3>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                From concept to execution, our team ensures every detail is handled with professionalism and care, delivering customized experiences that reflect your vision and style.
+              </p>
+            </motion.div>
           </div>
         </div>
       </section>

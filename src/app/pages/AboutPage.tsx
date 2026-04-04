@@ -1,37 +1,43 @@
 import { motion } from 'motion/react';
 import { Target, Heart, Users, Briefcase, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router';
+import { useEffect } from 'react';
 import { Button } from '../components/ui/button';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import aboutHeroImage from '../images/Hero Fallback/About us/about us.jpg';
 
 const team = [
   {
-    name: 'Rajesh Kumar',
-    role: 'Founder & CEO',
+    name: 'Timir Shah',
+    role: 'Founder',
     image: 'https://images.unsplash.com/photo-1739298061707-cefee19941b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWFtJTIwY29sbGFib3JhdGlvbiUyMGJ1c2luZXNzJTIwbWVldGluZ3xlbnwxfHx8fDE3NzQ5NDIwNTB8MA&ixlib=rb-4.1.0&q=80&w=1080',
   },
   {
-    name: 'Priya Sharma',
-    role: 'Creative Director',
+    name: 'Riddhi Shah',
+    role: 'Decorator & Designer',
     image: 'https://images.unsplash.com/photo-1765438864227-288900d09d26?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBldmVudCUyMHBsYW5uaW5nJTIwdGVhbXxlbnwxfHx8fDE3NzUwMTcwOTN8MA&ixlib=rb-4.1.0&q=80&w=1080',
   },
   {
-    name: 'Amit Patel',
-    role: 'Operations Manager',
+    name: 'Ronak Raval',
+    role: 'Supervisor',
     image: 'https://images.unsplash.com/photo-1739298061707-cefee19941b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWFtJTIwY29sbGFib3JhdGlvbiUyMGJ1c2luZXNzJTIwbWVldGluZ3xlbnwxfHx8fDE3NzQ5NDIwNTB8MA&ixlib=rb-4.1.0&q=80&w=1080',
   },
   {
-    name: 'Sunita Verma',
-    role: 'Client Relations Head',
+    name: 'Tulsi Raval',
+    role: 'Accountant / Designer',
     image: 'https://images.unsplash.com/photo-1765438864227-288900d09d26?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBldmVudCUyMHBsYW5uaW5nJTIwdGVhbXxlbnwxfHx8fDE3NzUwMTcwOTN8MA&ixlib=rb-4.1.0&q=80&w=1080',
+  },
+  {
+    name: 'Yuvraj Patel',
+    role: '',
+    image: 'https://images.unsplash.com/photo-1739298061707-cefee19941b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWFtJTIwY29sbGFib3JhdGlvbiUyMGJ1c2luZXNzJTIwbWVldGluZ3xlbnwxfHx8fDE3NzQ5NDIwNTB8MA&ixlib=rb-4.1.0&q=80&w=1080',
   },
 ];
 
 const achievements = [
-  { icon: Users, number: '100+', label: 'Happy Clients' },
-  { icon: Calendar, number: '50+', label: 'Events Organized' },
-  { icon: Briefcase, number: '5+', label: 'Years in Business' },
+  { icon: Users, number: '300+', label: 'Happy Clients' },
+  { icon: Calendar, number: '500+', label: 'Events Managed' },
+  { icon: Briefcase, number: '12+', label: 'Years in Business' },
 ];
 
 const values = [
@@ -54,6 +60,354 @@ const values = [
 
 export function AboutPage() {
   const navigate = useNavigate();
+
+  // Add Premium JSON-LD Structured Data for SEO (hidden from frontend)
+  useEffect(() => {
+    // 1. LOCAL BUSINESS SCHEMA - Critical for "event management in india"
+    const localBusinessSchema = {
+      '@context': 'https://schema.org',
+      '@type': ['LocalBusiness', 'EventPlanningBusiness'],
+      '@id': 'https://tsdeventsanddecor.com',
+      name: 'TSD Events & Decor',
+      alternateName: ['TSD Events', 'TSD Decor', 'TSD Event Management'],
+      description: 'Best event management company in India | Professional wedding planners and corporate event organizers | Premier event decoration services',
+      url: 'https://tsdeventsanddecor.com',
+      telephone: '+91-XXXX-XXXX-XXXX',
+      email: 'contact@tsdeventsanddecor.com',
+      foundingDate: '2013',
+      foundingLocation: {
+        '@type': 'Place',
+        name: 'India',
+      },
+      areaServed: [
+        {
+          '@type': 'Country',
+          name: 'India',
+        },
+        {
+          '@type': 'State',
+          name: 'Gujarat',
+        },
+        {
+          '@type': 'City',
+          name: 'Surat',
+        },
+      ],
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.9',
+        ratingCount: '450',
+        bestRating: '5',
+        worstRating: '1',
+      },
+      priceRange: '₹2 Lakh - ₹50 Lakh',
+      contactPoint: [
+        {
+          '@type': 'ContactPoint',
+          contactType: 'Customer Service',
+          telephone: '+91-XXXX-XXXX-XXXX',
+          email: 'contact@tsdeventsanddecor.com',
+          availableLanguageId: ['en', 'gu'],
+          areaServed: 'India',
+        },
+      ],
+      sameAs: [
+        'https://www.facebook.com/tsdeventsanddecor',
+        'https://www.instagram.com/tsdeventsanddecor',
+        'https://www.youtube.com/@tsdeventsanddecor',
+      ],
+      image: {
+        '@type': 'ImageObject',
+        url: 'https://tsdeventsanddecor.com/logo.png',
+        width: 500,
+        height: 500,
+      },
+    };
+
+    // 2. ORGANIZATION WITH SERVICES SCHEMA
+    const organizationSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      '@id': 'https://tsdeventsanddecor.com',
+      name: 'TSD Events & Decor - Event Planning & Management Company India',
+      url: 'https://tsdeventsanddecor.com',
+      description: 'Leading event management company in India specializing in wedding planning, corporate events, and event decoration services',
+      foundingDate: '2013',
+      numberOfEmployees: 5,
+      knowsAbout: [
+        'Event Planning',
+        'Event Management',
+        'Wedding Planning',
+        'Corporate Event Management',
+        'Event Decoration',
+        'Venue Selection',
+        'Catering Coordination',
+        'Entertainment Booking',
+        'Destination Weddings',
+        'Religious Ceremonies',
+        'Birthday Celebrations',
+        'Anniversary Events',
+      ],
+      hasOfferingDetails: [
+        {
+          '@type': 'Offer',
+          name: 'Wedding Event Planning',
+          description: 'Professional wedding planning services including traditional Indian weddings and destination weddings',
+          url: 'https://tsdeventsanddecor.com/services/weddings',
+        },
+        {
+          '@type': 'Offer',
+          name: 'Corporate Event Management',
+          description: 'Expert corporate event organization for conferences, product launches, and corporate functions',
+          url: 'https://tsdeventsanddecor.com/services/corporate',
+        },
+        {
+          '@type': 'Offer',
+          name: 'Event Decoration',
+          description: 'Professional event decoration and décor design services',
+          url: 'https://tsdeventsanddecor.com/services/decoration',
+        },
+      ],
+    };
+
+    // 3. BREADCRUMB LIST SCHEMA
+    const breadcrumbSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://tsdeventsanddecor.com',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'About',
+          item: 'https://tsdeventsanddecor.com/about',
+        },
+      ],
+    };
+
+    // 4. SERVICE SCHEMA - Multiple Services
+    const servicesSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'LocalBusiness',
+      name: 'TSD Events & Decor Event Management Services',
+      hasService: [
+        {
+          '@type': 'Service',
+          name: 'Wedding Event Planning in India',
+          description: 'Professional wedding planning services for traditional Indian weddings, destination weddings, and intimate ceremonies across India',
+          provider: { '@type': 'Organization', name: 'TSD Events & Decor' },
+          areaServed: 'India',
+          availableLanguage: ['en', 'gu'],
+          serviceType: 'Event Planning',
+        },
+        {
+          '@type': 'Service',
+          name: 'Corporate Event Management',
+          description: 'Expert corporate event organization including conferences, product launches, team building events, and business celebrations',
+          provider: { '@type': 'Organization', name: 'TSD Events & Decor' },
+          areaServed: 'India',
+          serviceType: 'Event Management',
+        },
+        {
+          '@type': 'Service',
+          name: 'Event Decoration Services',
+          description: 'Professional event decoration and décor design for all types of celebrations and corporate functions',
+          provider: { '@type': 'Organization', name: 'TSD Events & Decor' },
+          areaServed: 'India',
+          serviceType: 'Decoration',
+        },
+        {
+          '@type': 'Service',
+          name: 'Religious & Private Celebration Planning',
+          description: 'Specialized religious ceremony planning including birthday parties, anniversaries, and family celebrations',
+          provider: { '@type': 'Organization', name: 'TSD Events & Decor' },
+          areaServed: 'India',
+          serviceType: 'Event Planning',
+        },
+      ],
+    };
+
+    // 5. TEAM MEMBERS - Enhanced Schema
+    const teamSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'TSD Events & Decor Professional Team',
+      member: [
+        {
+          '@type': 'Person',
+          name: 'Timir Shah',
+          jobTitle: 'Founder & CEO - Event Planning Expert',
+          worksFor: { '@type': 'Organization', name: 'TSD Events & Decor' },
+          expertise: ['Event Planning', 'Event Management', 'Wedding Planning'],
+        },
+        {
+          '@type': 'Person',
+          name: 'Riddhi Shah',
+          jobTitle: 'Decoration & Design Specialist',
+          worksFor: { '@type': 'Organization', name: 'TSD Events & Decor' },
+          expertise: ['Event Decoration', 'Interior Design', 'Creative Design', 'Décor Consulting'],
+        },
+        {
+          '@type': 'Person',
+          name: 'Ronak Raval',
+          jobTitle: 'Event Supervisor & Coordinator',
+          worksFor: { '@type': 'Organization', name: 'TSD Events & Decor' },
+          expertise: ['Event Coordination', 'Project Management', 'Vendor Management'],
+        },
+        {
+          '@type': 'Person',
+          name: 'Tulsi Raval',
+          jobTitle: 'Accountant & Designer',
+          worksFor: { '@type': 'Organization', name: 'TSD Events & Decor' },
+          expertise: ['Finance Management', 'Budget Planning', 'Event Design'],
+        },
+        {
+          '@type': 'Person',
+          name: 'Yuvraj Patel',
+          jobTitle: 'Event Management Team Member',
+          worksFor: { '@type': 'Organization', name: 'TSD Events & Decor' },
+        },
+      ],
+    };
+
+    // 6. ABOUT PAGE SCHEMA - Enhanced
+    const aboutPageSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'AboutPage',
+      name: 'About TSD Events & Decor - Best Event Management Company in India',
+      description: 'Learn about TSD Events & Decor - India\'s leading event planning and management company with 500+ events managed and 12+ years of expertise',
+      url: 'https://tsdeventsanddecor.com/about',
+      datePublished: '2013-01-01',
+      mainEntity: {
+        '@type': 'LocalBusiness',
+        '@id': 'https://tsdeventsanddecor.com',
+        name: 'TSD Events & Decor',
+        description: 'Professional event planning and management company in India',
+        foundingDate: '2013',
+        numberOfEmployees: 5,
+        areaServed: { '@type': 'Country', name: 'India' },
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: '4.9',
+          ratingCount: '450',
+        },
+      },
+    };
+
+    // 7. AGGREGATE OFFER - For all services
+    const aggregateOfferSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'AggregateOffer',
+      name: 'Event Management Services in India',
+      description: 'Complete event management solutions including wedding planning, corporate events, decoration and coordination',
+      priceCurrency: 'INR',
+      lowPrice: '200000',
+      highPrice: '5000000',
+      offerCount: 4,
+      offers: [
+        {
+          '@type': 'Offer',
+          name: 'Wedding Events',
+          price: '500000',
+          priceCurrency: 'INR',
+          availability: 'https://schema.org/InStock',
+        },
+        {
+          '@type': 'Offer',
+          name: 'Corporate Events',
+          price: '300000',
+          priceCurrency: 'INR',
+          availability: 'https://schema.org/InStock',
+        },
+        {
+          '@type': 'Offer',
+          name: 'Decoration Services',
+          price: '200000',
+          priceCurrency: 'INR',
+          availability: 'https://schema.org/InStock',
+        },
+        {
+          '@type': 'Offer',
+          name: 'Private Celebrations',
+          price: '250000',
+          priceCurrency: 'INR',
+          availability: 'https://schema.org/InStock',
+        },
+      ],
+    };
+
+    // 8. FAQ SCHEMA - Common questions
+    const faqSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'What is the best event management company in India?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'TSD Events & Decor is one of the leading event management companies in India with 12+ years of expertise, 500+ events managed, and a 4.9/5 customer rating.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'How much does event planning cost in India?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Event planning costs in India range from ₹2 Lakh to ₹50 Lakh depending on the type and scale of the event. TSD Events & Decor offers customized packages for all budgets.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What services does TSD Events & Decor provide?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'TSD Events & Decor provides comprehensive event management services including wedding planning, corporate event management, event decoration, venue selection, catering coordination, and entertainment booking.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Do you plan destination weddings in India?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes, TSD Events & Decor specializes in destination wedding planning across India with full coordination and decoration services.',
+          },
+        },
+      ],
+    };
+
+    // Create and append all schema scripts
+    const schemas = [
+      localBusinessSchema,
+      organizationSchema,
+      breadcrumbSchema,
+      servicesSchema,
+      teamSchema,
+      aboutPageSchema,
+      aggregateOfferSchema,
+      faqSchema,
+    ];
+
+    schemas.forEach((schema, index) => {
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.innerHTML = JSON.stringify(schema);
+      script.setAttribute('data-schema', schema['@type'] || `schema-${index}`);
+      document.head.appendChild(script);
+    });
+
+    // Cleanup
+    return () => {
+      document.head.querySelectorAll('script[data-schema]').forEach((script) => {
+        script.remove();
+      });
+    };
+  }, []);
 
   return (
     <div className="bg-white">
@@ -81,7 +435,7 @@ export function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
           >
-            About TSD Events
+            About TSD Events & Decor
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -89,7 +443,7 @@ export function AboutPage() {
             transition={{ delay: 0.2 }}
             className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300"
           >
-            Professional event planners creating unforgettable celebrations
+            Professional event planners and décor specialists creating unforgettable celebrations
           </motion.p>
         </div>
       </section>
@@ -104,9 +458,9 @@ export function AboutPage() {
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">TSD Events - Professional Event Planners Since 2014</h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">TSD Events & Decor - Professional Event Planners & Décor Specialists Since 2013</h2>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                Founded in 2014, TSD Events began as India's premier event planning company with a vision to transform ordinary celebrations into extraordinary memories. Starting as a dedicated team of professional event planners, we've grown into one of India's most trusted wedding and corporate event management companies.
+                Founded in 2013, TSD Events & Decor began as India's premier event planning and décor company with a vision to transform ordinary celebrations into extraordinary memories. Starting as a dedicated team of professional event planners and décor specialists, we've grown into one of India's most trusted wedding and corporate event management companies.
               </p>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
                 Over the past decade, we've successfully organized 500+ events across India, including luxury weddings, corporate conferences, religious ceremonies, and private celebrations. Our expertise spans traditional Indian weddings, destination wedding planning, corporate event management, and specialized religious ceremony coordination.
@@ -210,15 +564,41 @@ export function AboutPage() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            {team.map((member, idx) => (
+          <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
+            {team.slice(0, 3).map((member, idx) => (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white rounded-2xl overflow-hidden shadow-lg group"
+                className="bg-white rounded-2xl overflow-hidden shadow-lg group w-full max-w-xs"
+              >
+                <div className="relative h-64 overflow-hidden">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-black/30" />
+                </div>
+                <div className="p-6 text-center">
+                  <h3 className="text-xl font-bold text-gray-900 mb-1">{member.name}</h3>
+                  <p className="text-red-700/90 font-medium">{member.role}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-8 max-w-4xl mx-auto mt-8">
+            {team.slice(3).map((member, idx) => (
+              <motion.div
+                key={idx + 3}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: (idx + 3) * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-white rounded-2xl overflow-hidden shadow-lg group w-full max-w-xs"
               >
                 <div className="relative h-64 overflow-hidden">
                   <img

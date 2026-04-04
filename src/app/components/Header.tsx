@@ -57,7 +57,7 @@ export function Header() {
               >
                 <img 
                   src={logo} 
-                  alt="TSD Events Logo" 
+                  alt="TSD Events & Decor Logo" 
                   className="h-16 w-auto object-contain"
                 />
               </motion.div>

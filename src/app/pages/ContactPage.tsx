@@ -1,16 +1,36 @@
 import { motion } from 'motion/react';
-import { Phone, Mail, Clock, Send } from 'lucide-react';
+import { Phone, Mail, Clock, Send, MessageCircle } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Textarea } from '../components/ui/textarea';
 import { toast } from 'sonner';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import contactHeroImage from '../images/Hero Fallback/Contact/Contact.jpg';
 import { inquiryOperations } from '../../supabase';
 
+// Service-specific quote message templates
+const serviceMessages: Record<string, string> = {
+  'Traditional Weddings': 'I am interested in booking TSD Events & Decor for a traditional wedding celebration. Please provide details about your services, packages, and availability for my preferred dates.',
+  'Destination Weddings': 'I would like to inquire about destination wedding services. Please share information about your experience, locations, and customized packages for international or exotic venue weddings.',
+  'Reception Planning': 'I am interested in professional reception planning services. Could you please provide details about your reception packages, catering options, and decoration services?',
+  'Conferences': 'I would like to discuss conference organization services for our upcoming corporate event. Please share your experience with similar events and what services you offer.',
+  'Team Building': 'I am interested in organizing a team building event for our company. Could you provide information about your team building packages and activity options?',
+  'Product Launches': 'We are planning a product launch event and would like to inquire about your event organization services. Please share your experience with similar launches.',
+  'Birthday Parties': 'I would like to plan a memorable birthday party. Could you please share your theme options, decoration services, and party package details?',
+  'Anniversary Events': 'We are celebrating a special anniversary and would like your help to organize a memorable event. Please share your services and packages.',
+  'Social Gatherings': 'I am interested in organizing a social gathering event. Could you please provide information about your services and custom packages?',
+  'Concerts & Shows': 'We are interested in organizing a live entertainment event. Please share your experience with concerts/shows and what services you provide.',
+  'Charity Galas': 'We are planning a charity gala and need professional event organization. Could you share your experience with similar fundraising events?',
+  'Cultural Festivals': 'I would like to organize a cultural festival event. Could you please share your experience with cultural celebrations and available services?',
+};
+
 export function ContactPage() {
+  const [searchParams] = useSearchParams();
+  const serviceParam = searchParams.get('service');
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,6 +38,18 @@ export function ContactPage() {
     subject: '',
     message: '',
   });
+
+  // Prefill form if service parameter is provided
+  useEffect(() => {
+    if (serviceParam) {
+      const message = serviceMessages[serviceParam] || `I am interested in booking TSD Events & Decor for ${serviceParam}. Please provide more information about your services and packages.`;
+      setFormData(prev => ({
+        ...prev,
+        subject: `Quote Request - ${serviceParam}`,
+        message,
+      }));
+    }
+  }, [serviceParam]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,6 +71,27 @@ export function ContactPage() {
       console.error('Error submitting inquiry:', error);
       toast.error('Failed to send message. Please try again.');
     }
+  };
+
+  const handleSendWhatsApp = () => {
+    if (!formData.name || !formData.message) {
+      toast.error('Please fill in your name and message');
+      return;
+    }
+
+    // Format the message for WhatsApp
+    const whatsappMessage = `Hi TSD Events & Decor,\n\nName: ${formData.name}\nEmail: ${formData.email}\n${formData.phone ? `Phone: ${formData.phone}\n` : ''}${formData.subject ? `Subject: ${formData.subject}\n` : ''}Message: ${formData.message}`;
+    
+    // WhatsApp Business number (replace with actual number)
+    const phoneNumber = '919825413606';
+    
+    // Create WhatsApp URL
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+    
+    // Open WhatsApp
+    window.open(whatsappUrl, '_blank');
+    
+    toast.success('Opening WhatsApp...');
   };
 
   return (
@@ -67,7 +120,7 @@ export function ContactPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
           >
-            Contact TSD Events
+            Contact TSD Events & Decor
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -144,13 +197,23 @@ export function ContactPage() {
                     className="p-4 border-2 min-h-[150px]"
                   />
                 </div>
-                <Button
-                  type="submit"
-                  className="w-full bg-red-700/90 hover:bg-red-800/90 text-white py-6 rounded-full text-lg font-semibold border border-red-700/30"
-                >
-                  <Send className="mr-2" />
-                  Send Message
-                </Button>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <Button
+                    type="submit"
+                    className="bg-red-700/90 hover:bg-red-800/90 text-white py-6 rounded-full text-lg font-semibold border border-red-700/30"
+                  >
+                    <Send className="mr-2" />
+                    Send Message
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={handleSendWhatsApp}
+                    className="bg-green-600 hover:bg-green-700 text-white py-6 rounded-full text-lg font-semibold border border-green-700/30 transition-all duration-300"
+                  >
+                    <MessageCircle className="mr-2" />
+                    Send via WhatsApp
+                  </Button>
+                </div>
               </form>
             </motion.div>
 

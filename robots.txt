@@ -1,4 +1,4 @@
-# TSD Events - Professional Event Planners India
+# TSD Events & Decor - Professional Event Planners & Décor Specialists India
 # Robots.txt for Search Engine Optimization
 
 User-agent: *

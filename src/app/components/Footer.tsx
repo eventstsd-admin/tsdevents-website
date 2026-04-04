@@ -12,11 +12,11 @@ export function Footer() {
             <div className="flex items-center space-x-2 mb-4">
               <img 
                 src={logoImage}
-                alt="TSD Events Logo"
+                alt="TSD Events & Decor Logo"
                 className="w-10 h-10 object-contain"
               />
               <div>
-                <h3 className="text-xl font-bold">TSD Events</h3>
+                <h3 className="text-xl font-bold">TSD Events & Decor</h3>
               </div>
             </div>
             <p className="text-gray-400 text-sm mb-4">
@@ -111,10 +111,10 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm mb-4 md:mb-0">
-            © 2026 TSD Events. All rights reserved.
+            © 2026 TSD Events & Decor. All rights reserved.
           </p>
           <p className="text-gray-400 text-sm flex items-center">
-            Made with <Heart size={16} className="text-red-500 mx-1" /> by TSD Events Team
+            Made with <Heart size={16} className="text-red-500 mx-1" /> by TSD Events & Decor Team
           </p>
         </div>
       </div>

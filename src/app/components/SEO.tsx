@@ -47,13 +47,13 @@ const DEFAULT_KEYWORDS = [
 ];
 
 const DEFAULT_SEO = {
-  siteName: 'TSD Events - Premier Event Planning Services',
-  title: 'TSD Events | Professional Wedding & Corporate Event Planners India',
+  siteName: 'TSD Events & Decor - Premier Event Planning Services',
+  title: 'TSD Events & Decor | Professional Wedding & Corporate Event Planners India',
   description: 'Premier event planning services in India. Expert wedding planners, corporate event organizers, and celebration specialists. 10+ years experience, 500+ successful events. Contact us for unforgettable celebrations.',
   keywords: DEFAULT_KEYWORDS,
   image: '/src/app/images/logo without text.png',
   url: 'https://tsdevents.com',
-  author: 'TSD Events Team',
+  author: 'TSD Events & Decor Team',
   locale: 'en_IN'
 };
 
@@ -105,14 +105,14 @@ export const SEOComponent: React.FC<SEOProps> = ({
       <meta name="format-detection" content="telephone=yes" />
       
       {/* Content and Copyright */}
-      <meta name="copyright" content="TSD Events" />
-      <meta name="abstract" content="Professional event planning services across India" />
-      <meta name="topic" content="Event Planning, Wedding Planning, Corporate Events" />
-      <meta name="summary" content="Expert event management services for weddings, corporate functions, religious ceremonies and celebrations" />
+      <meta name="copyright" content="TSD Events & Decor" />
+      <meta name="abstract" content="Professional event planning and décor services across India" />
+      <meta name="topic" content="Event Planning, Wedding Planning, Corporate Events, Décor" />
+      <meta name="summary" content="Expert event management and décor services for weddings, corporate functions, religious ceremonies and celebrations" />
       <meta name="classification" content="Business Services" />
-      <meta name="designer" content="TSD Events" />
+      <meta name="designer" content="TSD Events & Decor" />
       <meta name="reply-to" content="contact@tsdevents.com" />
-      <meta name="owner" content="TSD Events" />
+      <meta name="owner" content="TSD Events & Decor" />
       <meta name="url" content={seoUrl} />
       <meta name="identifier-URL" content={seoUrl} />
       <meta name="directory" content="submission" />
@@ -189,8 +189,8 @@ export const SEOComponent: React.FC<SEOProps> = ({
             {
               "@type": "Organization",
               "@id": "https://tsdevents.com/#organization",
-              "name": "TSD Events",
-              "alternateName": "The Special Day Events",
+              "name": "TSD Events & Decor",
+              "alternateName": "The Special Day Events & Decor",
               "url": "https://tsdevents.com",
               "logo": {
                 "@type": "ImageObject",
@@ -198,8 +198,8 @@ export const SEOComponent: React.FC<SEOProps> = ({
                 "width": 300,
                 "height": 100
               },
-              "description": "Professional event planning and management services across India specializing in weddings, corporate events, religious ceremonies, and celebrations.",
-              "foundingDate": "2014",
+              "description": "Professional event planning, management, and décor services across India specializing in weddings, corporate events, religious ceremonies, and celebrations.",
+              "foundingDate": "2013",
               "slogan": "Creating Unforgettable Moments",
               "contactPoint": {
                 "@type": "ContactPoint",
@@ -223,7 +223,7 @@ export const SEOComponent: React.FC<SEOProps> = ({
             {
               "@type": "LocalBusiness",
               "@id": "https://tsdevents.com/#business",
-              "name": "TSD Events",
+              "name": "TSD Events & Decor",
               "image": "https://tsdevents.com/logo.png",
               "telephone": "+91-9876543210",
               "address": {
@@ -312,7 +312,7 @@ export const SEOComponent: React.FC<SEOProps> = ({
 export const PAGE_SEO = {
   home: {
     title: 'Professional Event Planning Services India',
-    description: 'TSD Events - India\'s premier event planning company. Specializing in weddings, corporate events, religious ceremonies. 10+ years experience, 500+ successful events. Free consultation available.',
+    description: 'TSD Events & Decor - India\'s premier event planning company. Specializing in weddings, corporate events, religious ceremonies, decorations. 10+ years experience, 500+ successful events. Free consultation available.',
     keywords: [
       'best event planner India',
       'top wedding planner',
@@ -324,10 +324,10 @@ export const PAGE_SEO = {
   },
   
   about: {
-    title: 'About TSD Events - Professional Event Planners Since 2014',
-    description: 'Learn about TSD Events - India\'s trusted event planning team since 2014. Expert event organizers with 500+ successful weddings, corporate events, and celebrations. Meet our experienced team.',
+    title: 'About TSD Events & Decor - Professional Event Planners Since 2013',
+    description: 'Learn about TSD Events & Decor - India\'s trusted event planning and décor team since 2013. Expert event organizers with 500+ successful weddings, corporate events, and celebrations. Meet our experienced team.',
     keywords: [
-      'TSD Events history',
+      'TSD Events & Decor history',
       'professional event planning team',
       'experienced wedding planners',
       'event management expertise',
@@ -350,8 +350,8 @@ export const PAGE_SEO = {
   },
   
   gallery: {
-    title: 'Event Gallery - TSD Events Portfolio & Past Celebrations',
-    description: 'Explore TSD Events portfolio - stunning photos of our weddings, corporate events, and celebrations. See our decoration work, venue setups, and successful event management.',
+    title: 'Event Gallery - TSD Events & Decor Portfolio & Past Celebrations',
+    description: 'Explore TSD Events & Decor portfolio - stunning photos of our weddings, corporate events, and celebrations. See our decoration work, venue setups, and successful event management.',
     keywords: [
       'event portfolio India',
       'wedding decoration gallery',
@@ -363,8 +363,8 @@ export const PAGE_SEO = {
   },
   
   contact: {
-    title: 'Contact TSD Events - Professional Event Planners India',
-    description: 'Contact TSD Events for professional event planning services. Free consultation for weddings, corporate events, and celebrations. Call now or book online. Serving all of India.',
+    title: 'Contact TSD Events & Decor - Professional Event Planners India',
+    description: 'Contact TSD Events & Decor for professional event planning and décor services. Free consultation for weddings, corporate events, and celebrations. Call now or book online. Serving all of India.',
     keywords: [
       'contact event planner',
       'event planning consultation',
@@ -376,10 +376,10 @@ export const PAGE_SEO = {
   },
   
   pastEvents: {
-    title: 'Past Events - TSD Events Success Stories & Client Reviews',
-    description: 'Discover TSD Events past celebrations - 500+ successful weddings, corporate events, and parties. Read client testimonials and see our event planning expertise in action.',
+    title: 'Past Events - TSD Events & Decor Success Stories & Client Reviews',
+    description: 'Discover TSD Events & Decor past celebrations - 500+ successful weddings, corporate events, and parties. Read client testimonials and see our event planning expertise in action.',
     keywords: [
-      'TSD Events past projects',
+      'TSD Events & Decor past projects',
       'successful event planning',
       'client testimonials events',
       'event planning case studies',
@@ -392,15 +392,15 @@ export const PAGE_SEO = {
 export const BUSINESS_STRUCTURED_DATA = {
   "@context": "https://schema.org",
   "@type": "EventPlanner",
-  "name": "TSD Events",
-  "alternateName": "TSD Event Management",
-  "description": "Professional event planning services specializing in weddings, corporate events, and celebrations across India.",
+  "name": "TSD Events & Decor",
+  "alternateName": "TSD Event Management & Décor",
+  "description": "Professional event planning and décor services specializing in weddings, corporate events, and celebrations across India.",
   "url": "https://tsdevents.com",
   "logo": "https://tsdevents.com/logo.png",
   "image": "https://tsdevents.com/hero-image.jpg",
   "telephone": "+91-XXXXXXXXXX",
   "email": "contact@tsdevents.com",
-  "foundingDate": "2014",
+  "foundingDate": "2013",
   "numberOfEmployees": "25-50",
   "slogan": "Creating Unforgettable Events",
   
@@ -466,7 +466,7 @@ export const BUSINESS_STRUCTURED_DATA = {
         "@type": "Rating",
         "ratingValue": "5"
       },
-      "reviewBody": "TSD Events made our wedding absolutely magical. Professional team, stunning decorations, flawless execution. Highly recommended!"
+      "reviewBody": "TSD Events & Decor made our wedding absolutely magical. Professional team, stunning decorations, flawless execution. Highly recommended!"
     }
   ],
   

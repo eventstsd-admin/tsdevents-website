@@ -241,7 +241,7 @@ export function ServicesPage() {
                         <Button
                           onClick={(e) => {
                             e.stopPropagation();
-                            navigate('/contact');
+                            navigate(`/contact?service=${encodeURIComponent(subcategory)}`);
                           }}
                           className="w-full bg-red-700 hover:bg-red-800 text-white font-medium rounded-lg transition-all group-hover:shadow-lg"
                         >

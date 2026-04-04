@@ -107,7 +107,7 @@ export function AdminDashboard() {
                   <span className="text-white font-bold text-xl">T</span>
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold">TSD Events</h2>
+                  <h2 className="text-lg font-bold">TSD Events & Decor</h2>
                   <p className="text-xs text-amber-400">Admin Panel</p>
                 </div>
               </div>

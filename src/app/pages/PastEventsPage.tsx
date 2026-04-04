@@ -96,15 +96,7 @@ export function PastEventsPage() {
         
         <div className="relative z-10 h-full flex items-center justify-center">
           <div className="text-center text-white px-4 max-w-full sm:max-w-4xl w-full sm:w-11/12 mx-auto py-8 sm:py-0">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-center justify-center gap-2 mb-2 sm:mb-4 flex-wrap"
-            >
-              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" />
-              <span className="text-amber-400 font-medium tracking-wider uppercase text-xs sm:text-sm">Our Portfolio</span>
-              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" />
-            </motion.div>
+
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
