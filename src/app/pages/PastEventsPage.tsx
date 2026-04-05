@@ -9,7 +9,7 @@ import eventsHeroImage from '../images/Hero Fallback/PastEvents/Events.jpg';
 const eventsHeroUrl = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312358/Events_bx0xhi.webp';
 const eventsHeroImageToUse = eventsHeroUrl;
 
-export function PastEventsPage() {
+export default function PastEventsPage() {
   const [events, setEvents] = useState<PastEvent[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);

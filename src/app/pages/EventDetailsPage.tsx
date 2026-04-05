@@ -110,7 +110,7 @@ const eventDetails: Record<string, any> = {
   },
 };
 
-export function EventDetailsPage() {
+export default function EventDetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const event = id ? eventDetails[id] : eventDetails.weddings;

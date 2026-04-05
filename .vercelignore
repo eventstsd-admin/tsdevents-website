@@ -1,0 +1,74 @@
+# Dependencies
+node_modules
+.npm
+.eslintcache
+.node_modules.zip
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state
+.yarn/install-state.gz
+.pnp.*
+
+# Production
+dist
+out
+.next
+*.tsbuildinfo
+
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+*.pem
+*.iml
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build & Development
+.turbo
+.cache
+build
+.eslint-disable-next-line
+
+# Documentation
+*.md
+docs
+
+# Testing
+coverage
+.nyc_output
+.jest
+cypress
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Temporary files
+.temp
+tmp
+
+# Supabase
+supabase/.branches
+supabase/.git
+supabase/.gitignore
+supabase/functions/.jsr
+
+# Guidelines (development only)
+guidelines/
+README_REFACTORING.md
+QUICKSTART.md

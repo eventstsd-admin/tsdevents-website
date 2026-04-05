@@ -30,9 +30,17 @@ export default defineConfig({
       compress: {
         drop_console: true,
         drop_debugger: true,
+        passes: 2,
+      },
+      mangle: true,
+      format: {
+        comments: false,
       },
     },
-    // Code splitting for better caching
+    // Optimize CSS
+    cssMinify: true,
+    cssCodeSplit: true,
+    // Tree shake unused code
     rollupOptions: {
       output: {
         manualChunks: {
@@ -46,6 +54,9 @@ export default defineConfig({
         chunkFileNames: 'assets/[name].[hash].js',
         entryFileNames: 'assets/[name].[hash].js',
         assetFileNames: 'assets/[name].[hash][extname]',
+      },
+      treeshake: {
+        moduleSideEffects: false,
       }
     },
     // Increase chunk size warning

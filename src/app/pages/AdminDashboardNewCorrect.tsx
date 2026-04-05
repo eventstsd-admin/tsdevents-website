@@ -6,7 +6,7 @@ import { PastEventsManagerNew } from '../components/PastEventsManagerNew';
 import { InquiryManager } from '../components/InquiryManager';
 import { Calendar, Users, DollarSign, TrendingUp } from 'lucide-react';
 
-export function AdminDashboard() {
+export default function AdminDashboard() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('inquiries');

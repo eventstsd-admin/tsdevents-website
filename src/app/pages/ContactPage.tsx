@@ -31,7 +31,7 @@ const serviceMessages: Record<string, string> = {
   'Cultural Festivals': 'I would like to organize a cultural festival event. Could you please share your experience with cultural celebrations and available services?',
 };
 
-export function ContactPage() {
+export default function ContactPage() {
   const [searchParams] = useSearchParams();
   const serviceParam = searchParams.get('service');
   
@@ -151,89 +151,12 @@ export function ContactPage() {
       {/* Contact Section - Vertical Layout */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 max-w-3xl">
-          {/* Contact Information - First */}
+          {/* Contact Form - First */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mb-16"
-          >
-            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center" style={{ fontFamily: 'Playfair Display, serif' }}>Contact Information</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              <div className="flex items-start space-x-4 p-6 bg-gray-50 border-l-4 border-red-600">
-                <div className="bg-red-600 p-3">
-                  <Phone className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-gray-900 mb-1">Phone</h3>
-                  <p className="text-gray-600">+91 98254 13606</p>
-                  <a href="tel:+919825413606" className="text-red-600 hover:text-red-700 text-sm font-medium mt-1 inline-block">
-                    Call Now
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4 p-6 bg-gray-50 border-l-4 border-amber-500">
-                <div className="bg-amber-500 p-3">
-                  <Mail className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-gray-900 mb-1">Email</h3>
-                  <p className="text-gray-600">info@tsdevents.in</p>
-                  <a href="mailto:info@tsdevents.in" className="text-amber-600 hover:text-amber-700 text-sm font-medium mt-1 inline-block">
-                    Send Email
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4 p-6 bg-gray-50 border-l-4 border-red-600">
-                <div className="bg-red-600 p-3">
-                  <MapPin className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-gray-900 mb-1">Location</h3>
-                  <p className="text-gray-600">3, Jamnasagar Flats, opp. Dharmeshwar Mahadev Road, Sabarmati Society, Dharmnagar, Sabarmati, Ahmedabad, Gujarat 380005</p>
-                  <a href="https://maps.app.goo.gl/oSoJT4RoNKFvVRHU9" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-700 text-sm font-medium mt-1 inline-block">
-                    Get Directions
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4 p-6 bg-gray-50 border-l-4 border-amber-500">
-                <div className="bg-amber-500 p-3">
-                  <Clock className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-gray-900 mb-1">Business Hours</h3>
-                  <p className="text-gray-600">Monday - Saturday: 9:00 AM - 7:00 PM</p>
-                  <p className="text-gray-500 text-sm">Sunday: By Appointment</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick WhatsApp CTA */}
-            <div className="bg-green-600 p-6 text-white text-center">
-              <h3 className="font-bold text-xl mb-2">Prefer WhatsApp?</h3>
-              <p className="text-green-100 mb-4">Get instant response on WhatsApp. We typically reply within minutes.</p>
-              <a
-                href="https://wa.me/919825413606?text=Hi%2C%20I%20want%20to%20plan%20an%20event.%20Can%20you%20share%20details%3F"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center bg-white text-green-600 px-6 py-3 font-bold hover:bg-green-50 transition-colors"
-              >
-                <MessageCircle className="mr-2 w-5 h-5" />
-                Chat on WhatsApp
-              </a>
-            </div>
-          </motion.div>
-
-          {/* Contact Form - Below */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="bg-gray-50 p-8 border border-gray-100"
+            className="bg-gray-50 p-8 border border-gray-100 mb-16"
           >
             <h2 className="text-3xl font-bold text-gray-900 mb-2 text-center" style={{ fontFamily: 'Playfair Display, serif' }}>Send Us a Message</h2>
             <p className="text-gray-600 mb-8 text-center">Fill out the form and we'll get back to you within 24 hours.</p>
@@ -331,6 +254,83 @@ export function ContactPage() {
                 </Button>
               </div>
             </form>
+          </motion.div>
+
+          {/* Contact Information - Below */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-16"
+          >
+            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center" style={{ fontFamily: 'Playfair Display, serif' }}>Contact Information</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <div className="flex items-start space-x-4 p-6 bg-gray-50 border-l-4 border-red-600">
+                <div className="bg-red-600 p-3">
+                  <Phone className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 mb-1">Phone</h3>
+                  <p className="text-gray-600">+91 98254 13606</p>
+                  <a href="tel:+919825413606" className="text-red-600 hover:text-red-700 text-sm font-medium mt-1 inline-block">
+                    Call Now
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-4 p-6 bg-gray-50 border-l-4 border-amber-500">
+                <div className="bg-amber-500 p-3">
+                  <Mail className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 mb-1">Email</h3>
+                  <p className="text-gray-600">info@tsdevents.in</p>
+                  <a href="mailto:info@tsdevents.in" className="text-amber-600 hover:text-amber-700 text-sm font-medium mt-1 inline-block">
+                    Send Email
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-4 p-6 bg-gray-50 border-l-4 border-red-600">
+                <div className="bg-red-600 p-3">
+                  <MapPin className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 mb-1">Location</h3>
+                  <p className="text-gray-600">3, Jamnasagar Flats, opp. Dharmeshwar Mahadev Road, Sabarmati Society, Dharmnagar, Sabarmati, Ahmedabad, Gujarat 380005</p>
+                  <a href="https://maps.app.goo.gl/oSoJT4RoNKFvVRHU9" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-700 text-sm font-medium mt-1 inline-block">
+                    Get Directions
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-4 p-6 bg-gray-50 border-l-4 border-amber-500">
+                <div className="bg-amber-500 p-3">
+                  <Clock className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 mb-1">Business Hours</h3>
+                  <p className="text-gray-600">Monday - Saturday: 9:00 AM - 7:00 PM</p>
+                  <p className="text-gray-500 text-sm">Sunday: By Appointment</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick WhatsApp CTA */}
+            <div className="bg-green-600 p-6 text-white text-center">
+              <h3 className="font-bold text-xl mb-2">Prefer WhatsApp?</h3>
+              <p className="text-green-100 mb-4">Get instant response on WhatsApp. We typically reply within minutes.</p>
+              <a
+                href="https://wa.me/919825413606?text=Hi%2C%20I%20want%20to%20plan%20an%20event.%20Can%20you%20share%20details%3F"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center bg-white text-green-600 px-6 py-3 font-bold hover:bg-green-50 transition-colors"
+              >
+                <MessageCircle className="mr-2 w-5 h-5" />
+                Chat on WhatsApp
+              </a>
+            </div>
           </motion.div>
         </div>
       </section>

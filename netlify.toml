@@ -16,6 +16,7 @@
   [headers.values]
     Content-Type = "text/css; charset=utf-8"
     Cache-Control = "public, max-age=31536000, immutable"
+    Content-Encoding = "gzip"
 
 # Cache JavaScript files
 [[headers]]
@@ -23,6 +24,7 @@
   [headers.values]
     Content-Type = "application/javascript; charset=utf-8"
     Cache-Control = "public, max-age=31536000, immutable"
+    Content-Encoding = "gzip"
 
 # Cache WebP images
 [[headers]]
@@ -37,6 +39,7 @@
   [headers.values]
     Content-Type = "image/svg+xml"
     Cache-Control = "public, max-age=31536000, immutable"
+    Content-Encoding = "gzip"
 
 # Don't cache dynamic JSON
 [[headers]]
@@ -44,6 +47,7 @@
   [headers.values]
     Content-Type = "application/json"
     Cache-Control = "no-cache, no-store, must-revalidate"
+    Content-Encoding = "gzip"
 
 # Don't cache manifest
 [[headers]]
@@ -58,6 +62,7 @@
   [headers.values]
     Content-Type = "text/html; charset=utf-8"
     Cache-Control = "public, max-age=3600"
+    Content-Encoding = "gzip"
 
 [[headers]]
   for = "/*.html"

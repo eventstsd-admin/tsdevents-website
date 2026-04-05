@@ -142,7 +142,7 @@ const serviceData: Record<string, ServiceData> = {
   },
 };
 
-export function ServiceDetailPage() {
+export default function ServiceDetailPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const service = slug ? serviceData[slug] : null;

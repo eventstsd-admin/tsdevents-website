@@ -62,7 +62,7 @@ const values = [
   },
 ];
 
-export function AboutPage() {
+export default function AboutPage() {
   const navigate = useNavigate();
 
   // Add Premium JSON-LD Structured Data for SEO (hidden from frontend)

@@ -9,12 +9,22 @@ const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GOOGLE_AI_API_KEY);
 
 export function Chatbot({ hideWhatsAppButton = false }: { hideWhatsAppButton?: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [messages, setMessages] = useState<{ text: string; isBot: boolean }[]>([
     { text: "Hello! 👋 I'm TSD Events & Decor AI Assistant. I'm here to help you with questions about our event planning and décor services. How can I assist you today?", isBot: true },
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
+
+  // Detect screen size changes for mobile responsiveness
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Auto-scroll to bottom when new message arrives
   useEffect(() => {
@@ -240,7 +250,8 @@ export function Chatbot({ hideWhatsAppButton = false }: { hideWhatsAppButton?: b
       </AnimatePresence>
 
       {/* WhatsApp Button - Enhanced with Animation */}
-      {!hideWhatsAppButton && (
+      {/* Hide WhatsApp button when: (1) hideWhatsAppButton is true, OR (2) chatbot is open on mobile */}
+      {!hideWhatsAppButton && !(isOpen && isMobile) && (
         <motion.a
           href="https://wa.me/919825413606?text=Hi%2C%20I%20want%20to%20plan%20an%20event.%20Can%20you%20share%20details%3F"
           target="_blank"

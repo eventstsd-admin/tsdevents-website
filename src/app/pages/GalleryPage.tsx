@@ -23,7 +23,7 @@ const categoryFilters = ['All', ...CATEGORIES];
 const IMAGES_PER_PAGE = 10;
 const MAX_IMAGES = 50;
 
-export function GalleryPage() {
+export default function GalleryPage() {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [photos, setPhotos] = useState<PhotoItem[]>([]);

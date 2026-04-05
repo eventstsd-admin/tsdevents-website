@@ -27,7 +27,7 @@ const categoryImages: Record<string, string> = {
   'Decoration': 'https://images.unsplash.com/photo-1478146896981-b80fe463b330?w=800&q=80',
 };
 
-export function ServicesPage() {
+export default function ServicesPage() {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 

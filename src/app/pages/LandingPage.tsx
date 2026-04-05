@@ -69,7 +69,7 @@ const stats = [
   { number: '98%', label: 'Satisfaction Rate' },
 ];
 
-export function LandingPage() {
+export default function LandingPage() {
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [galleryPhotos, setGalleryPhotos] = useState<any[]>([]);

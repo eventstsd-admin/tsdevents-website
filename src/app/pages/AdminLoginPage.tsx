@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { supabase } from '../../supabase';
 import { toast } from 'sonner';
 
-export function AdminLoginPage() {
+export default function AdminLoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
