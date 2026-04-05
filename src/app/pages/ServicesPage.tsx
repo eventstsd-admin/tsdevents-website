@@ -10,7 +10,7 @@ const religiousImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/v17753
 import servicesHeroImage from '../images/Hero Fallback/Services/ServiceHero.jpg';
 
 // Cloudinary URL
-const servicesHeroUrl = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312408/ServiceHero_to54cv.webp';
+const servicesHeroUrl = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775420846/servicehero_ugr8zi.jpg';
 const servicesHeroImageToUse = servicesHeroUrl;
 
 const categoryDescriptions: Record<string, string> = {
