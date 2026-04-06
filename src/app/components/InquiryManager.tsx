@@ -167,10 +167,10 @@ export function InquiryManager() {
                     size="sm"
                     onClick={() => handleDelete(inquiry.id)}
                     disabled={deletingId === inquiry.id}
-                    className="text-red-600 hover:text-red-800 hover:bg-red-50"
+                    className="text-red-800 hover:text-red-900 hover:bg-red-100"
                   >
                     {deletingId === inquiry.id ? (
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-600"></div>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-800"></div>
                     ) : (
                       <Trash2 className="h-4 w-4" />
                     )}

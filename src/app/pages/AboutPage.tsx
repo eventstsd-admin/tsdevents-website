@@ -14,27 +14,32 @@ const team = [
   {
     name: 'Timir Shah',
     role: 'Founder',
-    image: 'https://images.unsplash.com/photo-1739298061707-cefee19941b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWFtJTIwY29sbGFib3JhdGlvbiUyMGJ1c2luZXNzJTIwbWVldGluZ3xlbnwxfHx8fDE3NzQ5NDIwNTB8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    image: 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775468412/Shah_Timir_-_Founder_pkdhp0.jpg',
   },
   {
     name: 'Riddhi Shah',
     role: 'Decorator & Designer',
-    image: 'https://images.unsplash.com/photo-1765438864227-288900d09d26?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBldmVudCUyMHBsYW5uaW5nJTIwdGVhbXxlbnwxfHx8fDE3NzUwMTcwOTN8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    image: 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775468411/Shah_Riddhi_-_Event_Designer_Creative_Designer_1_uoloma.jpg',
   },
   {
-    name: 'Ronak Raval',
-    role: 'Supervisor',
-    image: 'https://images.unsplash.com/photo-1739298061707-cefee19941b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWFtJTIwY29sbGFib3JhdGlvbiUyMGJ1c2luZXNzJTIwbWVldGluZ3xlbnwxfHx8fDE3NzQ5NDIwNTB8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    name: 'Niral Patel',
+    role: 'Event Head',
+    image: 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775468411/Patel_Niral_-_Event_Head_vgrzwn.jpg',
   },
   {
     name: 'Tulsi Raval',
     role: 'Accountant / Designer',
-    image: 'https://images.unsplash.com/photo-1765438864227-288900d09d26?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBldmVudCUyMHBsYW5uaW5nJTIwdGVhbXxlbnwxfHx8fDE3NzUwMTcwOTN8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    image: 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775468411/Raval_Tulsi_-_Account_Head_Back_Office_Head_Event_Designer_1_agcz3q.jpg',
   },
   {
-    name: 'Yuvraj Patel',
-    role: '',
-    image: 'https://images.unsplash.com/photo-1739298061707-cefee19941b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWFtJTIwY29sbGFib3JhdGlvbiUyMGJ1c2luZXNzJTIwbWVldGluZ3xlbnwxfHx8fDE3NzQ5NDIwNTB8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    name: 'Ronak Raval',
+    role: 'Event Manager',
+    image: 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775468411/Raval_Ronak_-_Event_Manager_adjfeq.jpg',
+  },
+  {
+    name: 'Roohi Ravat',
+    role: 'Graphic Designer',
+    image: 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775468411/Ravat_Roohi_-_Graphic_Designer_h03433.jpg',
   },
 ];
 
@@ -272,9 +277,17 @@ export default function AboutPage() {
         },
         {
           '@type': 'Person',
-          name: 'Yuvraj Patel',
-          jobTitle: 'Event Management Team Member',
+          name: 'Niral Patel',
+          jobTitle: 'Event Head',
           worksFor: { '@type': 'Organization', name: 'TSD Events & Decor' },
+          expertise: ['Event Planning', 'Event Coordination', 'Team Leadership'],
+        },
+        {
+          '@type': 'Person',
+          name: 'Roohi Ravat',
+          jobTitle: 'Graphic Designer',
+          worksFor: { '@type': 'Organization', name: 'TSD Events & Decor' },
+          expertise: ['Graphic Design', 'Visual Design', 'Event Branding'],
         },
       ],
     };
@@ -500,9 +513,9 @@ export default function AboutPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1 }}
                   viewport={{ once: true }}
-                  className="bg-white p-8 shadow-sm text-center border-t-4 border-red-600"
+                  className="bg-white p-8 shadow-sm text-center border-t-4 border-red-800"
                 >
-                  <div className="bg-red-600 w-14 h-14 flex items-center justify-center mx-auto mb-6">
+                  <div className="bg-red-800 w-14 h-14 flex items-center justify-center mx-auto mb-6">
                     <Icon className="w-7 h-7 text-white" />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-3">{value.title}</h3>
@@ -568,17 +581,17 @@ export default function AboutPage() {
             </p>
           </motion.div>
 
-          <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
-            {team.slice(0, 3).map((member, idx) => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 max-w-7xl mx-auto">
+            {team.map((member, idx) => (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white overflow-hidden shadow-sm group w-full max-w-xs"
+                className="bg-white overflow-hidden shadow-sm group"
               >
-                <div className="relative h-64 overflow-hidden">
+                <div className="relative aspect-[2/3] overflow-hidden">
                   <img
                     src={member.image}
                     alt={member.name}
@@ -586,35 +599,9 @@ export default function AboutPage() {
                   />
                   <div className="absolute inset-0 bg-black/20" />
                 </div>
-                <div className="p-6 text-center">
-                  <h3 className="text-xl font-bold text-gray-900 mb-1">{member.name}</h3>
-                  <p className="text-red-600 font-medium">{member.role}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-6 max-w-4xl mx-auto mt-6">
-            {team.slice(3).map((member, idx) => (
-              <motion.div
-                key={idx + 3}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: (idx + 3) * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white overflow-hidden shadow-sm group w-full max-w-xs"
-              >
-                <div className="relative h-64 overflow-hidden">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-black/20" />
-                </div>
-                <div className="p-6 text-center">
-                  <h3 className="text-xl font-bold text-gray-900 mb-1">{member.name}</h3>
-                  <p className="text-red-600 font-medium">{member.role}</p>
+                <div className="p-3 text-center">
+                  <h3 className="text-sm font-bold text-gray-900 mb-0.5">{member.name}</h3>
+                  <p className="text-xs text-red-800 font-medium">{member.role}</p>
                 </div>
               </motion.div>
             ))}
@@ -623,7 +610,7 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-red-600 text-white">
+      <section className="py-20 bg-red-800 text-white">
         <div className="container mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -638,7 +625,7 @@ export default function AboutPage() {
             </p>
             <Button
               onClick={() => navigate('/contact')}
-              className="bg-white text-red-600 hover:bg-gray-100 px-10 py-6 rounded-md text-lg font-semibold shadow-lg"
+              className="bg-white text-red-800 hover:bg-gray-100 px-10 py-6 rounded-md text-lg font-semibold shadow-lg"
             >
               Contact Us
             </Button>

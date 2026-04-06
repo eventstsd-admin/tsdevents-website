@@ -3,3 +3,19 @@ node_modules
 build
 dist
 supabase/sqls
+
+# Generated documentation and schema files
+*.md
+*.sql
+!CONTRIBUTING.md
+!README.md
+!supabase/functions/*/README.md
+
+# Unused component variants (deleted)
+# src/app/components/PastEventManager.tsx
+# src/app/components/PastEventUpload.tsx
+# src/app/components/PastEventsManager.tsx
+# src/app/components/PastEventUploadNew.tsx
+# src/app/pages/AdminDashboard.tsx
+# src/app/pages/AdminDashboardNew.tsx
+# src/app/pages/ContactPage.tsx.new

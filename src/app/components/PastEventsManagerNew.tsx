@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
-import { supabase, CATEGORIES, CATEGORIES_WITH_SUBCATEGORIES } from '../../supabase';
+import { supabase } from '../../supabase';
+import { CATEGORIES, CATEGORIES_WITH_SUBCATEGORIES } from '../constants';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Trash2, ChevronDown, Plus, X } from 'lucide-react';
-import { PastEventUploadNew } from './PastEventUploadNew';
+import { GalleryUpload } from './GalleryUpload';
 
 interface PastEvent {
   id: string;
@@ -418,7 +419,7 @@ export function PastEventsManagerNew() {
               {/* Image Upload Section */}
               <div className={`border-2 border-dashed rounded-lg p-4 ${selectedImages.length < 2 ? 'border-red-300 bg-red-50' : 'border-gray-300'}`}>
                 <label className="block text-sm font-medium mb-1">
-                  Event Images * <span className="text-red-600">(Minimum 2 required, Max 5)</span>
+                  Event Images * <span className="text-red-800">(Minimum 2 required, Max 5)</span>
                 </label>
                 <p className="text-xs text-gray-500 mb-3">
                   Upload at least 2 photos to showcase this event
@@ -434,7 +435,7 @@ export function PastEventsManagerNew() {
 
                 {selectedImages.length > 0 && (
                   <div className="space-y-2">
-                    <p className={`text-sm ${selectedImages.length < 2 ? 'text-red-600 font-medium' : 'text-gray-600'}`}>
+                    <p className={`text-sm ${selectedImages.length < 2 ? 'text-red-800 font-medium' : 'text-gray-600'}`}>
                       Selected: {selectedImages.length}/5 images {selectedImages.length < 2 && '(need at least 2)'}
                     </p>
                     {selectedImages.map((file, index) => (
@@ -446,7 +447,7 @@ export function PastEventsManagerNew() {
                         <button
                           type="button"
                           onClick={() => removeImage(index)}
-                          className="text-red-600 hover:text-red-800"
+                          className="text-red-800 hover:text-red-900"
                         >
                           <X size={18} />
                         </button>
@@ -456,7 +457,7 @@ export function PastEventsManagerNew() {
                 )}
                 
                 {selectedImages.length === 0 && (
-                  <p className="text-sm text-red-600">⚠️ Please select at least 2 images</p>
+                  <p className="text-sm text-red-800">⚠️ Please select at least 2 images</p>
                 )}
               </div>
 
@@ -499,7 +500,7 @@ export function PastEventsManagerNew() {
                       e.stopPropagation();
                       handleDeleteEvent(event.id);
                     }}
-                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                    className="text-red-800 hover:text-red-900 hover:bg-red-100"
                   >
                     <Trash2 size={18} />
                   </Button>
@@ -548,7 +549,7 @@ export function PastEventsManagerNew() {
                   {/* Upload Photos Section */}
                   {event.photo_count < 5 && (
                     <div className="mt-6">
-                      <PastEventUploadNew 
+                      <GalleryUpload 
                         eventId={event.id} 
                         eventTitle={event.title}
                         onUploadComplete={fetchEvents}

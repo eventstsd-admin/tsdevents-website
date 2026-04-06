@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { Button } from '../components/ui/button';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import { ChevronRight, ArrowLeft, MessageCircle, Phone, Mail } from 'lucide-react';
-import { CATEGORIES_WITH_SUBCATEGORIES } from '../../supabase';
+import { CATEGORIES_WITH_SUBCATEGORIES } from '../constants';
 // Cloudinary category card image
 const religiousImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312393/ReligiousCat_zak58e.webp';
 import servicesHeroImage from '../images/Hero Fallback/Services/ServiceHero.jpg';
@@ -161,7 +161,7 @@ export default function ServicesPage() {
                         </div>
 
                         {/* Decorative Border */}
-                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-red-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
                       </div>
                     </motion.div>
                   ))}
@@ -213,7 +213,7 @@ export default function ServicesPage() {
                       className="group relative overflow-hidden bg-white border border-gray-200 hover:border-red-400 shadow-sm hover:shadow-md transition-all duration-300"
                     >
                       {/* Top Accent Bar */}
-                      <div className="h-1 bg-red-600" />
+                      <div className="h-1 bg-red-800" />
                       
                       {/* Content */}
                       <div className="p-6">
@@ -223,12 +223,12 @@ export default function ServicesPage() {
                         </span>
                         
                         {/* Title */}
-                        <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-red-600 transition-colors relative z-10">
+                        <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-red-800 transition-colors relative z-10">
                           {subcategory}
                         </h3>
                         
                         {/* Divider */}
-                        <div className="h-0.5 w-12 bg-red-600 mb-4 group-hover:w-20 transition-all duration-300" />
+                        <div className="h-0.5 w-12 bg-red-800 mb-4 group-hover:w-20 transition-all duration-300" />
                         
                         {/* CTA Button */}
                         <Button
@@ -236,7 +236,7 @@ export default function ServicesPage() {
                             e.stopPropagation();
                             navigate(`/contact?service=${encodeURIComponent(subcategory)}`);
                           }}
-                          className="w-full bg-red-600 hover:bg-red-700 text-white font-medium rounded-md transition-all"
+                          className="w-full bg-red-800 hover:bg-red-900 text-white font-medium rounded-md transition-all"
                         >
                           Get a Quote
                           <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -252,7 +252,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Bottom CTA Section */}
-      <section className="bg-red-600 py-16 px-4 relative overflow-hidden">
+      <section className="bg-red-800 py-16 px-4 relative overflow-hidden">
         <div className="container mx-auto max-w-4xl text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -275,7 +275,7 @@ export default function ServicesPage() {
               </Button>
               <Button
                 onClick={() => window.location.href = 'mailto:info@tsdevents.in'}
-                className="bg-white hover:bg-gray-100 text-red-600 px-8 py-4 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
+                className="bg-white hover:bg-gray-100 text-red-800 px-8 py-4 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
               >
                 <Mail className="mr-2 w-5 h-5" />
                 Write an Email

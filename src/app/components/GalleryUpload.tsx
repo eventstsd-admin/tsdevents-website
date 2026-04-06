@@ -4,7 +4,7 @@ import { supabase } from '../../supabase';
 import { Button } from './ui/button';
 import { Upload } from 'lucide-react';
 
-// Image compression function with strict 100KB limit
+// Image compression function with strict 50KB limit
 async function compressImage(file: File): Promise<File> {
   return new Promise((resolve) => {
     const reader = new FileReader();
@@ -54,8 +54,8 @@ async function compressImage(file: File): Promise<File> {
               return;
             }
 
-            // If under 100KB, we're done
-            if (blob.size <= 100 * 1024) {
+            // If under 50KB, we're done
+            if (blob.size <= 50 * 1024) {
               const compressedFile = new File([blob], file.name, {
                 type: 'image/jpeg',
               });
@@ -81,7 +81,7 @@ export function GalleryUpload() {
   const [category, setCategory] = useState('Wedding');
   const [loading, setLoading] = useState(false);
 
-  const MAX_FILE_SIZE = 100 * 1024; // 100KB
+  const MAX_FILE_SIZE = 50 * 1024; // 50KB
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -100,14 +100,14 @@ export function GalleryUpload() {
     try {
       let uploadFile = file;
 
-      // Auto-compress if over 100KB
+      // Auto-compress if over 50KB
       if (file.size > MAX_FILE_SIZE) {
         toast.loading('Compressing image...');
         uploadFile = await compressImage(file);
 
         // Verify compression worked
         if (uploadFile.size > MAX_FILE_SIZE) {
-          toast.error(`Image still too large after compression (${(uploadFile.size / 1024).toFixed(2)}KB). Try a simpler image.`);
+          toast.error(`Image still too large after compression (${(uploadFile.size / 1024).toFixed(2)}KB). 50KB limit exceeded. Try a simpler image.`);
           setLoading(false);
           return;
         }

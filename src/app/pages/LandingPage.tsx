@@ -325,7 +325,7 @@ export default function LandingPage() {
               onClick={() => setCurrentSlide(idx)}
               className={`transition-all duration-300 ${
                 currentSlide === idx
-                  ? 'bg-red-600 w-8 h-2 rounded-sm'
+                  ? 'bg-red-800 w-8 h-2 rounded-sm'
                   : 'bg-white/50 w-2 h-2 rounded-sm hover:bg-white/70'
               }`}
               aria-label={`Go to slide ${idx + 1}`}
@@ -347,7 +347,7 @@ export default function LandingPage() {
                 viewport={{ once: true }}
                 className="text-center p-6 bg-gray-50 border border-gray-100 hover:shadow-md transition-shadow"
               >
-                <h3 className="text-4xl md:text-5xl font-bold text-red-600 mb-2">
+                <h3 className="text-4xl md:text-5xl font-bold text-red-800 mb-2">
                   {stat.number}
                 </h3>
                 <p className="text-gray-700 font-medium">{stat.label}</p>
@@ -382,7 +382,7 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="lg:col-span-3 bg-white p-8 md:p-12 border-l-4 border-red-600"
+              className="lg:col-span-3 bg-white p-8 md:p-12 border-l-4 border-red-800"
             >
               <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
                 Our Mission
@@ -414,7 +414,7 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
-              className="lg:col-span-1 bg-white p-8 border-l-4 border-red-600"
+              className="lg:col-span-1 bg-white p-8 border-l-4 border-red-800"
             >
               <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
                 Our Promise
@@ -459,7 +459,7 @@ export default function LandingPage() {
               </Button>
               <Button
                 onClick={() => window.location.href = 'tel:+919825413606'}
-                className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
+                className="bg-red-800 hover:bg-red-900 text-white px-8 py-4 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
               >
                 <Phone className="mr-2 w-5 h-5" />
                 Call Us
@@ -563,7 +563,7 @@ export default function LandingPage() {
                   <div className="max-w-4xl mx-auto flex flex-col justify-between min-h-[300px]">
                     {/* Quote Icon */}
                     <div className="mb-6">
-                      <Quote className="w-12 h-12 text-red-600" />
+                      <Quote className="w-12 h-12 text-red-800" />
                     </div>
 
                     {/* Rating */}
@@ -580,7 +580,7 @@ export default function LandingPage() {
 
                     {/* Author Info */}
                     <div className="flex items-center gap-4 pt-6 border-t border-gray-200">
-                      <div className="w-14 h-14 bg-red-600 flex items-center justify-center text-white text-lg font-bold flex-shrink-0">
+                      <div className="w-14 h-14 bg-red-800 flex items-center justify-center text-white text-lg font-bold flex-shrink-0">
                         {testimonial.name.charAt(0)}
                       </div>
                       <div>
@@ -670,7 +670,7 @@ export default function LandingPage() {
           <div className="text-center">
             <Button
               onClick={() => navigate('/events')}
-              className="bg-red-600 hover:bg-red-700 text-white px-8 py-6 rounded-md text-lg font-semibold shadow-lg"
+              className="bg-red-800 hover:bg-red-900 text-white px-8 py-6 rounded-md text-lg font-semibold shadow-lg"
             >
               View Full Gallery
               <ArrowRight className="ml-2" />
@@ -680,7 +680,7 @@ export default function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-red-600 text-white relative overflow-hidden">
+      <section className="py-20 bg-red-800 text-white relative overflow-hidden">
         <div className="container mx-auto px-4 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -705,7 +705,7 @@ export default function LandingPage() {
               </Button>
               <Button
                 onClick={() => navigate('/contact')}
-                className="bg-white hover:bg-gray-100 text-red-600 px-10 py-6 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
+                className="bg-white hover:bg-gray-100 text-red-800 px-10 py-6 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
               >
                 Contact Us
               </Button>

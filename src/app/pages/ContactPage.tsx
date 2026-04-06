@@ -5,7 +5,7 @@ import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Textarea } from '../components/ui/textarea';
 import { toast } from 'sonner';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import contactHeroImage from '../images/Hero Fallback/Contact/Contact.jpg';
@@ -14,21 +14,74 @@ import contactHeroImage from '../images/Hero Fallback/Contact/Contact.jpg';
 const contactHeroUrl = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312246/Contact_n6tmxs.webp';
 const contactHeroImageToUse = contactHeroUrl;
 import { inquiryOperations } from '../../supabase';
+import { CATEGORIES_WITH_SUBCATEGORIES } from '../constants';
 
 // Service-specific quote message templates
 const serviceMessages: Record<string, string> = {
-  'Traditional Weddings': 'I am interested in booking TSD Events & Decor for a traditional wedding celebration. Please provide details about your services, packages, and availability for my preferred dates.',
-  'Destination Weddings': 'I would like to inquire about destination wedding services. Please share information about your experience, locations, and customized packages for international or exotic venue weddings.',
-  'Reception Planning': 'I am interested in professional reception planning services. Could you please provide details about your reception packages, catering options, and decoration services?',
-  'Conferences': 'I would like to discuss conference organization services for our upcoming corporate event. Please share your experience with similar events and what services you offer.',
-  'Team Building': 'I am interested in organizing a team building event for our company. Could you provide information about your team building packages and activity options?',
-  'Product Launches': 'We are planning a product launch event and would like to inquire about your event organization services. Please share your experience with similar launches.',
-  'Birthday Parties': 'I would like to plan a memorable birthday party. Could you please share your theme options, decoration services, and party package details?',
-  'Anniversary Events': 'We are celebrating a special anniversary and would like your help to organize a memorable event. Please share your services and packages.',
-  'Social Gatherings': 'I am interested in organizing a social gathering event. Could you please provide information about your services and custom packages?',
-  'Concerts & Shows': 'We are interested in organizing a live entertainment event. Please share your experience with concerts/shows and what services you provide.',
-  'Charity Galas': 'We are planning a charity gala and need professional event organization. Could you share your experience with similar fundraising events?',
-  'Cultural Festivals': 'I would like to organize a cultural festival event. Could you please share your experience with cultural celebrations and available services?',
+  // Wedding services
+  'Kankotri Lekhan': 'I am interested in booking TSD Events & Decor for Kankotri Lekhan. Please provide details about your services, packages, and availability.',
+  'Haldi': 'I would like to inquire about Haldi ceremony services. Please share information about your decoration, setup, and package details.',
+  'Mehndi': 'I am interested in Mehndi ceremony planning and decoration. Could you please provide details about your services and packages?',
+  'Sangit': 'I would like to organize a Sangit ceremony and need professional planning and decoration. Please share your services and packages.',
+  'Entry': 'I am interested in booking your services for wedding entry decoration and management. Please provide details about your packages.',
+  'Whole Decoration': 'I would like to book complete wedding decoration services. Please share your experience and package options.',
+  // Religious services
+  '99 Yatra': 'I am interested in organizing a 99 Yatra event. Please provide details about your services and coordination experience.',
+  'Updhan Tap': 'I would like to plan an Updhan Tap ceremony. Could you please share your services and packages?',
+  'Chaturmas': 'I am interested in Chaturmas event planning. Please provide information about your services and packages.',
+  'Shibir': 'I would like to organize a Shibir event. Please share your experience and services.',
+  'Aatham': 'I am interested in booking your services for Aatham ceremony. Please provide details.',
+  'Oli': 'I would like to plan an Oli event. Could you share your services and packages?',
+  'Chhari Palit Sangh': 'I am interested in Chhari Palit Sangh event organization. Please provide details about your services.',
+  'Bus - Train - Plain Yatra Pravas': 'I am interested in organizing travel/Yatra event services. Please provide information.',
+  // Corporate services
+  'Exhibition': 'I would like to discuss exhibition organization services for our upcoming event. Please share your experience and packages.',
+  'Brand Launch': 'I am interested in organizing a brand launch event. Could you provide details about your services and experience?',
+  'Store Inauguration': 'I would like to plan a store inauguration event. Please share your services and packages.',
+  'Branding': 'I am interested in branding event services. Could you provide information about your packages?',
+  'Annual Function': 'I am interested in organizing an annual function. Please share your experience and services.',
+  'Get Together': 'I would like to organize a corporate get together event. Please provide details about your services.',
+  'Festival Celebration': 'I am interested in planning a festival celebration. Please share your services and packages.',
+  // Decoration services
+  'Birthday Party': 'I would like to plan a memorable birthday party. Could you please share your decoration services and party package details?',
+  'Mandap Decoration': 'I am interested in Mandap decoration services. Please provide details about your designs and packages.',
+  'Engagement Decoration': 'I would like to book engagement decoration services. Please share your package options.',
+  'Baby Shower': 'I am interested in baby shower decoration and planning. Could you share your services and packages?',
+  'Anniversary Decoration': 'I would like to plan a special anniversary celebration with decoration. Please share your services.',
+};
+
+// Map service names to event types
+const serviceToEventTypeMap: Record<string, string> = {
+  // Wedding services
+  'Kankotri Lekhan': 'Wedding',
+  'Haldi': 'Wedding',
+  'Mehndi': 'Wedding',
+  'Sangit': 'Wedding',
+  'Entry': 'Wedding',
+  'Whole Decoration': 'Wedding',
+  // Religious services
+  '99 Yatra': 'Religious Ceremony',
+  'Updhan Tap': 'Religious Ceremony',
+  'Chaturmas': 'Religious Ceremony',
+  'Shibir': 'Religious Ceremony',
+  'Aatham': 'Religious Ceremony',
+  'Oli': 'Religious Ceremony',
+  'Chhari Palit Sangh': 'Religious Ceremony',
+  'Bus - Train - Plain Yatra Pravas': 'Religious Ceremony',
+  // Corporate Event services
+  'Exhibition': 'Corporate Event',
+  'Brand Launch': 'Corporate Event',
+  'Store Inauguration': 'Corporate Event',
+  'Branding': 'Corporate Event',
+  'Annual Function': 'Corporate Event',
+  'Get Together': 'Corporate Event',
+  'Festival Celebration': 'Social Gathering',
+  // Decoration services
+  'Birthday Party': 'Birthday Party',
+  'Mandap Decoration': 'Wedding',
+  'Engagement Decoration': 'Wedding',
+  'Baby Shower': 'Social Gathering',
+  'Anniversary Decoration': 'Anniversary',
 };
 
 export default function ContactPage() {
@@ -39,32 +92,52 @@ export default function ContactPage() {
     name: '',
     email: '',
     phone: '',
+    eventCategory: '',
     eventType: '',
     subject: '',
     message: '',
   });
 
-  const eventTypes = [
-    'Wedding',
-    'Corporate Event',
-    'Birthday Party',
-    'Anniversary',
-    'Religious Ceremony',
-    'Social Gathering',
-    'Other',
-  ];
+  const prevEventTypeRef = useRef<string>('');
 
   // Prefill form if service parameter is provided
   useEffect(() => {
     if (serviceParam) {
+      // Find which category this service belongs to
+      let foundCategory = '';
+      for (const [category, subcategories] of Object.entries(CATEGORIES_WITH_SUBCATEGORIES)) {
+        if (subcategories.includes(serviceParam)) {
+          foundCategory = category;
+          break;
+        }
+      }
+
       const message = serviceMessages[serviceParam] || `I am interested in booking TSD Events & Decor for ${serviceParam}. Please provide more information about your services and packages.`;
       setFormData(prev => ({
         ...prev,
         subject: `Quote Request - ${serviceParam}`,
         message,
+        eventCategory: foundCategory,
+        eventType: serviceParam,
       }));
     }
   }, [serviceParam]);
+
+  // Autofill message when user selects event type
+  useEffect(() => {
+    if (formData.eventType && formData.eventType !== prevEventTypeRef.current) {
+      prevEventTypeRef.current = formData.eventType;
+      
+      if (formData.eventType in serviceMessages) {
+        const message = serviceMessages[formData.eventType];
+        setFormData(prev => ({
+          ...prev,
+          subject: `Quote Request - ${formData.eventType}`,
+          message,
+        }));
+      }
+    }
+  }, [formData.eventType]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,11 +150,11 @@ export default function ContactPage() {
       await inquiryOperations.create({
         customer_name: formData.name,
         email: formData.email,
-        message: `${formData.eventType ? `Event Type: ${formData.eventType}\n` : ''}${formData.subject ? `Subject: ${formData.subject}\n\n` : ''}${formData.message}${formData.phone ? `\n\nPhone: ${formData.phone}` : ''}`,
+        message: `${formData.eventCategory ? `Event Category: ${formData.eventCategory}\n` : ''}${formData.eventType ? `Event Type: ${formData.eventType}\n` : ''}${formData.subject ? `Subject: ${formData.subject}\n\n` : ''}${formData.message}${formData.phone ? `\n\nPhone: ${formData.phone}` : ''}`,
       });
       
       toast.success('Message sent successfully! We will get back to you soon.');
-      setFormData({ name: '', email: '', phone: '', eventType: '', subject: '', message: '' });
+      setFormData({ name: '', email: '', phone: '', eventCategory: '', eventType: '', subject: '', message: '' });
     } catch (error) {
       console.error('Error submitting inquiry:', error);
       toast.error('Failed to send message. Please try again.');
@@ -95,7 +168,7 @@ export default function ContactPage() {
     }
 
     // Format the message for WhatsApp
-    const whatsappMessage = `Hi TSD Events & Decor,\n\nName: ${formData.name}\nEmail: ${formData.email}\n${formData.phone ? `Phone: ${formData.phone}\n` : ''}${formData.eventType ? `Event Type: ${formData.eventType}\n` : ''}${formData.subject ? `Subject: ${formData.subject}\n` : ''}Message: ${formData.message}`;
+    const whatsappMessage = `Hi TSD Events & Decor,\n\nName: ${formData.name}\nEmail: ${formData.email}\n${formData.phone ? `Phone: ${formData.phone}\n` : ''}${formData.eventCategory ? `Event Category: ${formData.eventCategory}\n` : ''}${formData.eventType ? `Event Type: ${formData.eventType}\n` : ''}${formData.subject ? `Subject: ${formData.subject}\n` : ''}Message: ${formData.message}`;
     
     // WhatsApp Business number (replace with actual number)
     const phoneNumber = '919825413606';
@@ -161,10 +234,11 @@ export default function ContactPage() {
             <h2 className="text-3xl font-bold text-gray-900 mb-2 text-center" style={{ fontFamily: 'Playfair Display, serif' }}>Send Us a Message</h2>
             <p className="text-gray-600 mb-8 text-center">Fill out the form and we'll get back to you within 24 hours.</p>
             <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Name, Phone, Email - All in one row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
                   <Label htmlFor="name" className="flex items-center gap-2 mb-2">
-                    <User className="w-4 h-4 text-red-600" />
+                    <User className="w-4 h-4 text-red-800" />
                     Full Name *
                   </Label>
                   <Input
@@ -177,7 +251,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <Label htmlFor="phone" className="flex items-center gap-2 mb-2">
-                    <Phone className="w-4 h-4 text-red-600" />
+                    <Phone className="w-4 h-4 text-red-800" />
                     Phone Number *
                   </Label>
                   <Input
@@ -189,11 +263,9 @@ export default function ContactPage() {
                     className="p-4 border-2 focus:border-red-500 transition-colors"
                   />
                 </div>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="email" className="flex items-center gap-2 mb-2">
-                    <Mail className="w-4 h-4 text-red-600" />
+                    <Mail className="w-4 h-4 text-red-800" />
                     Email Address *
                   </Label>
                   <Input
@@ -205,27 +277,52 @@ export default function ContactPage() {
                     className="p-4 border-2 focus:border-red-500 transition-colors"
                   />
                 </div>
+              </div>
+
+              {/* Event Category and Event Type - Both in one row */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="eventType" className="flex items-center gap-2 mb-2">
-                    <Calendar className="w-4 h-4 text-red-600" />
-                    Event Type
+                  <Label htmlFor="eventCategory" className="flex items-center gap-2 mb-2">
+                    <Calendar className="w-4 h-4 text-red-800" />
+                    Event Category
                   </Label>
                   <select
-                    id="eventType"
-                    value={formData.eventType}
-                    onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
+                    id="eventCategory"
+                    value={formData.eventCategory}
+                    onChange={(e) => setFormData({ ...formData, eventCategory: e.target.value, eventType: '' })}
                     className="w-full p-4 border-2 focus:border-red-500 transition-colors bg-white text-gray-700"
                   >
-                    <option value="">Select event type</option>
-                    {eventTypes.map((type) => (
-                      <option key={type} value={type}>{type}</option>
+                    <option value="">Select event category</option>
+                    {Object.keys(CATEGORIES_WITH_SUBCATEGORIES).map((category) => (
+                      <option key={category} value={category}>{category}</option>
                     ))}
                   </select>
                 </div>
+
+                {/* Event Type Dropdown - Only appears when category is selected */}
+                {formData.eventCategory && (
+                  <div>
+                    <Label htmlFor="eventType" className="flex items-center gap-2 mb-2">
+                      <Calendar className="w-4 h-4 text-red-800" />
+                      Event Type
+                    </Label>
+                    <select
+                      id="eventType"
+                      value={formData.eventType}
+                      onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
+                      className="w-full p-4 border-2 focus:border-red-500 transition-colors bg-white text-gray-700"
+                    >
+                      <option value="">Select event type</option>
+                      {CATEGORIES_WITH_SUBCATEGORIES[formData.eventCategory].map((subcategory) => (
+                        <option key={subcategory} value={subcategory}>{subcategory}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
               </div>
               <div>
                 <Label htmlFor="message" className="flex items-center gap-2 mb-2">
-                  <MessageCircle className="w-4 h-4 text-red-600" />
+                  <MessageCircle className="w-4 h-4 text-red-800" />
                   Message *
                 </Label>
                 <Textarea
@@ -239,7 +336,7 @@ export default function ContactPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                 <Button
                   type="submit"
-                  className="bg-red-600 hover:bg-red-700 text-white py-6 rounded-md text-lg font-semibold transition-all duration-300"
+                  className="bg-red-800 hover:bg-red-900 text-white py-6 rounded-md text-lg font-semibold transition-all duration-300"
                 >
                   <Send className="mr-2 w-5 h-5" />
                   Send Message
@@ -273,7 +370,7 @@ export default function ContactPage() {
                 <div>
                   <h3 className="font-bold text-gray-900 mb-1">Phone</h3>
                   <p className="text-gray-600">+91 98254 13606</p>
-                  <a href="tel:+919825413606" className="text-red-600 hover:text-red-700 text-sm font-medium mt-1 inline-block">
+                  <a href="tel:+919825413606" className="text-red-800 hover:text-red-900 text-sm font-medium mt-1 inline-block">
                     Call Now
                   </a>
                 </div>
@@ -292,14 +389,14 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="flex items-start space-x-4 p-6 bg-gray-50 border-l-4 border-red-600">
-                <div className="bg-red-600 p-3">
+              <div className="flex items-start space-x-4 p-6 bg-gray-50 border-l-4 border-red-800">
+                <div className="bg-red-800 p-3">
                   <MapPin className="w-5 h-5 text-white" />
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-900 mb-1">Location</h3>
                   <p className="text-gray-600">3, Jamnasagar Flats, opp. Dharmeshwar Mahadev Road, Sabarmati Society, Dharmnagar, Sabarmati, Ahmedabad, Gujarat 380005</p>
-                  <a href="https://maps.app.goo.gl/oSoJT4RoNKFvVRHU9" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:text-red-700 text-sm font-medium mt-1 inline-block">
+                  <a href="https://maps.app.goo.gl/oSoJT4RoNKFvVRHU9" target="_blank" rel="noopener noreferrer" className="text-red-800 hover:text-red-900 text-sm font-medium mt-1 inline-block">
                     Get Directions
                   </a>
                 </div>

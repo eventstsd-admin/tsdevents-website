@@ -176,7 +176,7 @@ export function BookingFlow() {
                         }`}
                       >
                         {formData.eventType === type.id && (
-                          <div className="absolute top-4 right-4 bg-red-600 text-white p-2 shadow-md z-20">
+                          <div className="absolute top-4 right-4 bg-red-800 text-white p-2 shadow-md z-20">
                             <Check className="w-5 h-5" />
                           </div>
                         )}
@@ -187,7 +187,7 @@ export function BookingFlow() {
                           >
                             <Icon className="w-10 h-10 text-white" />
                           </div>
-                          <h3 className="text-2xl font-bold text-gray-900 group-hover:text-red-600 transition-colors text-center">{type.name}</h3>
+                          <h3 className="text-2xl font-bold text-gray-900 group-hover:text-red-800 transition-colors text-center">{type.name}</h3>
                         </div>
                       </button>
                     );
@@ -275,16 +275,16 @@ export function BookingFlow() {
                           >
                             {formData.services.includes(service.id) && (
                               <div className="absolute top-2 right-2 z-10">
-                                <div className="bg-red-600 text-white p-1 shadow-md">
+                                <div className="bg-red-800 text-white p-1 shadow-md">
                                   <Check className="w-4 h-4" />
                                 </div>
                               </div>
                             )}
                             
                             <div className="relative z-10 mb-2">
-                              <Icon className="w-8 h-8 text-red-500 group-hover:text-red-600 transition-colors" />
+                              <Icon className="w-8 h-8 text-red-700 group-hover:text-red-800 transition-colors" />
                             </div>
-                            <p className="font-semibold text-gray-900 text-sm group-hover:text-red-600 transition-colors relative z-10">
+                            <p className="font-semibold text-gray-900 text-sm group-hover:text-red-800 transition-colors relative z-10">
                               {service.name}
                             </p>
                           </button>
@@ -431,7 +431,7 @@ export function BookingFlow() {
               {currentStep < 4 ? (
                 <Button
                   onClick={handleNext}
-                  className="bg-red-600 hover:bg-red-700 text-white px-8 py-6 text-lg"
+                  className="bg-red-800 hover:bg-red-900 text-white px-8 py-6 text-lg"
                 >
                   Next
                   <ChevronRight className="ml-2" />

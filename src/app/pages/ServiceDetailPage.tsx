@@ -155,7 +155,7 @@ export default function ServiceDetailPage() {
           <p className="text-gray-600 mb-6">The service you're looking for doesn't exist.</p>
           <Button
             onClick={() => navigate('/services')}
-            className="bg-red-600 hover:bg-red-700 text-white px-8 py-3"
+            className="bg-red-800 hover:bg-red-900 text-white px-8 py-3"
           >
             Back to Services
           </Button>
@@ -259,15 +259,15 @@ export default function ServiceDetailPage() {
                     <h3 className="text-2xl font-bold text-gray-900 mb-3">{event.title}</h3>
                     <div className="flex flex-wrap gap-3 mb-4">
                       <span className="flex items-center text-sm text-gray-600 bg-gray-100 px-3 py-1.5">
-                        <Calendar className="w-4 h-4 mr-1.5 text-red-600" />
+                        <Calendar className="w-4 h-4 mr-1.5 text-red-800" />
                         {event.date}
                       </span>
                       <span className="flex items-center text-sm text-gray-600 bg-gray-100 px-3 py-1.5">
-                        <MapPin className="w-4 h-4 mr-1.5 text-red-600" />
+                        <MapPin className="w-4 h-4 mr-1.5 text-red-800" />
                         {event.location}
                       </span>
                       <span className="flex items-center text-sm text-gray-600 bg-gray-100 px-3 py-1.5">
-                        <Users className="w-4 h-4 mr-1.5 text-red-600" />
+                        <Users className="w-4 h-4 mr-1.5 text-red-800" />
                         {event.guests} Guests
                       </span>
                     </div>
@@ -275,7 +275,7 @@ export default function ServiceDetailPage() {
                     <div>
                       <Button
                         onClick={() => navigate(`/contact?service=${encodeURIComponent(service.title)}`)}
-                        className="bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 shadow-md transition-all duration-300"
+                        className="bg-red-800 hover:bg-red-900 text-white px-6 py-2.5 shadow-md transition-all duration-300"
                       >
                         Get a Quote
                         <ArrowRight className="ml-2 w-4 h-4" />
@@ -290,7 +290,7 @@ export default function ServiceDetailPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-red-600 text-white">
+      <section className="py-20 bg-red-800 text-white">
         <div className="container mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -306,7 +306,7 @@ export default function ServiceDetailPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 onClick={() => navigate(`/contact?service=${encodeURIComponent(service.title)}`)}
-                className="bg-white text-red-600 hover:bg-gray-100 px-10 py-6 text-lg font-semibold shadow-lg"
+                className="bg-white text-red-800 hover:bg-gray-100 px-10 py-6 text-lg font-semibold shadow-lg"
               >
                 Contact Us
                 <ArrowRight className="ml-2" />

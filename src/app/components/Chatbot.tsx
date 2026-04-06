@@ -167,7 +167,7 @@ export function Chatbot({ hideWhatsAppButton = false }: { hideWhatsAppButton?: b
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-6 right-6 z-50 bg-red-600 text-white p-4 rounded-full shadow-xl hover:bg-red-700 transition-colors"
+            className="fixed bottom-6 right-6 z-50 bg-red-800 text-white p-4 rounded-full shadow-xl hover:bg-red-900 transition-colors"
             style={{ fontFamily: 'Poppins, sans-serif' }}
           >
             <MessageCircle size={28} />
@@ -239,7 +239,7 @@ export function Chatbot({ hideWhatsAppButton = false }: { hideWhatsAppButton?: b
                 <Button
                   onClick={handleSend}
                   disabled={isLoading}
-                  className="bg-red-600 text-white p-2 rounded-full hover:bg-red-700 hover:shadow-lg disabled:bg-gray-400 disabled:cursor-not-allowed"
+                  className="bg-red-800 text-white p-2 rounded-full hover:bg-red-900 hover:shadow-lg disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
                   {isLoading ? <Loader size={20} className="animate-spin" /> : <Send size={20} />}
                 </Button>
