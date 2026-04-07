@@ -22,7 +22,7 @@ export function RootLayout() {
   return (
     <div className="min-h-screen bg-white" style={{ fontFamily: 'Poppins, sans-serif' }}>
       {!isAdminPage && <Header />}
-      <main>
+      <main role="main" aria-label="Page content">
         <Outlet />
       </main>
       {!isAdminPage && <Footer />}

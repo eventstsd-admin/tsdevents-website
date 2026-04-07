@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router';
 import { useEffect } from 'react';
 import { Button } from '../components/ui/button';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
-import aboutHeroImage from '../images/Hero Fallback/About us/about us.jpg';
-
 // Cloudinary URL
 const aboutHeroUrl = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312256/about_us_z7oifs.webp';
 const aboutHeroImageToUse = aboutHeroUrl;
@@ -14,7 +12,7 @@ const team = [
   {
     name: 'Timir Shah',
     role: 'Founder',
-    image: 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775468412/Shah_Timir_-_Founder_pkdhp0.jpg',
+    image: 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775568960/WhatsApp_Image_2026-04-07_at_10.39.51_o3t32o.jpg',
   },
   {
     name: 'Riddhi Shah',
@@ -22,7 +20,7 @@ const team = [
     image: 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775468411/Shah_Riddhi_-_Event_Designer_Creative_Designer_1_uoloma.jpg',
   },
   {
-    name: 'Niral Patel',
+    name: 'Niraj Patel',
     role: 'Event Head',
     image: 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775468411/Patel_Niral_-_Event_Head_vgrzwn.jpg',
   },
@@ -72,114 +70,81 @@ export default function AboutPage() {
 
   // Add Premium JSON-LD Structured Data for SEO (hidden from frontend)
   useEffect(() => {
-    // 1. LOCAL BUSINESS SCHEMA - Critical for "event management in india"
+    // 1. LOCAL BUSINESS SCHEMA
     const localBusinessSchema = {
       '@context': 'https://schema.org',
       '@type': ['LocalBusiness', 'EventPlanningBusiness'],
-      '@id': 'https://tsdeventsanddecor.com',
+      '@id': 'https://tsdevents.in',
       name: 'TSD Events & Decor',
-      alternateName: ['TSD Events', 'TSD Decor', 'TSD Event Management'],
-      description: 'Best event management company in India | Professional wedding planners and corporate event organizers | Premier event decoration services',
-      url: 'https://tsdeventsanddecor.com',
-      telephone: '+91-XXXX-XXXX-XXXX',
-      email: 'contact@tsdeventsanddecor.com',
+      alternateName: ['TSD Events', 'TSD Decor', 'TSD Event and Decor', 'TSD Events and Decor'],
+      description: 'TSD Events & Decor is the best event management and decoration company in Ahmedabad, Gujarat. Professional wedding planners, corporate event organizers, and premier event decoration services since 2013.',
+      url: 'https://tsdevents.in',
+      telephone: '+919825413606',
+      email: 'info@tsdevents.in',
       foundingDate: '2013',
       foundingLocation: {
         '@type': 'Place',
-        name: 'India',
+        name: 'Ahmedabad, Gujarat, India',
+      },
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '3, Jamnasagar Flats, opp. Dharmeshwar Mahadev Road, Sabarmati Society, Dharmnagar',
+        addressLocality: 'Ahmedabad',
+        addressRegion: 'Gujarat',
+        postalCode: '380005',
+        addressCountry: 'IN',
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: 23.0787576,
+        longitude: 72.5917318,
       },
       areaServed: [
-        {
-          '@type': 'Country',
-          name: 'India',
-        },
-        {
-          '@type': 'State',
-          name: 'Gujarat',
-        },
-        {
-          '@type': 'City',
-          name: 'Surat',
-        },
+        { '@type': 'City', name: 'Ahmedabad' },
+        { '@type': 'State', name: 'Gujarat' },
+        { '@type': 'Country', name: 'India' },
       ],
       aggregateRating: {
         '@type': 'AggregateRating',
         ratingValue: '4.9',
-        ratingCount: '450',
+        ratingCount: '300',
         bestRating: '5',
         worstRating: '1',
       },
-      priceRange: '₹2 Lakh - ₹50 Lakh',
-      contactPoint: [
+      priceRange: '₹50,000 - ₹50,00,000',
+      openingHoursSpecification: [
         {
-          '@type': 'ContactPoint',
-          contactType: 'Customer Service',
-          telephone: '+91-XXXX-XXXX-XXXX',
-          email: 'contact@tsdeventsanddecor.com',
-          availableLanguageId: ['en', 'gu'],
-          areaServed: 'India',
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+          opens: '09:00',
+          closes: '19:00',
         },
       ],
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'Customer Service',
+        telephone: '+919825413606',
+        email: 'info@tsdevents.in',
+        availableLanguage: ['English', 'Hindi', 'Gujarati'],
+        areaServed: 'IN',
+      },
       sameAs: [
-        'https://www.facebook.com/tsdeventsanddecor',
-        'https://www.instagram.com/tsdeventsanddecor',
-        'https://www.youtube.com/@tsdeventsanddecor',
+        'https://www.instagram.com/tsd_events_decor/',
+        'https://maps.app.goo.gl/oSoJT4RoNKFvVRHU9',
       ],
-      image: {
-        '@type': 'ImageObject',
-        url: 'https://tsdeventsanddecor.com/logo.png',
-        width: 500,
-        height: 500,
+      image: 'https://tsdevents.in/icon.svg',
+      logo: 'https://tsdevents.in/icon.svg',
+      founder: {
+        '@type': 'Person',
+        name: 'Timir Shah',
+      },
+      numberOfEmployees: {
+        '@type': 'QuantitativeValue',
+        value: 6,
       },
     };
 
-    // 2. ORGANIZATION WITH SERVICES SCHEMA
-    const organizationSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'Organization',
-      '@id': 'https://tsdeventsanddecor.com',
-      name: 'TSD Events & Decor - Event Planning & Management Company India',
-      url: 'https://tsdeventsanddecor.com',
-      description: 'Leading event management company in India specializing in wedding planning, corporate events, and event decoration services',
-      foundingDate: '2013',
-      numberOfEmployees: 5,
-      knowsAbout: [
-        'Event Planning',
-        'Event Management',
-        'Wedding Planning',
-        'Corporate Event Management',
-        'Event Decoration',
-        'Venue Selection',
-        'Catering Coordination',
-        'Entertainment Booking',
-        'Destination Weddings',
-        'Religious Ceremonies',
-        'Birthday Celebrations',
-        'Anniversary Events',
-      ],
-      hasOfferingDetails: [
-        {
-          '@type': 'Offer',
-          name: 'Wedding Event Planning',
-          description: 'Professional wedding planning services including traditional Indian weddings and destination weddings',
-          url: 'https://tsdeventsanddecor.com/services/weddings',
-        },
-        {
-          '@type': 'Offer',
-          name: 'Corporate Event Management',
-          description: 'Expert corporate event organization for conferences, product launches, and corporate functions',
-          url: 'https://tsdeventsanddecor.com/services/corporate',
-        },
-        {
-          '@type': 'Offer',
-          name: 'Event Decoration',
-          description: 'Professional event decoration and décor design services',
-          url: 'https://tsdeventsanddecor.com/services/decoration',
-        },
-      ],
-    };
-
-    // 3. BREADCRUMB LIST SCHEMA
+    // 2. BREADCRUMB LIST SCHEMA
     const breadcrumbSchema = {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
@@ -188,233 +153,118 @@ export default function AboutPage() {
           '@type': 'ListItem',
           position: 1,
           name: 'Home',
-          item: 'https://tsdeventsanddecor.com',
+          item: 'https://tsdevents.in',
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'About',
-          item: 'https://tsdeventsanddecor.com/about',
+          item: 'https://tsdevents.in/about',
         },
       ],
     };
 
-    // 4. SERVICE SCHEMA - Multiple Services
+    // 3. SERVICE SCHEMA
     const servicesSchema = {
       '@context': 'https://schema.org',
-      '@type': 'LocalBusiness',
-      name: 'TSD Events & Decor Event Management Services',
-      hasService: [
-        {
-          '@type': 'Service',
-          name: 'Wedding Event Planning in India',
-          description: 'Professional wedding planning services for traditional Indian weddings, destination weddings, and intimate ceremonies across India',
-          provider: { '@type': 'Organization', name: 'TSD Events & Decor' },
-          areaServed: 'India',
-          availableLanguage: ['en', 'gu'],
-          serviceType: 'Event Planning',
-        },
-        {
-          '@type': 'Service',
-          name: 'Corporate Event Management',
-          description: 'Expert corporate event organization including conferences, product launches, team building events, and business celebrations',
-          provider: { '@type': 'Organization', name: 'TSD Events & Decor' },
-          areaServed: 'India',
-          serviceType: 'Event Management',
-        },
-        {
-          '@type': 'Service',
-          name: 'Event Decoration Services',
-          description: 'Professional event decoration and décor design for all types of celebrations and corporate functions',
-          provider: { '@type': 'Organization', name: 'TSD Events & Decor' },
-          areaServed: 'India',
-          serviceType: 'Decoration',
-        },
-        {
-          '@type': 'Service',
-          name: 'Religious & Private Celebration Planning',
-          description: 'Specialized religious ceremony planning including birthday parties, anniversaries, and family celebrations',
-          provider: { '@type': 'Organization', name: 'TSD Events & Decor' },
-          areaServed: 'India',
-          serviceType: 'Event Planning',
-        },
+      '@type': 'Service',
+      serviceType: 'Event Management and Decoration',
+      provider: {
+        '@type': 'LocalBusiness',
+        name: 'TSD Events & Decor',
+        url: 'https://tsdevents.in',
+      },
+      areaServed: [
+        { '@type': 'City', name: 'Ahmedabad' },
+        { '@type': 'State', name: 'Gujarat' },
+        { '@type': 'Country', name: 'India' },
       ],
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Event Services',
+        itemListElement: [
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Wedding Event Planning', description: 'Kankotri Lekhan, Haldi, Mehndi, Sangit, Entry, Whole Decoration' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Corporate Event Management', description: 'Exhibition, Brand Launch, Store Inauguration, Annual Function' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Religious Ceremony Planning', description: '99 Yatra, Updhan Tap, Chaturmas, Shibir, Aatham, Oli' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Decoration Services', description: 'Birthday Party, Mandap Decoration, Engagement, Baby Shower, Anniversary' } },
+        ],
+      },
     };
 
-    // 5. TEAM MEMBERS - Enhanced Schema
+    // 4. TEAM MEMBERS SCHEMA
     const teamSchema = {
       '@context': 'https://schema.org',
       '@type': 'Organization',
-      name: 'TSD Events & Decor Professional Team',
+      name: 'TSD Events & Decor',
+      url: 'https://tsdevents.in',
       member: [
         {
           '@type': 'Person',
           name: 'Timir Shah',
-          jobTitle: 'Founder & CEO - Event Planning Expert',
+          jobTitle: 'Founder',
           worksFor: { '@type': 'Organization', name: 'TSD Events & Decor' },
-          expertise: ['Event Planning', 'Event Management', 'Wedding Planning'],
         },
         {
           '@type': 'Person',
           name: 'Riddhi Shah',
-          jobTitle: 'Decoration & Design Specialist',
+          jobTitle: 'Decorator & Designer',
           worksFor: { '@type': 'Organization', name: 'TSD Events & Decor' },
-          expertise: ['Event Decoration', 'Interior Design', 'Creative Design', 'Décor Consulting'],
         },
         {
           '@type': 'Person',
-          name: 'Ronak Raval',
-          jobTitle: 'Event Supervisor & Coordinator',
+          name: 'Niraj Patel',
+          jobTitle: 'Event Head',
           worksFor: { '@type': 'Organization', name: 'TSD Events & Decor' },
-          expertise: ['Event Coordination', 'Project Management', 'Vendor Management'],
         },
         {
           '@type': 'Person',
           name: 'Tulsi Raval',
-          jobTitle: 'Accountant & Designer',
+          jobTitle: 'Accountant / Designer',
           worksFor: { '@type': 'Organization', name: 'TSD Events & Decor' },
-          expertise: ['Finance Management', 'Budget Planning', 'Event Design'],
         },
         {
           '@type': 'Person',
-          name: 'Niral Patel',
-          jobTitle: 'Event Head',
+          name: 'Ronak Raval',
+          jobTitle: 'Event Manager',
           worksFor: { '@type': 'Organization', name: 'TSD Events & Decor' },
-          expertise: ['Event Planning', 'Event Coordination', 'Team Leadership'],
         },
         {
           '@type': 'Person',
           name: 'Roohi Ravat',
           jobTitle: 'Graphic Designer',
           worksFor: { '@type': 'Organization', name: 'TSD Events & Decor' },
-          expertise: ['Graphic Design', 'Visual Design', 'Event Branding'],
         },
       ],
     };
 
-    // 6. ABOUT PAGE SCHEMA - Enhanced
+    // 5. ABOUT PAGE SCHEMA
     const aboutPageSchema = {
       '@context': 'https://schema.org',
       '@type': 'AboutPage',
-      name: 'About TSD Events & Decor - Best Event Management Company in India',
-      description: 'Learn about TSD Events & Decor - India\'s leading event planning and management company with 500+ events managed and 12+ years of expertise',
-      url: 'https://tsdeventsanddecor.com/about',
-      datePublished: '2013-01-01',
+      name: 'About TSD Events & Decor - Best Event Management Company in Ahmedabad',
+      description: 'Learn about TSD Events & Decor - Ahmedabad\'s leading event planning and decoration company with 500+ events managed and 12+ years of expertise',
+      url: 'https://tsdevents.in/about',
       mainEntity: {
         '@type': 'LocalBusiness',
-        '@id': 'https://tsdeventsanddecor.com',
+        '@id': 'https://tsdevents.in',
         name: 'TSD Events & Decor',
-        description: 'Professional event planning and management company in India',
-        foundingDate: '2013',
-        numberOfEmployees: 5,
-        areaServed: { '@type': 'Country', name: 'India' },
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: '4.9',
-          ratingCount: '450',
-        },
       },
-    };
-
-    // 7. AGGREGATE OFFER - For all services
-    const aggregateOfferSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'AggregateOffer',
-      name: 'Event Management Services in India',
-      description: 'Complete event management solutions including wedding planning, corporate events, decoration and coordination',
-      priceCurrency: 'INR',
-      lowPrice: '200000',
-      highPrice: '5000000',
-      offerCount: 4,
-      offers: [
-        {
-          '@type': 'Offer',
-          name: 'Wedding Events',
-          price: '500000',
-          priceCurrency: 'INR',
-          availability: 'https://schema.org/InStock',
-        },
-        {
-          '@type': 'Offer',
-          name: 'Corporate Events',
-          price: '300000',
-          priceCurrency: 'INR',
-          availability: 'https://schema.org/InStock',
-        },
-        {
-          '@type': 'Offer',
-          name: 'Decoration Services',
-          price: '200000',
-          priceCurrency: 'INR',
-          availability: 'https://schema.org/InStock',
-        },
-        {
-          '@type': 'Offer',
-          name: 'Private Celebrations',
-          price: '250000',
-          priceCurrency: 'INR',
-          availability: 'https://schema.org/InStock',
-        },
-      ],
-    };
-
-    // 8. FAQ SCHEMA - Common questions
-    const faqSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: [
-        {
-          '@type': 'Question',
-          name: 'What is the best event management company in India?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'TSD Events & Decor is one of the leading event management companies in India with 12+ years of expertise, 500+ events managed, and a 4.9/5 customer rating.',
-          },
-        },
-        {
-          '@type': 'Question',
-          name: 'How much does event planning cost in India?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Event planning costs in India range from ₹2 Lakh to ₹50 Lakh depending on the type and scale of the event. TSD Events & Decor offers customized packages for all budgets.',
-          },
-        },
-        {
-          '@type': 'Question',
-          name: 'What services does TSD Events & Decor provide?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'TSD Events & Decor provides comprehensive event management services including wedding planning, corporate event management, event decoration, venue selection, catering coordination, and entertainment booking.',
-          },
-        },
-        {
-          '@type': 'Question',
-          name: 'Do you plan destination weddings in India?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Yes, TSD Events & Decor specializes in destination wedding planning across India with full coordination and decoration services.',
-          },
-        },
-      ],
     };
 
     // Create and append all schema scripts
     const schemas = [
       localBusinessSchema,
-      organizationSchema,
       breadcrumbSchema,
       servicesSchema,
       teamSchema,
       aboutPageSchema,
-      aggregateOfferSchema,
-      faqSchema,
     ];
 
     schemas.forEach((schema, index) => {
       const script = document.createElement('script');
       script.type = 'application/ld+json';
       script.innerHTML = JSON.stringify(schema);
-      script.setAttribute('data-schema', schema['@type'] || `schema-${index}`);
+      script.setAttribute('data-schema', `about-schema-${index}`);
       document.head.appendChild(script);
     });
 

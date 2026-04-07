@@ -1,0 +1,22 @@
+# TSD Events & Decor - Robots.txt
+# https://tsdevents.in
+
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin-dashboard
+
+# Sitemap location
+Sitemap: https://tsdevents.in/sitemap.xml
+
+# Google specific
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /admin-dashboard
+
+# Bing specific
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /admin-dashboard

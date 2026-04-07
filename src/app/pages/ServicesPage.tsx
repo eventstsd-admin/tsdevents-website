@@ -7,8 +7,6 @@ import { ChevronRight, ArrowLeft, MessageCircle, Phone, Mail } from 'lucide-reac
 import { CATEGORIES_WITH_SUBCATEGORIES } from '../constants';
 // Cloudinary category card image
 const religiousImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312393/ReligiousCat_zak58e.webp';
-import servicesHeroImage from '../images/Hero Fallback/Services/ServiceHero.jpg';
-
 // Cloudinary URL
 const servicesHeroUrl = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775420846/servicehero_ugr8zi.jpg';
 const servicesHeroImageToUse = servicesHeroUrl;

@@ -6,8 +6,6 @@ import { Button } from '../components/ui/button';
 import { supabase, CATEGORIES } from '../../supabase';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import { MessageCircle, Phone, Mail } from 'lucide-react';
-import galleryHeroImage from '../images/Hero Fallback/Gallery/GalleryHero.jpg';
-
 // Cloudinary URL
 const galleryHeroUrl = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312277/GalleryHero_j8bvra.jpg';
 const galleryHeroImageToUse = galleryHeroUrl;

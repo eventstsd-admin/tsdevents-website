@@ -8,6 +8,8 @@ import { OptimizedImage } from '../components/OptimizedImage';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import { pastEventOperations } from '../../supabase';
 
+import { optimizeCloudinaryUrl } from '../utils/cloudinaryOptimizer';
+
 // Cloudinary hero images for slideshow
 const heroImages = [
   'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312300/1_pwqiu8.jpg',
@@ -101,104 +103,126 @@ export default function LandingPage() {
 
   // Premium SEO - JSON-LD Structured Data
   useEffect(() => {
-    // 1. Business & Product Schema
-    const productSchema = {
+    // 1. Review Schema anchored to LocalBusiness
+    const reviewSchema = {
       '@context': 'https://schema.org',
-      '@type': 'Product',
-      name: 'Professional Event Management Services India',
-      description: 'Complete event management solutions including wedding planning, corporate events, decoration, and coordination services',
-      brand: {
-        '@type': 'Brand',
-        name: 'TSD Events & Decor',
+      '@type': 'LocalBusiness',
+      '@id': 'https://tsdevents.in',
+      name: 'TSD Events & Decor',
+      url: 'https://tsdevents.in',
+      telephone: '+919825413606',
+      email: 'info@tsdevents.in',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '3, Jamnasagar Flats, opp. Dharmeshwar Mahadev Road, Sabarmati Society, Dharmnagar',
+        addressLocality: 'Ahmedabad',
+        addressRegion: 'Gujarat',
+        postalCode: '380005',
+        addressCountry: 'IN',
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: 23.0787576,
+        longitude: 72.5917318,
       },
       aggregateRating: {
         '@type': 'AggregateRating',
         ratingValue: '4.9',
         bestRating: '5',
         worstRating: '1',
-        ratingCount: '450',
-        reviewCount: '450',
+        ratingCount: '300',
       },
-      offers: {
-        '@type': 'AggregateOffer',
-        priceCurrency: 'INR',
-        lowPrice: '200000',
-        highPrice: '5000000',
-        offerCount: 4,
-        availability: 'https://schema.org/InStock',
-      },
-    };
-
-    // 2. WebSite Schema with SearchAction
-    const websiteSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'WebSite',
-      name: 'TSD Events & Decor - Event Management Company India',
-      url: 'https://tsdeventsanddecor.com',
-      potentialAction: {
-        '@type': 'SearchAction',
-        target: {
-          '@type': 'EntryPoint',
-          urlTemplate: 'https://tsdeventsanddecor.com/search?q={search_term_string}',
-        },
-        query_input: 'required name=search_term_string',
-      },
-    };
-
-    // 3. Rich Testimonials / Review Aggregate
-    const reviewSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'LocalBusiness',
-      name: 'TSD Events & Decor',
       review: [
         {
           '@type': 'Review',
           author: { '@type': 'Person', name: 'Priya & Raj Sharma' },
           reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-          reviewBody: 'TSD Events & Decor made our dream wedding come true! Every detail was perfect.',
+          reviewBody: 'TSD Events & Decor made our dream wedding come true! Every detail was perfect, from the decor to the coordination. Our guests are still talking about how amazing it was.',
         },
         {
           '@type': 'Review',
           author: { '@type': 'Person', name: 'Sunita Patel' },
           reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-          reviewBody: 'Professional, punctual, and perfect! They handled our 500+ guest corporate event flawlessly.',
+          reviewBody: 'Professional, punctual, and perfect! They handled our 500+ guest corporate event flawlessly. The team is extremely organized and creative.',
         },
         {
           '@type': 'Review',
           author: { '@type': 'Person', name: 'Amit Kumar' },
           reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-          reviewBody: 'They transformed a simple party into a grand celebration with amazing attention to detail.',
+          reviewBody: 'Best decision ever! They transformed a simple party into a grand celebration. The attention to detail and creativity exceeded all our expectations.',
         },
       ],
     };
 
-    // 4. Event Schema Examples
-    const eventExampleSchema = {
+    // 2. FAQ Schema for common searches
+    const faqSchema = {
       '@context': 'https://schema.org',
-      '@type': 'Event',
-      name: 'Professional Event Management Services',
-      description: 'Comprehensive event management for weddings, corporate events, and celebrations across India',
-      organizer: {
-        '@type': 'Organization',
-        name: 'TSD Events & Decor',
-        url: 'https://tsdeventsanddecor.com',
-      },
-      eventType: [
-        'Wedding',
-        'Conference',
-        'CorporateEvent',
-        'SocialEvent',
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'What is TSD Events and Decor?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'TSD Events & Decor is a premier event management and decoration company based in Ahmedabad, Gujarat, India. With 12+ years of experience and 500+ events managed, we specialize in wedding planning, corporate events, religious ceremonies, and celebration décor.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What services does TSD Events & Decor provide?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'TSD Events & Decor provides comprehensive services including wedding event planning (Kankotri Lekhan, Haldi, Mehndi, Sangit, Entry, Whole Decoration), corporate event management (Exhibition, Brand Launch, Store Inauguration, Annual Function), religious ceremony planning (99 Yatra, Chaturmas, Shibir), and decoration services (Birthday Party, Mandap Decoration, Engagement, Baby Shower, Anniversary).',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'How can I contact TSD Events and Decor?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'You can contact TSD Events & Decor at +91 98254 13606 (phone/WhatsApp), email info@tsdevents.in, or visit our office at 3, Jamnasagar Flats, opp. Dharmeshwar Mahadev Road, Sabarmati, Ahmedabad, Gujarat 380005. We are open Monday-Saturday 9AM-7PM.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What areas does TSD Events & Decor serve?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'TSD Events & Decor primarily serves Ahmedabad and all of Gujarat, India. We also handle destination events across India.',
+          },
+        },
       ],
-      audience: { '@type': 'Audience', audienceType: 'General Public' },
+    };
+
+    // 3. Service Schema
+    const serviceSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      serviceType: 'Event Management and Decoration',
+      provider: {
+        '@type': 'LocalBusiness',
+        name: 'TSD Events & Decor',
+        url: 'https://tsdevents.in',
+      },
+      areaServed: [
+        { '@type': 'City', name: 'Ahmedabad' },
+        { '@type': 'State', name: 'Gujarat' },
+        { '@type': 'Country', name: 'India' },
+      ],
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Event Management Services',
+        itemListElement: [
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Wedding Event Planning' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Corporate Event Management' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Religious Ceremony Planning' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Event Decoration Services' } },
+        ],
+      },
     };
 
     // Create and append all schemas
-    const schemas = [
-      productSchema,
-      websiteSchema,
-      reviewSchema,
-      eventExampleSchema,
-    ];
+    const schemas = [reviewSchema, faqSchema, serviceSchema];
 
     schemas.forEach((schema, index) => {
       const script = document.createElement('script');

@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin, Heart } from 'lucide-react';
+import { Facebook, Instagram, Youtube, Mail, Phone, MapPin, Heart } from 'lucide-react';
 import logoImage from '../images/logo without text.webp';
 
 export function Footer() {
@@ -10,7 +10,7 @@ export function Footer() {
           {/* Company Info */}
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <img 
+              <img
                 src={logoImage}
                 alt="TSD Events & Decor Logo"
                 className="w-10 h-10 object-contain"
@@ -23,28 +23,26 @@ export function Footer() {
               Creating unforgettable experiences through exceptional event planning and flawless execution.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-amber-400 transition-colors">
+              <a href="https://www.facebook.com/share/1AfsHYNTkq/" aria-label="Follow TSD Events on Facebook" className="text-gray-400 hover:text-amber-400 transition-colors">
                 <Facebook size={20} />
               </a>
-              <a 
-                href="https://www.instagram.com/tsd_events_decor/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="https://www.instagram.com/tsd_events_decor/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Follow TSD Events on Instagram"
                 className="text-gray-400 hover:text-amber-400 transition-colors"
               >
                 <Instagram size={20} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-amber-400 transition-colors">
-                <Twitter size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-amber-400 transition-colors">
-                <Linkedin size={20} />
+              <a href="https://youtube.com/@tsd_events_decor?si=oTzmJ6Hn9jlIks1b" target="_blank" rel="noopener noreferrer" aria-label="Subscribe to TSD Events on YouTube" className="text-gray-400 hover:text-amber-400 transition-colors">
+                <Youtube size={20} />
               </a>
             </div>
           </div>
 
           {/* Quick Links */}
-          <div>
+          <nav aria-label="Footer navigation">
             <h3 className="text-lg font-semibold mb-4 text-amber-400">Quick Links</h3>
             <ul className="space-y-2">
               <li>
@@ -73,7 +71,7 @@ export function Footer() {
                 </Link>
               </li>
             </ul>
-          </div>
+          </nav>
 
           {/* Services */}
           <div>
@@ -114,7 +112,7 @@ export function Footer() {
             © 2026 TSD Events & Decor. All rights reserved.
           </p>
           <p className="text-gray-400 text-sm flex items-center">
-            Made with <Heart size={16} className="text-red-500 mx-1" /> by TSD Events & Decor Team
+            Made with <Heart size={16} className="text-red-500 mx-1" /> by Dhyey Rathi
           </p>
         </div>
       </div>

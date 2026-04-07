@@ -3,8 +3,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { MapPin, Calendar, X, ChevronLeft, ChevronRight, Camera, ExternalLink, Phone, Mail, Users } from 'lucide-react';
 import { pastEventOperations, CATEGORIES, type PastEvent } from '../../supabase';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
-import eventsHeroImage from '../images/Hero Fallback/PastEvents/Events.jpg';
-
 // Cloudinary URL
 const eventsHeroUrl = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312358/Events_bx0xhi.webp';
 const eventsHeroImageToUse = eventsHeroUrl;

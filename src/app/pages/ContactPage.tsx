@@ -8,8 +8,6 @@ import { toast } from 'sonner';
 import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
-import contactHeroImage from '../images/Hero Fallback/Contact/Contact.jpg';
-
 // Cloudinary URL
 const contactHeroUrl = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312246/Contact_n6tmxs.webp';
 const contactHeroImageToUse = contactHeroUrl;
@@ -87,7 +85,7 @@ const serviceToEventTypeMap: Record<string, string> = {
 export default function ContactPage() {
   const [searchParams] = useSearchParams();
   const serviceParam = searchParams.get('service');
-  
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -127,7 +125,7 @@ export default function ContactPage() {
   useEffect(() => {
     if (formData.eventType && formData.eventType !== prevEventTypeRef.current) {
       prevEventTypeRef.current = formData.eventType;
-      
+
       if (formData.eventType in serviceMessages) {
         const message = serviceMessages[formData.eventType];
         setFormData(prev => ({
@@ -152,7 +150,7 @@ export default function ContactPage() {
         email: formData.email,
         message: `${formData.eventCategory ? `Event Category: ${formData.eventCategory}\n` : ''}${formData.eventType ? `Event Type: ${formData.eventType}\n` : ''}${formData.subject ? `Subject: ${formData.subject}\n\n` : ''}${formData.message}${formData.phone ? `\n\nPhone: ${formData.phone}` : ''}`,
       });
-      
+
       toast.success('Message sent successfully! We will get back to you soon.');
       setFormData({ name: '', email: '', phone: '', eventCategory: '', eventType: '', subject: '', message: '' });
     } catch (error) {
@@ -169,28 +167,28 @@ export default function ContactPage() {
 
     // Format the message for WhatsApp
     const whatsappMessage = `Hi TSD Events & Decor,\n\nName: ${formData.name}\nEmail: ${formData.email}\n${formData.phone ? `Phone: ${formData.phone}\n` : ''}${formData.eventCategory ? `Event Category: ${formData.eventCategory}\n` : ''}${formData.eventType ? `Event Type: ${formData.eventType}\n` : ''}${formData.subject ? `Subject: ${formData.subject}\n` : ''}Message: ${formData.message}`;
-    
+
     // WhatsApp Business number (replace with actual number)
     const phoneNumber = '919825413606';
-    
+
     // Create WhatsApp URL
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-    
+
     // Open WhatsApp
     window.open(whatsappUrl, '_blank');
-    
+
     toast.success('Opening WhatsApp...');
   };
 
   return (
     <div className="bg-white">
       <SEOComponent {...PAGE_SEO.contact} />
-      
+
       {/* Hero Section */}
       <section className="relative min-h-[40vh] sm:h-[50vh] text-white flex items-center justify-center pt-16 sm:pt-20">
         <div className="absolute inset-0">
           {/* Background Image */}
-          <motion.div 
+          <motion.div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${contactHeroImageToUse})` }}
             initial={{ opacity: 0 }}
@@ -361,7 +359,7 @@ export default function ContactPage() {
             className="mb-16"
           >
             <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center" style={{ fontFamily: 'Playfair Display, serif' }}>Contact Information</h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div className="flex items-start space-x-4 p-6 bg-gray-50 border-l-4 border-red-600">
                 <div className="bg-red-600 p-3">
@@ -451,7 +449,7 @@ export default function ContactPage() {
             viewport={{ once: true }}
             className="overflow-hidden shadow-lg bg-white"
           >
-            <iframe 
+            <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3671.8957428524776!2d72.5917318!3d23.0787576!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e8363c5a639fb%3A0xf8887980584dde31!2sTSD%20Events%20and%20Decor!5e0!3m2!1sen!2sin!4v1740826412000"
               width="100%"
               height="500"

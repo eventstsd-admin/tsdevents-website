@@ -65,6 +65,6 @@ export default defineConfig({
   },
 
   // Base URL configuration
-  base: './',
+  base: '/',
 })
 

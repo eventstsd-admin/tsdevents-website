@@ -1,11 +1,11 @@
 {
   "name": "TSD Events & Decor",
   "short_name": "TSD Events",
-  "description": "Premium Event Management and Decoration Services",
+  "description": "TSD Events & Decor - Best Event Management and Decoration Company in Ahmedabad, Gujarat. Wedding planning, corporate events, religious ceremonies, celebration décor.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#dc2626",
+  "theme_color": "#991b1b",
   "orientation": "portrait-primary",
   "icons": [
     {
@@ -14,5 +14,5 @@
       "type": "image/svg+xml"
     }
   ],
-  "categories": ["business", "lifestyle"]
+  "categories": ["business", "lifestyle", "events"]
 }
