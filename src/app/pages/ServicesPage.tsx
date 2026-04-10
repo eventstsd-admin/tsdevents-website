@@ -16,6 +16,7 @@ const categoryDescriptions: Record<string, string> = {
   'Religious': 'Traditional ceremony coordination with cultural authenticity.',
   'Corporate Event': 'Professional business event management and coordination.',
   'Decoration': 'Creative decoration and venue transformation services.',
+  'Tours and Travels': 'Organized tours and travel services for groups and communities.',
 };
 
 const categoryImages: Record<string, string> = {
@@ -23,6 +24,7 @@ const categoryImages: Record<string, string> = {
   'Religious': religiousImage,
   'Corporate Event': 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80',
   'Decoration': 'https://images.unsplash.com/photo-1478146896981-b80fe463b330?w=800&q=80',
+  'Tours and Travels': 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80',
 };
 
 export default function ServicesPage() {
@@ -114,7 +116,9 @@ export default function ServicesPage() {
 
                 {/* Category Cards Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {Object.keys(CATEGORIES_WITH_SUBCATEGORIES).map((category, idx) => (
+                  {Object.keys(CATEGORIES_WITH_SUBCATEGORIES)
+                    .filter(category => category !== 'Other')
+                    .map((category, idx) => (
                     <motion.div
                       key={category}
                       initial={{ opacity: 0, y: 30 }}

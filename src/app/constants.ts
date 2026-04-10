@@ -18,7 +18,6 @@ export const CATEGORIES_WITH_SUBCATEGORIES: Record<string, string[]> = {
     'Aatham',
     'Oli',
     'Chhari Palit Sangh',
-    'Bus - Train - Plain Yatra Pravas',
   ],
   'Corporate Event': [
     'Exhibition',
@@ -36,6 +35,13 @@ export const CATEGORIES_WITH_SUBCATEGORIES: Record<string, string[]> = {
     'Baby Shower',
     'Anniversary Decoration',
   ],
+  'Tours and Travels': [
+    'Bus Sangh',
+    'Bus Train Plain Sangh',
+    'Jain Tours',
+    'Group Tours',
+  ],
+  'Other': [],
 };
 
 export const CATEGORIES = Object.keys(CATEGORIES_WITH_SUBCATEGORIES);

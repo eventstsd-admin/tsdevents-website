@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import { Facebook, Instagram, Youtube, Mail, Phone, MapPin, Heart } from 'lucide-react';
+import { Facebook, Instagram, Youtube, Mail, Phone, MapPin, Heart, Twitter } from 'lucide-react';
 import logoImage from '../images/logo without text.webp';
 
 export function Footer() {
@@ -37,6 +37,9 @@ export function Footer() {
               </a>
               <a href="https://youtube.com/@tsd_events_decor?si=oTzmJ6Hn9jlIks1b" target="_blank" rel="noopener noreferrer" aria-label="Subscribe to TSD Events on YouTube" className="text-gray-400 hover:text-amber-400 transition-colors">
                 <Youtube size={20} />
+              </a>
+              <a href="https://x.com/Tsd_Events_" target="_blank" rel="noopener noreferrer" aria-label="Follow TSD Events on Twitter" className="text-gray-400 hover:text-amber-400 transition-colors">
+                <Twitter size={20} />
               </a>
             </div>
           </div>
@@ -81,6 +84,7 @@ export function Footer() {
               <li className="text-gray-400 text-sm">Religious</li>
               <li className="text-gray-400 text-sm">Corporate Event</li>
               <li className="text-gray-400 text-sm">Decoration</li>
+              <li className="text-gray-400 text-sm">Tours and Travels</li>
             </ul>
           </div>
 
@@ -91,7 +95,7 @@ export function Footer() {
               <li className="flex items-start space-x-3">
                 <MapPin size={18} className="text-amber-400 mt-1 flex-shrink-0" />
                 <span className="text-gray-400 text-sm">
-                  Visit us at our office or click <a href="https://maps.app.goo.gl/oSoJT4RoNKFvVRHU9" target="_blank" rel="noopener noreferrer" className="text-amber-400 hover:text-amber-300 underline">here</a> for directions
+                 3, Jamnasagar FLats, opp. Dharmeshwar Mahadev Road, Sabarmati Society, Dharm Nagar II, Sabarmati, Ahmedabad, Gujarat 380005 <br></br><a href="https://maps.app.goo.gl/oSoJT4RoNKFvVRHU9" target="_blank" rel="noopener noreferrer" className="text-amber-400 hover:text-amber-300 underline">click here!</a> 
                 </span>
               </li>
               <li className="flex items-center space-x-3">

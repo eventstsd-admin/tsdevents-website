@@ -31,7 +31,6 @@ const serviceMessages: Record<string, string> = {
   'Aatham': 'I am interested in booking your services for Aatham ceremony. Please provide details.',
   'Oli': 'I would like to plan an Oli event. Could you share your services and packages?',
   'Chhari Palit Sangh': 'I am interested in Chhari Palit Sangh event organization. Please provide details about your services.',
-  'Bus - Train - Plain Yatra Pravas': 'I am interested in organizing travel/Yatra event services. Please provide information.',
   // Corporate services
   'Exhibition': 'I would like to discuss exhibition organization services for our upcoming event. Please share your experience and packages.',
   'Brand Launch': 'I am interested in organizing a brand launch event. Could you provide details about your services and experience?',
@@ -46,6 +45,11 @@ const serviceMessages: Record<string, string> = {
   'Engagement Decoration': 'I would like to book engagement decoration services. Please share your package options.',
   'Baby Shower': 'I am interested in baby shower decoration and planning. Could you share your services and packages?',
   'Anniversary Decoration': 'I would like to plan a special anniversary celebration with decoration. Please share your services.',
+  // Tours and Travels services
+  'Bus Sangh': 'I am interested in organizing a Bus Sangh event. Please provide details about your services and packages.',
+  'Bus Train Plain Sangh': 'I would like to inquire about Bus Train Plain Sangh services. Please share information about your offerings and packages.',
+  'Jain Tours': 'I am interested in organizing a Jain Tours event. Could you please provide details about your services and packages?',
+  'Group Tours': 'I would like to plan a group tour event. Please share your experience and services.',
 };
 
 // Map service names to event types
@@ -65,7 +69,6 @@ const serviceToEventTypeMap: Record<string, string> = {
   'Aatham': 'Religious Ceremony',
   'Oli': 'Religious Ceremony',
   'Chhari Palit Sangh': 'Religious Ceremony',
-  'Bus - Train - Plain Yatra Pravas': 'Religious Ceremony',
   // Corporate Event services
   'Exhibition': 'Corporate Event',
   'Brand Launch': 'Corporate Event',
@@ -80,6 +83,11 @@ const serviceToEventTypeMap: Record<string, string> = {
   'Engagement Decoration': 'Wedding',
   'Baby Shower': 'Social Gathering',
   'Anniversary Decoration': 'Anniversary',
+  // Tours and Travels services
+  'Bus Sangh': 'Tours and Travels',
+  'Bus Train Plain Sangh': 'Tours and Travels',
+  'Jain Tours': 'Tours and Travels',
+  'Group Tours': 'Tours and Travels',
 };
 
 export default function ContactPage() {
@@ -297,8 +305,8 @@ export default function ContactPage() {
                   </select>
                 </div>
 
-                {/* Event Type Dropdown - Only appears when category is selected */}
-                {formData.eventCategory && (
+                {/* Event Type Dropdown - Only appears when category is selected AND not "Other" */}
+                {formData.eventCategory && formData.eventCategory !== 'Other' && (
                   <div>
                     <Label htmlFor="eventType" className="flex items-center gap-2 mb-2">
                       <Calendar className="w-4 h-4 text-red-800" />
@@ -314,6 +322,7 @@ export default function ContactPage() {
                       {CATEGORIES_WITH_SUBCATEGORIES[formData.eventCategory].map((subcategory) => (
                         <option key={subcategory} value={subcategory}>{subcategory}</option>
                       ))}
+                      <option value="Other">Other</option>
                     </select>
                   </div>
                 )}

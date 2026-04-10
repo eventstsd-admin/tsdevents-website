@@ -105,8 +105,10 @@ export function Header() {
                           className="fixed top-20 left-0 right-0 mx-auto bg-white shadow-2xl overflow-hidden z-50"
                         >
                           <div className="max-w-full bg-white">
-                            <div className="grid grid-cols-4 gap-0 divide-x divide-gray-200">
-                              {Object.entries(CATEGORIES_WITH_SUBCATEGORIES).map(([category, subcategories]) => (
+                            <div className="grid grid-cols-5 gap-0 divide-x divide-gray-200">
+                              {Object.entries(CATEGORIES_WITH_SUBCATEGORIES)
+                                .filter(([category]) => category !== 'Other')
+                                .map(([category, subcategories]) => (
                                 <div key={category} className="p-6 hover:bg-gray-50 transition-colors">
                                   <h3 className="text-red-700/90 font-bold text-sm uppercase tracking-wider mb-4 pb-3 border-b-2 border-red-200">
                                     {category}
