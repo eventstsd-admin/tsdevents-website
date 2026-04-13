@@ -54,7 +54,7 @@ export default function AboutPage() {
       '@id': 'https://tsdevents.in',
       name: 'TSD Events & Decor',
       alternateName: ['TSD Events', 'TSD Decor', 'TSD Event and Decor', 'TSD Events and Decor'],
-      description: 'TSD Events & Decor is the best event management and decoration company in Ahmedabad, Gujarat. Professional wedding planners, corporate event organizers, and premier event decoration services since 2013.',
+      description: 'TSD Events & Decor is the best event management and decoration company across India. Professional wedding planners, corporate event organizers, and premier event decoration services since 2013.',
       url: 'https://tsdevents.in',
       telephone: '+919825413606',
       email: 'info@tsdevents.in',
@@ -218,8 +218,8 @@ export default function AboutPage() {
     const aboutPageSchema = {
       '@context': 'https://schema.org',
       '@type': 'AboutPage',
-      name: 'About TSD Events & Decor - Best Event Management Company in Ahmedabad',
-      description: 'Learn about TSD Events & Decor - Ahmedabad\'s leading event planning and decoration company with 500+ events managed and 12+ years of expertise',
+      name: 'About TSD Events & Decor - Best Event Management Company Across India',
+      description: 'Learn about TSD Events & Decor - India\'s leading event planning and decoration company with 500+ events managed and 12+ years of expertise',
       url: 'https://tsdevents.in/about',
       mainEntity: {
         '@type': 'LocalBusiness',
@@ -408,7 +408,7 @@ export default function AboutPage() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3 max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 max-w-7xl mx-auto">
             {team.map((member, idx) => (
               <motion.div
                 key={idx}
@@ -420,7 +420,7 @@ export default function AboutPage() {
               >
                 <div className="relative aspect-[2/3] overflow-hidden">
                   <img
-                    src={member.image}
+                    src={member.image_url || member.image}
                     alt={member.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />

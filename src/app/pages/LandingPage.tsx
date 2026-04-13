@@ -12,22 +12,22 @@ import { optimizeCloudinaryUrl } from '../utils/cloudinaryOptimizer';
 
 // Cloudinary hero images for slideshow
 const heroImages = [
-  'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312300/1_pwqiu8.jpg',
-  'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312301/2_pji1ep.webp',
-  'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312302/3_ottjec.jpg',
+  'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_1920/v1775312300/1_pwqiu8.jpg',
+  'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_1920/v1775312301/2_pji1ep.webp',
+  'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_1920/v1775312302/3_ottjec.jpg',
 ];
 
 // Cloudinary service card images
-const weddingCardImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312333/weddingcard_f0eq9x.jpg';
-const corpCardImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312333/corpcard_raxo2g.jpg';
-const religiousCardImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312333/religiousandbdaycard_ghaw71.jpg';
+const weddingCardImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_800/v1775312333/weddingcard_f0eq9x.jpg';
+const corpCardImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_800/v1775312333/corpcard_raxo2g.jpg';
+const religiousCardImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_800/v1775312333/religiousandbdaycard_ghaw71.jpg';
 
 const services = [
   {
     title: 'Religious Events & Ceremonies',
     description: 'Our core expertise. We organize spectacular religious ceremonies, 99 Yatra, Updhan Tap, Chaturmas, Shibir, and deeply spiritual celebrations with perfect traditional reverence and grand scale.',
     icon: Sparkles,
-    image: 'https://res.cloudinary.com/djvccbmtx/image/upload/v1776109063/WhatsApp_Image_2024-03-04_at_11.46.18_PM_lvlk8i.jpg',
+    image: 'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_800/v1776109063/WhatsApp_Image_2024-03-04_at_11.46.18_PM_lvlk8i.jpg',
   },
   {
     title: 'Wedding Event Planning',
@@ -181,7 +181,7 @@ export default function LandingPage() {
           name: 'What is TSD Events and Decor?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'TSD Events & Decor is a premier event management and decoration company based in Ahmedabad, Gujarat, India. With 12+ years of experience and 500+ events managed, we specialize in wedding planning, corporate events, religious ceremonies, and celebration décor.',
+            text: 'TSD Events & Decor is a premier event management and decoration company providing services across India. With 12+ years of experience and 500+ events managed, we specialize in wedding planning, corporate events, religious ceremonies, and celebration décor.',
           },
         },
         {
@@ -205,7 +205,7 @@ export default function LandingPage() {
           name: 'What areas does TSD Events & Decor serve?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'TSD Events & Decor primarily serves Ahmedabad and all of Gujarat, India. We also handle destination events across India.',
+            text: 'TSD Events & Decor serves clients across India. We flawlessly handle local, national, and destination events throughout the country.',
           },
         },
       ],
@@ -324,7 +324,7 @@ export default function LandingPage() {
             >
               Exceptional{' '}
               <span className="text-amber-400">Event Management</span>{' '}
-              in Ahmedabad
+              Across India
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 30 }}
@@ -439,7 +439,7 @@ export default function LandingPage() {
                 Our Mission
               </h3>
               <p className="text-lg text-gray-700 leading-relaxed">
-                TSD Events & Decor is your trusted partner for creating unforgettable experiences, offering end-to-end event management and décor solutions in Ahmedabad. With a commitment to creativity, precision, and excellence, we transform every occasion into a seamless and memorable celebration.
+                TSD Events & Decor is your trusted partner for creating unforgettable experiences, offering end-to-end event management and décor solutions across India. With a commitment to creativity, precision, and excellence, we transform every occasion into a seamless and memorable celebration.
               </p>
             </motion.div>
 
@@ -569,25 +569,25 @@ export default function LandingPage() {
                   <div className="absolute inset-0 bg-red-900/40 opacity-0 group-hover:opacity-100 mix-blend-multiply transition-opacity duration-500" />
                   
                   {/* Content Overlay */}
-                  <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end">
+                  <div className="absolute inset-0 p-6 flex flex-col justify-end">
                     <motion.div 
-                      className="transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500 ease-out"
+                      className="transform translate-y-0 md:translate-y-8 md:group-hover:translate-y-0 transition-transform duration-500 ease-out"
                     >
                       <div className="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-full bg-amber-400/20 backdrop-blur-sm border border-amber-400/30 text-amber-400 group-hover:bg-amber-400 group-hover:text-black transition-all duration-500 shadow-[0_0_15px_rgba(251,191,36,0)] group-hover:shadow-[0_0_20px_rgba(251,191,36,0.5)]">
                         <Icon className="w-6 h-6" />
                       </div>
                       
-                      <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 tracking-wide">
+                      <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 md:mb-3 tracking-wide">
                         {service.title}
                       </h3>
                       
                       <div className="overflow-hidden">
-                        <p className="text-gray-200 text-sm md:text-base leading-relaxed opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-100 ease-out h-0 group-hover:h-auto mb-4">
+                        <p className="text-gray-200 text-sm leading-relaxed opacity-100 md:opacity-0 md:group-hover:opacity-100 transform translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-all duration-500 delay-100 ease-out h-auto md:h-0 md:group-hover:h-auto mb-4">
                           {service.description}
                         </p>
                       </div>
 
-                      <div className="flex items-center text-amber-400 font-semibold text-sm uppercase tracking-wider mb-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 delay-200">
+                      <div className="flex items-center text-amber-400 font-semibold text-sm uppercase tracking-wider mb-0 md:mb-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 delay-200">
                         <span>Explore Service</span>
                         <ArrowRight className="ml-2 w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300" />
                       </div>
@@ -605,15 +605,11 @@ export default function LandingPage() {
 
       {/* Testimonials Section */}
       <section className="py-24 bg-gray-50 relative overflow-hidden">
-        {/* Ambient Animated Blobs in the Background */}
-        <motion.div 
-          animate={{ x: [0, 30, -30, 0], y: [0, -30, 30, 0] }}
-          transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
+        {/* Ambient Static Blobs in the Background (Optimized for Performance) */}
+        <div 
           className="absolute top-1/2 left-1/4 w-96 h-96 bg-amber-400/20 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none transform -translate-y-1/2" 
         />
-        <motion.div 
-          animate={{ x: [0, -40, 40, 0], y: [0, 40, -40, 0] }}
-          transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
+        <div 
           className="absolute top-1/2 right-1/4 w-96 h-96 bg-red-800/10 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none transform -translate-y-1/2" 
         />
 
