@@ -23,8 +23,8 @@ const categoryImages: Record<string, string> = {
   'Wedding': 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80',
   'Religious': religiousImage,
   'Corporate Event': 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80',
-  'Decoration': 'https://images.unsplash.com/photo-1478146896981-b80fe463b330?w=800&q=80',
-  'Tours and Travels': 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80',
+  'Decoration': 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775824961/145006_1_hfd27t.jpg',
+  'Tours and Travels': 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775824962/2149153256_1_abxgdb.jpg',
 };
 
 export default function ServicesPage() {
@@ -52,9 +52,9 @@ export default function ServicesPage() {
           <motion.div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${servicesHeroImageToUse})` }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
           />
           {/* Dark Overlay */}
           <div className="absolute inset-0 bg-black/60" />

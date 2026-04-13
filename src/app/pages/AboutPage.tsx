@@ -1,45 +1,13 @@
 import { motion } from 'motion/react';
 import { Target, Heart, Users, Briefcase, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { supabase } from '../../supabase';
 import { Button } from '../components/ui/button';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 // Cloudinary URL
 const aboutHeroUrl = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312256/about_us_z7oifs.webp';
 const aboutHeroImageToUse = aboutHeroUrl;
-
-const team = [
-  {
-    name: 'Timir Shah',
-    role: 'Founder',
-    image: 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775568960/WhatsApp_Image_2026-04-07_at_10.39.51_o3t32o.jpg',
-  },
-  {
-    name: 'Riddhi Shah',
-    role: 'Decorator & Designer',
-    image: 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775468411/Shah_Riddhi_-_Event_Designer_Creative_Designer_1_uoloma.jpg',
-  },
-  {
-    name: 'Niraj Patel',
-    role: 'Event Head',
-    image: 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775468411/Patel_Niral_-_Event_Head_vgrzwn.jpg',
-  },
-  {
-    name: 'Tulsi Raval',
-    role: 'Accountant / Designer',
-    image: 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775468411/Raval_Tulsi_-_Account_Head_Back_Office_Head_Event_Designer_1_agcz3q.jpg',
-  },
-  {
-    name: 'Ronak Raval',
-    role: 'Event Manager',
-    image: 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775468411/Raval_Ronak_-_Event_Manager_adjfeq.jpg',
-  },
-  {
-    name: 'Roohi Ravat',
-    role: 'Graphic Designer',
-    image: 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775468411/Ravat_Roohi_-_Graphic_Designer_h03433.jpg',
-  },
-];
 
 const achievements = [
   { icon: Users, number: '300+', label: 'Happy Clients' },
@@ -67,6 +35,15 @@ const values = [
 
 export default function AboutPage() {
   const navigate = useNavigate();
+  const [team, setTeam] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function fetchTeam() {
+      const { data } = await supabase.from('team_members').select('*').order('sort_order', { ascending: true });
+      if (data) setTeam(data);
+    }
+    fetchTeam();
+  }, []);
 
   // Add Premium JSON-LD Structured Data for SEO (hidden from frontend)
   useEffect(() => {
@@ -279,17 +256,17 @@ export default function AboutPage() {
   return (
     <div className="bg-white">
       <SEOComponent {...PAGE_SEO.about} />
-      
+
       {/* Hero Section */}
-      <section className="relative min-h-[40vh] sm:h-[50vh] text-white flex items-center justify-center pt-16 sm:pt-20">
+      <section className="relative min-h-[40vh] sm:h-[50vh] overflow-hidden text-white flex items-center justify-center pt-16 sm:pt-20">
         <div className="absolute inset-0">
           {/* Background Image */}
-          <motion.div 
+          <motion.div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${aboutHeroImageToUse})` }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
           />
           {/* Dark Overlay */}
           <div className="absolute inset-0 bg-black/60" />
@@ -431,7 +408,7 @@ export default function AboutPage() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3 max-w-7xl mx-auto">
             {team.map((member, idx) => (
               <motion.div
                 key={idx}

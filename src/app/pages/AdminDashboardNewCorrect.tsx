@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { supabase } from '../../supabase';
 import { toast } from 'sonner';
-import { PastEventsManagerNew } from '../components/PastEventsManagerNew';
+import { GalleryManager } from '../components/GalleryManager';
+import { TeamManager } from '../components/TeamManager';
+import { ClientLogoManager } from '../components/ClientLogoManager';
 import { InquiryManager } from '../components/InquiryManager';
 import { Calendar, Users, DollarSign, TrendingUp } from 'lucide-react';
 
@@ -70,8 +72,12 @@ export default function AdminDashboard() {
     switch (activeTab) {
       case 'inquiries':
         return <InquiryManager />;
-      case 'events':
-        return <PastEventsManagerNew />;
+      case 'gallery':
+        return <GalleryManager />;
+      case 'team':
+        return <TeamManager />;
+      case 'clients':
+        return <ClientLogoManager />;
       default:
         return <InquiryManager />;
     }
@@ -124,7 +130,9 @@ function AdminLayoutWithTabs({
 }: AdminLayoutWithTabsProps) {
   const menuItems = [
     { id: 'inquiries', label: 'Inquiries' },
-    { id: 'events', label: 'Events' },
+    { id: 'gallery', label: 'Gallery Uploads' },
+    { id: 'team', label: 'Team Members' },
+    { id: 'clients', label: 'Client Logos' },
   ];
 
   return (

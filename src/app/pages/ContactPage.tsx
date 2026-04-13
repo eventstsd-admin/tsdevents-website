@@ -47,7 +47,7 @@ const serviceMessages: Record<string, string> = {
   'Anniversary Decoration': 'I would like to plan a special anniversary celebration with decoration. Please share your services.',
   // Tours and Travels services
   'Bus Sangh': 'I am interested in organizing a Bus Sangh event. Please provide details about your services and packages.',
-  'Bus Train Plain Sangh': 'I would like to inquire about Bus Train Plain Sangh services. Please share information about your offerings and packages.',
+  'Bus Train Place Sangh': 'I would like to inquire about Bus Train Place Sangh services. Please share information about your offerings and packages.',
   'Jain Tours': 'I am interested in organizing a Jain Tours event. Could you please provide details about your services and packages?',
   'Group Tours': 'I would like to plan a group tour event. Please share your experience and services.',
 };
@@ -85,7 +85,7 @@ const serviceToEventTypeMap: Record<string, string> = {
   'Anniversary Decoration': 'Anniversary',
   // Tours and Travels services
   'Bus Sangh': 'Tours and Travels',
-  'Bus Train Plain Sangh': 'Tours and Travels',
+  'Bus Train Place Sangh': 'Tours and Travels',
   'Jain Tours': 'Tours and Travels',
   'Group Tours': 'Tours and Travels',
 };
@@ -193,15 +193,15 @@ export default function ContactPage() {
       <SEOComponent {...PAGE_SEO.contact} />
 
       {/* Hero Section */}
-      <section className="relative min-h-[40vh] sm:h-[50vh] text-white flex items-center justify-center pt-16 sm:pt-20">
+      <section className="relative min-h-[40vh] sm:h-[50vh] overflow-hidden text-white flex items-center justify-center pt-16 sm:pt-20">
         <div className="absolute inset-0">
           {/* Background Image */}
           <motion.div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${contactHeroImageToUse})` }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
           />
           {/* Dark Overlay */}
           <div className="absolute inset-0 bg-black/60" />
@@ -362,6 +362,7 @@ export default function ContactPage() {
 
           {/* Contact Information - Below */}
           <motion.div
+            id="contact-details"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -463,7 +464,7 @@ export default function ContactPage() {
               width="100%"
               height="500"
               style={{ border: 0 }}
-              allowFullScreen=""
+              allowFullScreen={true}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             ></iframe>

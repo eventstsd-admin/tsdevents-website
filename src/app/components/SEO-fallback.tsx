@@ -107,24 +107,24 @@ export const SEOComponent = ({ title, description, keywords, image, type, canoni
 export const PAGE_SEO = {
   home: {
     title: 'TSD Events & Decor | Best Event Management & Decoration Company in Ahmedabad',
-    description: 'TSD Events & Decor - Ahmedabad\'s #1 event management and decoration company. Wedding planning, corporate events, religious ceremonies, celebration décor. 12+ years, 500+ events, 300+ happy clients. Free consultation: +91 98254 13606.',
-    keywords: 'TSD events and decor, TSD event and decor, event management Ahmedabad, best event management company Ahmedabad, wedding planner Ahmedabad, corporate event management Gujarat, event decoration Ahmedabad, wedding decoration, religious event planning, birthday decoration, mandap decoration, event organizer Ahmedabad Gujarat India',
+    description: 'TSD Events & Decor - Ahmedabad\'s #1 event management and decoration company. Specialized in Jain events, 99 Yatra, Updhan Tap, wedding planning, corporate events, and religious ceremonies. 12+ years expertise. Free consultation: +91 98254 13606.',
+    keywords: 'TSD Events, TSD Decor, best jain event organizers in ahmedabad, pavitra 99 yatra planners ahmedabad, dharmik chaturmas management, traditional jain shibir organizers, top jain dharam mahotsav agency near me, grand updhan tap planners in gujarat, best event management company Ahmedabad, wedding decoration, religious event planning, aatham planning services, oli tour operators, jain sangh events, bus yatra pravas organizers india, TSD events and decor',
     type: 'website',
     image: `${SITE_URL}/icon.svg`,
     canonicalPath: '/',
   },
   about: {
     title: 'About TSD Events & Decor | Premier Event Planners in Ahmedabad Since 2013',
-    description: 'About TSD Events & Decor - Leading event management and decoration company in Ahmedabad, Gujarat with 12+ years expertise. Professional wedding planners, corporate event managers, and décor specialists. 500+ successful events. Meet our expert team.',
-    keywords: 'about TSD events and decor, TSD event and decor team, event management company Ahmedabad, professional event managers Gujarat, experienced event planners, wedding management services Ahmedabad, Timir Shah event planner, event planning professionals India',
+    description: 'About TSD Events & Decor - Leading event management and decoration company in Ahmedabad, Gujarat with 12+ years expertise. Professional wedding planners, corporate event managers, and religious event décor specialists. Meet our expert team.',
+    keywords: 'about TSD events and decor, premium jain event planners, traditional religious event professionals, authentic chhari palit sangh organizers, expert religious ceremony decorators, experienced event planners, wedding management services Ahmedabad, Timir Shah event planner, event planning professionals India',
     type: 'website',
     image: `${SITE_URL}/icon.svg`,
     canonicalPath: '/about',
   },
   services: {
     title: 'Event Management & Decoration Services | TSD Events & Decor Ahmedabad',
-    description: 'Complete event management and decoration services by TSD Events & Decor in Ahmedabad. Wedding planning, corporate events, religious ceremonies, birthday decoration, mandap decoration, engagement décor. Expert event coordinators. Free consultation.',
-    keywords: 'TSD event services, event management services Ahmedabad, wedding planning services Gujarat, corporate event management, event decoration services, mandap decoration Ahmedabad, birthday party decoration, engagement decoration, baby shower decoration, anniversary decoration, exhibition management, brand launch event, Kankotri Lekhan, Haldi ceremony, Mehndi decoration, Sangit planning',
+    description: 'Complete event management and decoration services by TSD Events & Decor in Ahmedabad. Specialized in religious ceremonies (99 Yatra, Updhan Tap, Chaturmas), wedding planning, corporate events, and large-scale mandap decoration. Free consultation.',
+    keywords: 'TSD event services, jain shibir planners in ahmedabad, grand jain dharam mahotsav management, top 99 yatra planners, pavitra diksha mahotsav agency in gujarat, traditional aatham organizers, divine oli planners, expert chaturmas management, wedding planning services Gujarat, corporate event management, event decoration services, mandap decoration Ahmedabad, engagement decoration, baby shower decoration, Kankotri Lekhan, Haldi ceremony',
     type: 'website',
     image: `${SITE_URL}/icon.svg`,
     canonicalPath: '/services',
@@ -145,12 +145,5 @@ export const PAGE_SEO = {
     image: `${SITE_URL}/icon.svg`,
     canonicalPath: '/contact',
   },
-  pastEvents: {
-    title: 'Our Past Events & Celebrations | TSD Events & Decor Ahmedabad',
-    description: 'Explore TSD Events & Decor portfolio of 500+ successfully managed events across Ahmedabad and Gujarat. Wedding celebrations, corporate functions, religious ceremonies organized with excellence and stunning décor.',
-    keywords: 'TSD past events, event management portfolio Ahmedabad, successful events Gujarat, wedding events portfolio, corporate event success stories, event management showcase, celebration portfolio, managed events India',
-    type: 'website',
-    image: `${SITE_URL}/icon.svg`,
-    canonicalPath: '/events',
-  },
+
 };

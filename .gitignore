@@ -10,3 +10,5 @@ supabase/sqls
 !CONTRIBUTING.md
 !README.md
 !supabase/functions/*/README.md
+
+*.txt

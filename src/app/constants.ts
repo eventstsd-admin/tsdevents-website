@@ -37,7 +37,7 @@ export const CATEGORIES_WITH_SUBCATEGORIES: Record<string, string[]> = {
   ],
   'Tours and Travels': [
     'Bus Sangh',
-    'Bus Train Plain Sangh',
+    'Bus Train Place Sangh',
     'Jain Tours',
     'Group Tours',
   ],

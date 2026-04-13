@@ -5,13 +5,13 @@ import Masonry from 'react-responsive-masonry';
 import { Button } from '../components/ui/button';
 import { supabase, CATEGORIES } from '../../supabase';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
-import { MessageCircle, Phone, Mail } from 'lucide-react';
+import { MessageCircle, Phone, Mail, X, ChevronLeft, ChevronRight } from 'lucide-react';
 // Cloudinary URL
 const galleryHeroUrl = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312277/GalleryHero_j8bvra.jpg';
 const galleryHeroImageToUse = galleryHeroUrl;
 
 interface PhotoItem {
-  id: number;
+  id: string;
   url: string;
   alt_text: string;
   category: string;
@@ -28,6 +28,7 @@ export default function GalleryPage() {
   const [loading, setLoading] = useState(true);
   const [displayedImagesCount, setDisplayedImagesCount] = useState(IMAGES_PER_PAGE);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   useEffect(() => {
     fetchPhotos();
@@ -41,12 +42,12 @@ export default function GalleryPage() {
   const fetchPhotos = async () => {
     try {
       const { data, error } = await supabase
-        .from('event_photos')
+        .from('gallery_photos')
         .select(`
           id,
           url,
           alt_text,
-          past_events (category)
+          gallery_batches (category)
         `)
         .order('created_at', { ascending: false });
 
@@ -57,7 +58,7 @@ export default function GalleryPage() {
         id: photo.id,
         url: photo.url,
         alt_text: photo.alt_text,
-        category: photo.past_events?.category || 'Uncategorized',
+        category: photo.gallery_batches?.category || 'Uncategorized',
       }));
 
       // Shuffle randomly
@@ -78,6 +79,17 @@ export default function GalleryPage() {
   const displayedImages = filteredImages.slice(0, displayedImagesCount);
   const hasMoreImages = displayedImagesCount < filteredImages.length && displayedImagesCount < MAX_IMAGES;
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (lightboxIndex === null) return;
+      if (e.key === 'Escape') setLightboxIndex(null);
+      if (e.key === 'ArrowRight' && lightboxIndex < displayedImages.length - 1) setLightboxIndex(prev => (prev !== null ? prev + 1 : prev));
+      if (e.key === 'ArrowLeft' && lightboxIndex > 0) setLightboxIndex(prev => (prev !== null ? prev - 1 : prev));
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxIndex, displayedImages.length]);
+
   const loadMoreImages = () => {
     setLoadingMore(true);
     
@@ -92,16 +104,66 @@ export default function GalleryPage() {
     <div className="bg-white">
       <SEOComponent {...PAGE_SEO.gallery} />
       
+      {/* Lightbox */}
+      {lightboxIndex !== null && displayedImages[lightboxIndex] && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm">
+          <button 
+            className="absolute top-4 right-4 text-white/70 hover:text-white p-2 transition-colors z-[110]"
+            onClick={() => setLightboxIndex(null)}
+          >
+            <X className="w-8 h-8" />
+          </button>
+          
+          <button 
+            className={`absolute left-4 top-1/2 -translate-y-1/2 p-2 text-white/70 hover:text-white transition-colors z-[110] ${lightboxIndex === 0 ? 'opacity-30 cursor-not-allowed' : ''}`}
+            onClick={(e) => { e.stopPropagation(); if (lightboxIndex > 0) setLightboxIndex(lightboxIndex - 1); }}
+            disabled={lightboxIndex === 0}
+          >
+            <ChevronLeft className="w-10 h-10" />
+          </button>
+
+          <div 
+            className="w-full h-full p-4 md:p-12 flex flex-col items-center justify-center cursor-pointer"
+            onClick={() => setLightboxIndex(null)}
+          >
+            <motion.img
+              key={lightboxIndex}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.2 }}
+              src={displayedImages[lightboxIndex].url}
+              alt={displayedImages[lightboxIndex].alt_text}
+              className="max-w-full max-h-[85vh] object-contain cursor-default"
+              onClick={(e) => e.stopPropagation()}
+            />
+            <p className="text-white mt-4 text-lg font-medium tracking-wide">
+              {displayedImages[lightboxIndex].category}
+            </p>
+            <p className="text-white/60 text-sm mt-1">
+              {lightboxIndex + 1} / {displayedImages.length}
+            </p>
+          </div>
+
+          <button 
+            className={`absolute right-4 top-1/2 -translate-y-1/2 p-2 text-white/70 hover:text-white transition-colors z-[110] ${lightboxIndex === displayedImages.length - 1 ? 'opacity-30 cursor-not-allowed' : ''}`}
+            onClick={(e) => { e.stopPropagation(); if (lightboxIndex < displayedImages.length - 1) setLightboxIndex(lightboxIndex + 1); }}
+            disabled={lightboxIndex === displayedImages.length - 1}
+          >
+            <ChevronRight className="w-10 h-10" />
+          </button>
+        </div>
+      )}
+
       {/* Hero Section */}
-      <section className="relative h-[50vh] text-white flex items-center justify-center pt-20">
+      <section className="relative h-[50vh] overflow-hidden text-white flex items-center justify-center pt-20">
         <div className="absolute inset-0">
           {/* Background Image */}
           <motion.div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${galleryHeroImageToUse})` }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
           />
           {/* Dark Overlay */}
           <div className="absolute inset-0 bg-black/60" />
@@ -162,7 +224,7 @@ export default function GalleryPage() {
           ) : (
             <>
               <Masonry columnsCount={3} gutter="16px">
-                {displayedImages.map((image) => (
+                {displayedImages.map((image, index) => (
                   <motion.div
                     key={image.id}
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -171,6 +233,7 @@ export default function GalleryPage() {
                     viewport={{ once: true }}
                     whileHover={{ scale: 1.02 }}
                     className="relative overflow-hidden cursor-pointer group"
+                    onClick={() => setLightboxIndex(index)}
                   >
                     <img
                       src={image.url}

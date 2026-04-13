@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router';
 import Slider from 'react-slick';
-import { ArrowRight, Users, Award, Calendar, Star, Quote, MessageCircle, Phone, Mail, Heart } from 'lucide-react';
+import { ArrowRight, Users, Award, Calendar, Star, Quote, MessageCircle, Phone, Mail, Heart, Sparkles, Crown } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { OptimizedImage } from '../components/OptimizedImage';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
-import { pastEventOperations } from '../../supabase';
+import { supabase, pastEventOperations } from '../../supabase';
 
 import { optimizeCloudinaryUrl } from '../utils/cloudinaryOptimizer';
 
@@ -24,21 +24,27 @@ const religiousCardImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1
 
 const services = [
   {
+    title: 'Religious Events & Ceremonies',
+    description: 'Our core expertise. We organize spectacular religious ceremonies, 99 Yatra, Updhan Tap, Chaturmas, Shibir, and deeply spiritual celebrations with perfect traditional reverence and grand scale.',
+    icon: Sparkles,
+    image: 'https://res.cloudinary.com/djvccbmtx/image/upload/v1776109063/WhatsApp_Image_2024-03-04_at_11.46.18_PM_lvlk8i.jpg',
+  },
+  {
     title: 'Wedding Event Planning',
-    description: 'Professional wedding planners specializing in traditional Indian weddings, destination weddings, and intimate ceremonies. Complete wedding management from decoration to catering.',
+    description: 'Complete wedding management from decoration to catering for traditional and destination weddings.',
     icon: Heart,
     image: weddingCardImage,
   },
   {
     title: 'Corporate Event Management',
-    description: 'Expert corporate event organizers for conferences, product launches, annual functions, and business celebrations. Professional event coordination for corporate success.',
+    description: 'Expert corporate event organizers for product launches and business celebrations.',
     icon: Users,
     image: corpCardImage,
   },
   {
-    title: 'Religious & Private Celebrations',
-    description: 'Specialized religious ceremony planning, birthday parties, anniversaries, and family celebrations. Traditional event organization with modern touches.',
-    icon: Award,
+    title: 'Private & Birthday Celebrations',
+    description: 'Transforming birthdays and anniversaries into grand milestones with expert decoration.',
+    icon: Crown,
     image: religiousCardImage,
   },
 ];
@@ -77,7 +83,11 @@ export default function LandingPage() {
   const [galleryPhotos, setGalleryPhotos] = useState<any[]>([]);
   const [loadingPhotos, setLoadingPhotos] = useState(true);
 
+  // NEW DB STATES
+  const [clientLogos, setClientLogos] = useState<any[]>([]);
+
   useEffect(() => {
+    // Basic setup for intervals
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroImages.length);
     }, 4000);
@@ -97,8 +107,15 @@ export default function LandingPage() {
         setLoadingPhotos(false);
       }
     };
+    
+    // Fetch DB Logos
+    const fetchLogos = async () => {
+      const { data } = await supabase.from('client_logos').select('*').order('created_at', { ascending: false });
+      if (data) setClientLogos(data);
+    };
 
     fetchGalleryPhotos();
+    fetchLogos();
   }, []);
 
   // Premium SEO - JSON-LD Structured Data
@@ -332,11 +349,21 @@ export default function LandingPage() {
                 Get Free Quote on WhatsApp
               </Button>
               <Button
-                onClick={() => navigate('/events')}
-                className="bg-white/10 hover:bg-white/20 text-white border border-white/30 px-8 py-6 rounded-md text-lg font-semibold transition-all duration-300"
+                onClick={() => {
+                  navigate('/contact');
+                  setTimeout(() => {
+                    const el = document.getElementById('contact-details');
+                    if (el) {
+                      el.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }, 300);
+                }}
+                className="bg-red-800 hover:bg-red-900 text-white px-8 py-6 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
               >
-                View Our Events
+                <Phone className="mr-2 w-5 h-5" />
+                Contact Us
               </Button>
+
             </motion.div>
           </div>
         </div>
@@ -511,45 +538,64 @@ export default function LandingPage() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((service, idx) => {
               const Icon = service.icon;
               return (
                 <motion.div
                   key={idx}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: idx * 0.1 }}
+                  transition={{ duration: 0.7, delay: idx * 0.15, ease: "easeOut" }}
                   viewport={{ once: true }}
-                  whileHover={{ y: -5 }}
-                  className="group relative overflow-hidden cursor-pointer"
+                  className={`group relative overflow-hidden rounded-2xl cursor-pointer shadow-lg h-[400px]`}
                   onClick={() => navigate('/services')}
                 >
-                  <div className="relative h-[450px]">
-                    {/* Background Image */}
-                    <img 
-                      src={service.image} 
-                      alt={service.title}
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  {/* Image Container with creative scaling and panning */}
+                  <div className="absolute inset-0 w-full h-full">
+                    <motion.div
+                      className="w-full h-full bg-cover bg-center origin-center"
+                      style={{ backgroundImage: `url(${service.image})` }}
+                      whileHover={{ 
+                        scale: 1.1,
+                        rotate: idx % 2 === 0 ? 1 : -1
+                      }}
+                      transition={{ duration: 0.8, ease: "easeOut" }}
                     />
-                    {/* Dark Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
-                    
-                    {/* Content */}
-                    <div className="absolute bottom-0 left-0 right-0 p-8">
-                      <div className="mb-4">
-                        <Icon className="w-10 h-10 text-amber-400" />
+                  </div>
+
+                  {/* Dual layered gradient for sleek contrast */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-red-900/40 opacity-0 group-hover:opacity-100 mix-blend-multiply transition-opacity duration-500" />
+                  
+                  {/* Content Overlay */}
+                  <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end">
+                    <motion.div 
+                      className="transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500 ease-out"
+                    >
+                      <div className="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-full bg-amber-400/20 backdrop-blur-sm border border-amber-400/30 text-amber-400 group-hover:bg-amber-400 group-hover:text-black transition-all duration-500 shadow-[0_0_15px_rgba(251,191,36,0)] group-hover:shadow-[0_0_20px_rgba(251,191,36,0.5)]">
+                        <Icon className="w-6 h-6" />
                       </div>
-                      <h3 className="text-2xl font-bold text-white mb-3">
+                      
+                      <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 tracking-wide">
                         {service.title}
                       </h3>
-                      <p className="text-gray-300 text-sm mb-4">{service.description}</p>
-                      <div className="flex items-center text-amber-400 group-hover:translate-x-2 transition-transform">
-                        <span className="font-semibold text-sm">Learn More</span>
-                        <ArrowRight className="ml-2 w-4 h-4" />
+                      
+                      <div className="overflow-hidden">
+                        <p className="text-gray-200 text-sm md:text-base leading-relaxed opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 delay-100 ease-out h-0 group-hover:h-auto mb-4">
+                          {service.description}
+                        </p>
                       </div>
-                    </div>
+
+                      <div className="flex items-center text-amber-400 font-semibold text-sm uppercase tracking-wider mb-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 delay-200">
+                        <span>Explore Service</span>
+                        <ArrowRight className="ml-2 w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300" />
+                      </div>
+                    </motion.div>
                   </div>
+                  
+                  {/* Animated Border Glow */}
+                  <div className="absolute inset-0 border-2 border-white/0 group-hover:border-amber-400/30 rounded-2xl transition-colors duration-500 pointer-events-none" />
                 </motion.div>
               );
             })}
@@ -559,67 +605,167 @@ export default function LandingPage() {
 
       {/* Testimonials Section */}
       <section className="py-24 bg-gray-50 relative overflow-hidden">
-        <div className="container mx-auto px-4 mb-16 relative z-10">
+        {/* Ambient Animated Blobs in the Background */}
+        <motion.div 
+          animate={{ x: [0, 30, -30, 0], y: [0, -30, 30, 0] }}
+          transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
+          className="absolute top-1/2 left-1/4 w-96 h-96 bg-amber-400/20 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none transform -translate-y-1/2" 
+        />
+        <motion.div 
+          animate={{ x: [0, -40, 40, 0], y: [0, 40, -40, 0] }}
+          transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
+          className="absolute top-1/2 right-1/4 w-96 h-96 bg-red-800/10 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none transform -translate-y-1/2" 
+        />
+
+        <div className="container mx-auto px-4 mb-12 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <div className="inline-flex items-center justify-center space-x-2 text-amber-500 font-semibold tracking-wider uppercase mb-4 text-sm">
+              <Star className="w-4 h-4 fill-amber-500" />
+              <span>Words of Love</span>
+              <Star className="w-4 h-4 fill-amber-500" />
+            </div>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 drop-shadow-sm" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Client Testimonials
+            </h2>
+            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+              Real stories from our unforgettable celebrations
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Centralized Testimonial Carousel */}
+        <div className="relative z-10 container mx-auto px-4 max-w-5xl">
+          <Slider {...testimonialSettings}>
+          {testimonials.map((testimonial, idx) => (
+            <div key={idx} className="w-full px-2 md:px-6 outline-none py-10">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="bg-white/70 backdrop-blur-xl border border-white p-8 md:p-14 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] relative overflow-hidden"
+              >
+                {/* Giant Quote Icon Background Decal */}
+                <Quote className="absolute -top-6 -left-6 w-48 h-48 text-gray-100 rotate-180 -z-10 opacity-60" />
+                
+                <div className="flex flex-col items-center text-center min-h-[300px]">
+                  {/* Rating Badge */}
+                  <motion.div 
+                    initial={{ y: 20, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                    className="flex gap-1 mb-8 bg-white py-2 px-5 rounded-full shadow-sm border border-gray-100"
+                  >
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400 drop-shadow-sm" />
+                    ))}
+                  </motion.div>
+
+                  {/* Testimonial Text */}
+                  <motion.p 
+                    initial={{ y: 20, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="text-xl md:text-3xl text-gray-800 italic leading-relaxed flex-grow font-medium" 
+                    style={{ fontFamily: 'Playfair Display, serif' }}
+                  >
+                    "{testimonial.text}"
+                  </motion.p>
+
+                  {/* Author Info connecting bridge */}
+                  <div className="w-16 h-1 bg-gradient-to-r from-transparent via-red-800/30 to-transparent my-8" />
+
+                  {/* Author Details with floating avatar */}
+                  <motion.div 
+                    initial={{ y: 20, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                    className="flex flex-col items-center gap-3"
+                  >
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-red-800 blur-md rounded-full opacity-30 animate-pulse" />
+                      <div className="w-16 h-16 bg-gradient-to-br from-red-800 to-red-900 flex items-center justify-center text-white text-xl font-bold rounded-full relative shadow-lg ring-4 ring-white">
+                        {testimonial.name.charAt(0)}
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-900 text-lg tracking-wide uppercase">
+                        {testimonial.name}
+                      </h4>
+                      <p className="text-amber-600 font-medium text-sm tracking-widest uppercase mt-1">
+                        {testimonial.event}
+                      </p>
+                    </div>
+                  </motion.div>
+                </div>
+              </motion.div>
+            </div>
+          ))}
+          </Slider>
+        </div>
+      </section>
+
+      {/* Client Logos Marquee Section */}
+      <section className="py-16 bg-white relative overflow-hidden">
+        <div className="container mx-auto px-4 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center"
+            className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
-              Client Testimonials
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Our Trusted Clients
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Hear what our clients have to say about their events
+            <p className="text-lg text-gray-600">
+              Proud to work with leading organizations and businesses
             </p>
           </motion.div>
-        </div>
 
-        {/* Full-width testimonials slider */}
-        <div className="relative z-10">
-          <Slider {...testimonialSettings}>
-          {testimonials.map((testimonial, idx) => (
-            <div key={idx} className="w-full">
-              <div className="bg-white py-16 md:py-20 relative">
-                
-                <div className="container mx-auto px-4 relative z-10">
-                  <div className="max-w-4xl mx-auto flex flex-col justify-between min-h-[300px]">
-                    {/* Quote Icon */}
-                    <div className="mb-6">
-                      <Quote className="w-12 h-12 text-red-800" />
+          {/* Marquee Container - Centered with max-width */}
+          <div className="mx-auto w-full max-w-7xl relative">
+            {/* Left Edge Shadow Fade */}
+            <div className="absolute inset-y-0 left-0 w-24 sm:w-40 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+            {/* Right Edge Shadow Fade */}
+            <div className="absolute inset-y-0 right-0 w-24 sm:w-40 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+            
+            <div className="relative overflow-hidden py-8">
+              {clientLogos.length > 0 ? (
+                <motion.div 
+                  className="flex gap-16 w-max"
+                  animate={{ x: ["-50%", "0%"] }}
+                  transition={{
+                    repeat: Infinity,
+                    ease: "linear",
+                    duration: Math.max(20, clientLogos.length * 3) // Dynamic duration based on logo count
+                  }}
+                >
+                  {/* Duplicate array up to 20 elements to ensure continuous smooth loop before the reset */}
+                  {[...Array(Math.max(2, Math.ceil(15 / clientLogos.length)))].flatMap(() => clientLogos).map((logo, index) => (
+                    <div 
+                      key={`${logo.id}-${index}`} 
+                      className="min-w-[180px] flex items-center justify-center transition-all duration-500 cursor-pointer"
+                    >
+                      <img 
+                        src={logo.image_url} 
+                        alt={logo.alt_text} 
+                        className="h-28 object-contain scale-90 hover:scale-105 transition-transform duration-500 drop-shadow-sm"
+                      />
                     </div>
-
-                    {/* Rating */}
-                    <div className="flex gap-1 mb-6">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
-                      ))}
-                    </div>
-
-                    {/* Testimonial Text */}
-                    <p className="text-lg md:text-xl text-gray-700 mb-8 italic leading-relaxed flex-grow">
-                      "{testimonial.text}"
-                    </p>
-
-                    {/* Author Info */}
-                    <div className="flex items-center gap-4 pt-6 border-t border-gray-200">
-                      <div className="w-14 h-14 bg-red-800 flex items-center justify-center text-white text-lg font-bold flex-shrink-0">
-                        {testimonial.name.charAt(0)}
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-gray-900 text-lg">
-                          {testimonial.name}
-                        </h4>
-                        <p className="text-gray-600 text-sm">{testimonial.event}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                  ))}
+                </motion.div>
+              ) : (
+                <div className="text-center text-gray-400 py-10">Client logos being updated...</div>
+              )}
             </div>
-          ))}
-        </Slider>
+
+          </div>
         </div>
       </section>
 
