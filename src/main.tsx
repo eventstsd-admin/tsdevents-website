@@ -18,9 +18,11 @@ const queryClient = new QueryClient({
   },
 });
 
+import { Analytics } from "@vercel/analytics/react";
+
 createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
     <App />
+    <Analytics />
   </QueryClientProvider>
 );
-  
