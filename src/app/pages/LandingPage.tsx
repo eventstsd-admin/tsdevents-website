@@ -119,41 +119,10 @@ export default function LandingPage() {
   }, []);
 
   // Premium SEO - JSON-LD Structured Data
+  // NOTE: LocalBusiness schema is already defined STATICALLY in index.html.
+  // Adding it here again causes "multiple aggregate ratings" error in Google Search Console.
   useEffect(() => {
-    // 1. Review Schema anchored to LocalBusiness
-    // LocalBusiness schema — aggregateRating only (no embedded reviews to avoid
-    // Google's "multiple aggregate ratings" validation error per review item)
-    const reviewSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'LocalBusiness',
-      '@id': 'https://tsdevents.in',
-      name: 'TSD Events & Decor',
-      url: 'https://tsdevents.in',
-      telephone: '+919825413606',
-      email: 'info@tsdevents.in',
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: '3, Jamnasagar Flats, opp. Dharmeshwar Mahadev Road, Sabarmati Society, Dharmnagar',
-        addressLocality: 'Ahmedabad',
-        addressRegion: 'Gujarat',
-        postalCode: '380005',
-        addressCountry: 'IN',
-      },
-      geo: {
-        '@type': 'GeoCoordinates',
-        latitude: 23.0787576,
-        longitude: 72.5917318,
-      },
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: '4.9',
-        bestRating: '5',
-        worstRating: '1',
-        ratingCount: '300',
-      },
-    };
-
-    // 2. FAQ Schema for common searches
+    // FAQ Schema for common searches
     const faqSchema = {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
@@ -193,7 +162,7 @@ export default function LandingPage() {
       ],
     };
 
-    // 3. Service Schema
+    // Service Schema
     const serviceSchema = {
       '@context': 'https://schema.org',
       '@type': 'Service',
@@ -220,8 +189,8 @@ export default function LandingPage() {
       },
     };
 
-    // Create and append all schemas
-    const schemas = [reviewSchema, faqSchema, serviceSchema];
+    // Inject only page-specific schemas (LocalBusiness is in index.html)
+    const schemas = [faqSchema, serviceSchema];
 
     schemas.forEach((schema, index) => {
       const script = document.createElement('script');
