@@ -45,77 +45,11 @@ export default function AboutPage() {
     fetchTeam();
   }, []);
 
-  // Add Premium JSON-LD Structured Data for SEO (hidden from frontend)
+  // Add page-specific JSON-LD Structured Data for SEO
+  // NOTE: LocalBusiness entity is defined ONLY on the homepage to avoid
+  // "multiple aggregate ratings" validation errors from Google.
   useEffect(() => {
-    // 1. LOCAL BUSINESS SCHEMA
-    const localBusinessSchema = {
-      '@context': 'https://schema.org',
-      '@type': ['LocalBusiness', 'EventPlanningBusiness'],
-      '@id': 'https://tsdevents.in',
-      name: 'TSD Events & Decor',
-      alternateName: ['TSD Events', 'TSD Decor', 'TSD Event and Decor', 'TSD Events and Decor'],
-      description: 'TSD Events & Decor is the best event management and decoration company across India. Professional wedding planners, corporate event organizers, and premier event decoration services since 2013.',
-      url: 'https://tsdevents.in',
-      telephone: '+919825413606',
-      email: 'info@tsdevents.in',
-      foundingDate: '2013',
-      foundingLocation: {
-        '@type': 'Place',
-        name: 'Ahmedabad, Gujarat, India',
-      },
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: '3, Jamnasagar Flats, opp. Dharmeshwar Mahadev Road, Sabarmati Society, Dharmnagar',
-        addressLocality: 'Ahmedabad',
-        addressRegion: 'Gujarat',
-        postalCode: '380005',
-        addressCountry: 'IN',
-      },
-      geo: {
-        '@type': 'GeoCoordinates',
-        latitude: 23.0787576,
-        longitude: 72.5917318,
-      },
-      areaServed: [
-        { '@type': 'City', name: 'Ahmedabad' },
-        { '@type': 'State', name: 'Gujarat' },
-        { '@type': 'Country', name: 'India' },
-      ],
-
-      priceRange: '₹50,000 - ₹50,00,000',
-      openingHoursSpecification: [
-        {
-          '@type': 'OpeningHoursSpecification',
-          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-          opens: '09:00',
-          closes: '19:00',
-        },
-      ],
-      contactPoint: {
-        '@type': 'ContactPoint',
-        contactType: 'Customer Service',
-        telephone: '+919825413606',
-        email: 'info@tsdevents.in',
-        availableLanguage: ['English', 'Hindi', 'Gujarati'],
-        areaServed: 'IN',
-      },
-      sameAs: [
-        'https://www.instagram.com/tsd_events_decor/',
-        'https://maps.app.goo.gl/oSoJT4RoNKFvVRHU9',
-      ],
-      image: 'https://tsdevents.in/icon.svg',
-      logo: 'https://tsdevents.in/icon.svg',
-      founder: {
-        '@type': 'Person',
-        name: 'Timir Shah',
-      },
-      numberOfEmployees: {
-        '@type': 'QuantitativeValue',
-        value: 6,
-      },
-    };
-
-    // 2. BREADCRUMB LIST SCHEMA
+    // 1. BREADCRUMB LIST SCHEMA
     const breadcrumbSchema = {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
@@ -135,34 +69,7 @@ export default function AboutPage() {
       ],
     };
 
-    // 3. SERVICE SCHEMA
-    const servicesSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      serviceType: 'Event Management and Decoration',
-      provider: {
-        '@type': 'LocalBusiness',
-        name: 'TSD Events & Decor',
-        url: 'https://tsdevents.in',
-      },
-      areaServed: [
-        { '@type': 'City', name: 'Ahmedabad' },
-        { '@type': 'State', name: 'Gujarat' },
-        { '@type': 'Country', name: 'India' },
-      ],
-      hasOfferCatalog: {
-        '@type': 'OfferCatalog',
-        name: 'Event Services',
-        itemListElement: [
-          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Wedding Event Planning', description: 'Kankotri Lekhan, Haldi, Mehndi, Sangit, Entry, Whole Decoration' } },
-          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Corporate Event Management', description: 'Exhibition, Brand Launch, Store Inauguration, Annual Function' } },
-          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Religious Ceremony Planning', description: '99 Yatra, Updhan Tap, Chaturmas, Shibir, Aatham, Oli' } },
-          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Decoration Services', description: 'Birthday Party, Mandap Decoration, Engagement, Baby Shower, Anniversary' } },
-        ],
-      },
-    };
-
-    // 4. TEAM MEMBERS SCHEMA
+    // 2. TEAM MEMBERS SCHEMA
     const teamSchema = {
       '@context': 'https://schema.org',
       '@type': 'Organization',
@@ -224,9 +131,7 @@ export default function AboutPage() {
 
     // Create and append all schema scripts
     const schemas = [
-      localBusinessSchema,
       breadcrumbSchema,
-      servicesSchema,
       teamSchema,
       aboutPageSchema,
     ];
