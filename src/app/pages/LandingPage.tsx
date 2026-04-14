@@ -121,6 +121,8 @@ export default function LandingPage() {
   // Premium SEO - JSON-LD Structured Data
   useEffect(() => {
     // 1. Review Schema anchored to LocalBusiness
+    // LocalBusiness schema — aggregateRating only (no embedded reviews to avoid
+    // Google's "multiple aggregate ratings" validation error per review item)
     const reviewSchema = {
       '@context': 'https://schema.org',
       '@type': 'LocalBusiness',
@@ -149,26 +151,6 @@ export default function LandingPage() {
         worstRating: '1',
         ratingCount: '300',
       },
-      review: [
-        {
-          '@type': 'Review',
-          author: { '@type': 'Person', name: 'Priya & Raj Sharma' },
-          reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-          reviewBody: 'TSD Events & Decor made our dream wedding come true! Every detail was perfect, from the decor to the coordination. Our guests are still talking about how amazing it was.',
-        },
-        {
-          '@type': 'Review',
-          author: { '@type': 'Person', name: 'Sunita Patel' },
-          reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-          reviewBody: 'Professional, punctual, and perfect! They handled our 500+ guest corporate event flawlessly. The team is extremely organized and creative.',
-        },
-        {
-          '@type': 'Review',
-          author: { '@type': 'Person', name: 'Amit Kumar' },
-          reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-          reviewBody: 'Best decision ever! They transformed a simple party into a grand celebration. The attention to detail and creativity exceeded all our expectations.',
-        },
-      ],
     };
 
     // 2. FAQ Schema for common searches
