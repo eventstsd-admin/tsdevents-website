@@ -10,11 +10,11 @@ import { supabase, pastEventOperations } from '../../supabase';
 
 import { optimizeCloudinaryUrl } from '../utils/cloudinaryOptimizer';
 
-// Cloudinary hero images for slideshow
+// Cloudinary hero images for slideshow — responsive widths reduce bandwidth
 const heroImages = [
-  'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_1920/v1775312300/1_pwqiu8.jpg',
-  'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_1920/v1775312301/2_pji1ep.webp',
-  'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_1920/v1775312302/3_ottjec.jpg',
+  'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_1200/v1775312300/1_pwqiu8.jpg',
+  'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_1200/v1775312301/2_pji1ep.webp',
+  'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_1200/v1775312302/3_ottjec.jpg',
 ];
 
 // Cloudinary service card images
@@ -87,7 +87,6 @@ export default function LandingPage() {
   const [clientLogos, setClientLogos] = useState<any[]>([]);
 
   useEffect(() => {
-    // Basic setup for intervals
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroImages.length);
     }, 4000);
@@ -98,8 +97,22 @@ export default function LandingPage() {
     const fetchGalleryPhotos = async () => {
       try {
         setLoadingPhotos(true);
-        const photos = await pastEventOperations.getRandomPhotos(4);
-        setGalleryPhotos(photos);
+        const { data, error } = await supabase
+          .from('gallery_photos')
+          .select('id, url, alt_text, gallery_batches(category)')
+          .limit(40);
+          
+        if (error) throw error;
+        
+        const validPhotos = (data || []).map((photo: any) => ({
+          id: photo.id,
+          url: photo.url,
+          alt_text: photo.alt_text || 'Event photo',
+        }));
+        
+        // Shuffle and take 4
+        const shuffled = validPhotos.sort(() => 0.5 - Math.random()).slice(0, 4);
+        setGalleryPhotos(shuffled);
       } catch (error) {
         console.error('Error fetching gallery photos:', error);
         setGalleryPhotos([]);
@@ -248,10 +261,14 @@ export default function LandingPage() {
               transition={{ duration: 1 }}
               className="absolute inset-0"
             >
-              {/* Background Image */}
-              <div 
+              {/* Background Image — only load non-LCP slides when visible */}
+              <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: `url(${image})` }}
+                style={idx === 0 || currentSlide === idx || currentSlide === idx - 1
+                  ? { backgroundImage: `url(${image})` }
+                  : undefined
+                }
+                data-bg={image}
               />
               
               {/* Dark Overlay for text readability */}

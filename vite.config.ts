@@ -19,7 +19,7 @@ export default defineConfig({
 
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
   assetsInclude: ['**/*.svg', '**/*.csv', '**/manifest.json', '**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.webp'],
-  
+
   // Build configuration for production
   build: {
     outDir: 'dist',
@@ -31,24 +31,31 @@ export default defineConfig({
       compress: {
         drop_console: true,
         drop_debugger: true,
-        passes: 2,
-        pure_funcs: ['console.log', 'console.info', 'console.debug'],
+        passes: 3,           // Extra passes for better dead-code elimination
+        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn'],
+        collapse_vars: true,
+        reduce_vars: true,
+        booleans_as_integers: true,
+        hoist_funs: true,
+        unsafe_arrows: true,
       },
-      mangle: true,
+      mangle: {
+        toplevel: true,      // Mangle top-level variable & function names
+      },
       format: {
         comments: false,
       },
     },
     // Optimize CSS
-    cssMinify: true,
+    cssMinify: 'lightningcss',
     cssCodeSplit: true,
     // Tree shake unused code
     rollupOptions: {
       output: {
         manualChunks: (id) => {
           // Core React — needed on every page, keep small and together
-          if (id.includes('node_modules/react/') || 
-              id.includes('node_modules/react-dom/') || 
+          if (id.includes('node_modules/react/') ||
+              id.includes('node_modules/react-dom/') ||
               id.includes('node_modules/react-router/') ||
               id.includes('node_modules/react-router-dom/')) {
             return 'vendor-react';
@@ -62,12 +69,12 @@ export default defineConfig({
             return 'vendor-gemini';
           }
           // MUI is heavy — keep isolated so non-admin pages skip it
-          if (id.includes('node_modules/@mui/') || 
+          if (id.includes('node_modules/@mui/') ||
               id.includes('node_modules/@emotion/')) {
             return 'vendor-mui';
           }
           // Animation library
-          if (id.includes('node_modules/motion/') || 
+          if (id.includes('node_modules/motion/') ||
               id.includes('node_modules/framer-motion/')) {
             return 'vendor-motion';
           }
@@ -76,12 +83,12 @@ export default defineConfig({
             return 'vendor-radix';
           }
           // Recharts / tanstack query — admin only
-          if (id.includes('node_modules/recharts') || 
+          if (id.includes('node_modules/recharts') ||
               id.includes('node_modules/@tanstack/')) {
             return 'vendor-admin';
           }
           // General UI utilities
-          if (id.includes('node_modules/clsx') || 
+          if (id.includes('node_modules/clsx') ||
               id.includes('node_modules/class-variance-authority') ||
               id.includes('node_modules/tailwind-merge') ||
               id.includes('node_modules/lucide-react') ||
@@ -93,6 +100,20 @@ export default defineConfig({
         chunkFileNames: 'assets/[name].[hash].js',
         entryFileNames: 'assets/[name].[hash].js',
         assetFileNames: 'assets/[name].[hash][extname]',
+
+        // Enable tree-shaking of unused exports
+        generatedCode: {
+          preset: 'es2015',
+          arrowFunctions: true,
+          constBindings: true,
+          objectShorthand: true,
+        },
+      },
+      // Remove unused imports at build level
+      treeshake: {
+        moduleSideEffects: false,
+        propertyReadSideEffects: false,
+        unknownGlobalSideEffects: false,
       },
     },
     // Report compressed sizes
@@ -100,9 +121,13 @@ export default defineConfig({
     chunkSizeWarningLimit: 500,
   },
 
+  // Enable Brotli/Gzip hints for server
+  server: {
+    headers: {
+      'Cache-Control': 'no-cache',
+    },
+  },
+
   // Base URL configuration
   base: '/',
 })
-
-
-

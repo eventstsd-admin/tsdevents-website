@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router';
-import Masonry from 'react-responsive-masonry';
+
 import { Button } from '../components/ui/button';
 import { supabase, CATEGORIES } from '../../supabase';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
@@ -61,9 +61,14 @@ export default function GalleryPage() {
         category: photo.gallery_batches?.category || 'Uncategorized',
       }));
 
-      // Shuffle randomly
-      const shuffled = flatPhotos.sort(() => Math.random() - 0.5);
-      setPhotos(shuffled);
+      // Get unique categories and shuffle them
+      const uniqueCategories = Array.from(new Set(flatPhotos.map(p => p.category))).sort(() => Math.random() - 0.5);
+      
+      // Group by category, but using the randomly sorted category order
+      const grouped = flatPhotos.sort((a, b) => {
+        return uniqueCategories.indexOf(a.category) - uniqueCategories.indexOf(b.category);
+      });
+      setPhotos(grouped);
     } catch (error) {
       console.error('Error fetching photos:', error);
     } finally {
@@ -71,10 +76,24 @@ export default function GalleryPage() {
     }
   };
 
-  const filteredImages =
-    selectedCategory === 'All'
-      ? photos
-      : photos.filter((img) => img.category === selectedCategory);
+  const filteredImages = (() => {
+    if (selectedCategory !== 'All') {
+      return photos.filter((img) => img.category === selectedCategory);
+    }
+    
+    // For 'All' category: Limit to max 12 photos per category (removed overall limit)
+    const counts: Record<string, number> = {};
+    const result: PhotoItem[] = [];
+    
+    for (const photo of photos) {
+      const catCount = counts[photo.category] || 0;
+      if (catCount < 12) {
+        result.push(photo);
+        counts[photo.category] = catCount + 1;
+      }
+    }
+    return result;
+  })();
 
   const displayedImages = filteredImages.slice(0, displayedImagesCount);
   const hasMore = displayedImagesCount < filteredImages.length;
@@ -237,8 +256,7 @@ export default function GalleryPage() {
                 : `No photos in ${selectedCategory} category.`}
             </div>
           ) : (
-            <>
-              <Masonry columnsCount={3} gutter="16px">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
                 {displayedImages.map((image, index) => (
                   <motion.div
                     key={image.id}
@@ -246,14 +264,13 @@ export default function GalleryPage() {
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.3 }}
                     viewport={{ once: true }}
-                    whileHover={{ scale: 1.02 }}
-                    className="relative overflow-hidden cursor-pointer group"
+                    className="relative overflow-hidden cursor-pointer group aspect-square rounded-xl shadow-sm hover:shadow-md transition-shadow"
                     onClick={() => setLightboxIndex(index)}
                   >
                     <img
                       src={image.url}
                       alt={image.alt_text}
-                      className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     {/* Category overlay on hover */}
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
@@ -263,21 +280,27 @@ export default function GalleryPage() {
                     </div>
                   </motion.div>
                 ))}
-              </Masonry>
-            </>
+              </div>
           )}
 
           {/* Infinite scroll sentinel */}
           {!loading && (
-            <div ref={sentinelRef} className="flex justify-center items-center mt-12 h-10">
+            <div ref={sentinelRef} className="flex flex-col justify-center items-center mt-12 space-y-4 w-full">
               {loadingMore && (
                 <div className="flex items-center gap-3 text-gray-500 text-sm">
                   <div className="animate-spin rounded-full h-5 w-5 border-2 border-gray-300 border-t-red-600" />
                   Loading more photos…
                 </div>
               )}
-              {!hasMore && photos.length > 0 && (
-                <p className="text-gray-400 text-sm">All {filteredImages.length} photos loaded</p>
+              {!hasMore && photos.length > 0 && selectedCategory !== 'All' && (
+                <p className="text-gray-400 text-sm">All {filteredImages.length} photos loaded for {selectedCategory}</p>
+              )}
+              {!hasMore && photos.length > 0 && selectedCategory === 'All' && (
+                <div className="w-full flex justify-center mt-4 pb-8">
+                  <p className="text-red-700/80 font-medium text-center bg-red-50/80 py-3 px-8 text-sm md:text-base rounded-full shadow-sm border border-red-100">
+                    To see all photos of one category, please select a category above
+                  </p>
+                </div>
               )}
             </div>
           )}

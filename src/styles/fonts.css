@@ -1,2 +1,2 @@
-/* Optimized Google Fonts with minimal weights - font-display: swap for better LCP */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@400;700&display=swap');
+/* Optimized Google Fonts — Latin subset only, swap display to prevent FOIT */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap&subset=latin');
