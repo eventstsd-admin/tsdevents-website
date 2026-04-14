@@ -81,13 +81,7 @@ export default function AboutPage() {
         { '@type': 'State', name: 'Gujarat' },
         { '@type': 'Country', name: 'India' },
       ],
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: '4.9',
-        ratingCount: '300',
-        bestRating: '5',
-        worstRating: '1',
-      },
+
       priceRange: '₹50,000 - ₹50,00,000',
       openingHoursSpecification: [
         {
