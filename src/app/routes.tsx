@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, useRouteError } from "react-router";
 import { RootLayout } from "./components/RootLayout";
 import { SkeletonPageLoader } from "./components/ui/skeleton";
 
@@ -20,39 +20,63 @@ const LoadingFallback = () => (
   </div>
 );
 
+// Simple Error Boundary to capture underlying errors
+function RootErrorBoundary() {
+  const error = useRouteError() as any;
+  console.error("Route Error:", error);
+  return (
+    <div className="p-8 text-red-600 bg-red-50 h-screen w-full flex flex-col justify-center items-center">
+      <h1 className="text-2xl font-bold mb-4">Oops! Something went wrong.</h1>
+      <p className="mb-4">An unexpected error occurred while loading this page.</p>
+      <pre className="text-xs bg-white p-4 overflow-auto max-w-2xl border rounded shadow">
+        {error?.message || error?.statusText || "Unknown Error"}
+      </pre>
+      <button 
+        onClick={() => window.location.href = '/'}
+        className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+      >
+        Go back home
+      </button>
+    </div>
+  );
+}
+
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: RootLayout,
+    errorElement: <RootErrorBoundary />,
     children: [
       { 
         index: true, 
-        Component: () => <Suspense fallback={<LoadingFallback />}><LandingPage /></Suspense>
+        element: <Suspense fallback={<LoadingFallback />}><LandingPage /></Suspense>
       },
       { 
         path: "services", 
-        Component: () => <Suspense fallback={<LoadingFallback />}><ServicesPage /></Suspense>
+        element: <Suspense fallback={<LoadingFallback />}><ServicesPage /></Suspense>
       },
       { 
         path: "gallery", 
-        Component: () => <Suspense fallback={<LoadingFallback />}><GalleryPage /></Suspense>
+        element: <Suspense fallback={<LoadingFallback />}><GalleryPage /></Suspense>
       },
       { 
         path: "about", 
-        Component: () => <Suspense fallback={<LoadingFallback />}><AboutPage /></Suspense>
+        element: <Suspense fallback={<LoadingFallback />}><AboutPage /></Suspense>
       },
       { 
         path: "contact", 
-        Component: () => <Suspense fallback={<LoadingFallback />}><ContactPage /></Suspense>
+        element: <Suspense fallback={<LoadingFallback />}><ContactPage /></Suspense>
       },
     ],
   },
   {
     path: "/admin",
-    Component: () => <Suspense fallback={<LoadingFallback />}><AdminLoginPage /></Suspense>,
+    element: <Suspense fallback={<LoadingFallback />}><AdminLoginPage /></Suspense>,
+    errorElement: <RootErrorBoundary />,
   },
   {
     path: "/admin-dashboard",
-    Component: () => <Suspense fallback={<LoadingFallback />}><AdminDashboard /></Suspense>,
+    element: <Suspense fallback={<LoadingFallback />}><AdminDashboard /></Suspense>,
+    errorElement: <RootErrorBoundary />,
   },
 ]);
