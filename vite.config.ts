@@ -18,7 +18,7 @@ export default defineConfig({
   },
 
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
-  assetsInclude: ['**/*.svg', '**/*.csv', '**/manifest.json', '**/*.png', '**/*.jpg', '**/*.jpeg'],
+  assetsInclude: ['**/*.svg', '**/*.csv', '**/manifest.json', '**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.webp'],
   
   // Build configuration for production
   build: {
@@ -26,11 +26,13 @@ export default defineConfig({
     assetsDir: 'assets',
     sourcemap: false,
     minify: 'terser',
+    target: 'es2020',
     terserOptions: {
       compress: {
         drop_console: true,
         drop_debugger: true,
         passes: 2,
+        pure_funcs: ['console.log', 'console.info', 'console.debug'],
       },
       mangle: true,
       format: {
@@ -43,23 +45,57 @@ export default defineConfig({
     // Tree shake unused code
     rollupOptions: {
       output: {
-        manualChunks: {
-          // Split vendor libraries
-          'vendor-react': ['react', 'react-dom', 'react-router'],
-          'vendor-ui': ['@radix-ui/react-accordion', '@radix-ui/react-alert-dialog', '@radix-ui/react-aspect-ratio', '@radix-ui/react-avatar', '@radix-ui/react-checkbox', '@radix-ui/react-collapsible', '@radix-ui/react-context-menu', '@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-hover-card', '@radix-ui/react-label', '@radix-ui/react-menubar', '@radix-ui/react-navigation-menu', '@radix-ui/react-popover', '@radix-ui/react-progress', '@radix-ui/react-radio-group', '@radix-ui/react-scroll-area', '@radix-ui/react-select', '@radix-ui/react-separator', '@radix-ui/react-slider', '@radix-ui/react-slot', '@radix-ui/react-switch', '@radix-ui/react-tabs', '@radix-ui/react-toggle', '@radix-ui/react-toggle-group', '@radix-ui/react-tooltip'],
-          'vendor-mui': ['@mui/material', '@mui/icons-material'],
-          'vendor-other': ['@emotion/react', '@emotion/styled', 'clsx', 'class-variance-authority', 'tailwind-merge'],
+        manualChunks: (id) => {
+          // Core React — needed on every page, keep small and together
+          if (id.includes('node_modules/react/') || 
+              id.includes('node_modules/react-dom/') || 
+              id.includes('node_modules/react-router/') ||
+              id.includes('node_modules/react-router-dom/')) {
+            return 'vendor-react';
+          }
+          // Supabase — only used in admin & data-fetch pages, defer it
+          if (id.includes('node_modules/@supabase/')) {
+            return 'vendor-supabase';
+          }
+          // Gemini AI — only used in Chatbot, keep separate
+          if (id.includes('node_modules/@google/generative-ai')) {
+            return 'vendor-gemini';
+          }
+          // MUI is heavy — keep isolated so non-admin pages skip it
+          if (id.includes('node_modules/@mui/') || 
+              id.includes('node_modules/@emotion/')) {
+            return 'vendor-mui';
+          }
+          // Animation library
+          if (id.includes('node_modules/motion/') || 
+              id.includes('node_modules/framer-motion/')) {
+            return 'vendor-motion';
+          }
+          // All other Radix UI primitives
+          if (id.includes('node_modules/@radix-ui/')) {
+            return 'vendor-radix';
+          }
+          // Recharts / tanstack query — admin only
+          if (id.includes('node_modules/recharts') || 
+              id.includes('node_modules/@tanstack/')) {
+            return 'vendor-admin';
+          }
+          // General UI utilities
+          if (id.includes('node_modules/clsx') || 
+              id.includes('node_modules/class-variance-authority') ||
+              id.includes('node_modules/tailwind-merge') ||
+              id.includes('node_modules/lucide-react') ||
+              id.includes('node_modules/sonner')) {
+            return 'vendor-ui-utils';
+          }
         },
-        // Optimize chunk size
+        // Optimize chunk naming
         chunkFileNames: 'assets/[name].[hash].js',
         entryFileNames: 'assets/[name].[hash].js',
         assetFileNames: 'assets/[name].[hash][extname]',
       },
-      treeshake: {
-        moduleSideEffects: false,
-      }
     },
-    // Increase chunk size warning
+    // Report compressed sizes
     reportCompressedSize: true,
     chunkSizeWarningLimit: 500,
   },
@@ -67,4 +103,6 @@ export default defineConfig({
   // Base URL configuration
   base: '/',
 })
+
+
 

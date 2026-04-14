@@ -5,8 +5,8 @@ import { Button } from '../components/ui/button';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import { ChevronRight, ArrowLeft, MessageCircle, Phone, Mail } from 'lucide-react';
 import { CATEGORIES_WITH_SUBCATEGORIES } from '../constants';
-// Cloudinary category card image
-const religiousImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312393/ReligiousCat_zak58e.webp';
+// Cloudinary category card image - with auto quality and format for best compression
+const religiousImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_800/v1775312393/ReligiousCat_zak58e.webp';
 // Cloudinary URL
 const servicesHeroUrl = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775420846/servicehero_ugr8zi.jpg';
 const servicesHeroImageToUse = servicesHeroUrl;

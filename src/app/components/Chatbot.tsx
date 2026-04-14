@@ -167,6 +167,7 @@ export function Chatbot({ hideWhatsAppButton = false }: { hideWhatsAppButton?: b
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsOpen(true)}
+            aria-label="Open chat assistant"
             className="fixed bottom-6 right-6 z-50 bg-red-800 text-white p-4 rounded-full shadow-xl hover:bg-red-900 transition-colors"
             style={{ fontFamily: 'Poppins, sans-serif' }}
           >
@@ -196,7 +197,7 @@ export function Chatbot({ hideWhatsAppButton = false }: { hideWhatsAppButton?: b
                   <p className="text-xs opacity-90">Online - Ask us anything!</p>
                 </div>
               </div>
-              <button onClick={() => setIsOpen(false)} className="hover:bg-white/20 p-1 rounded">
+              <button aria-label="Close chat assistant" onClick={() => setIsOpen(false)} className="hover:bg-white/20 p-1 rounded">
                 <X size={20} />
               </button>
             </div>
@@ -239,6 +240,7 @@ export function Chatbot({ hideWhatsAppButton = false }: { hideWhatsAppButton?: b
                 <Button
                   onClick={handleSend}
                   disabled={isLoading}
+                  aria-label="Send message"
                   className="bg-red-800 text-white p-2 rounded-full hover:bg-red-900 hover:shadow-lg disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
                   {isLoading ? <Loader size={20} className="animate-spin" /> : <Send size={20} />}
@@ -260,6 +262,7 @@ export function Chatbot({ hideWhatsAppButton = false }: { hideWhatsAppButton?: b
           animate={{ scale: 1, opacity: 1 }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
+          aria-label="Contact us on WhatsApp"
           className="fixed bottom-6 left-6 z-50 bg-gradient-to-r from-green-500 to-green-600 text-white p-4 rounded-full shadow-2xl hover:shadow-green-500/50 transition-all duration-300 group"
           style={{ fontFamily: 'Poppins, sans-serif' }}
         >

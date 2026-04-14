@@ -3,8 +3,10 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Button } from './ui/button';
-import logo from '../images/Tsd logo.webp';
 import { CATEGORIES_WITH_SUBCATEGORIES } from '../../supabase';
+
+// Serve logo via Cloudinary for auto-format + exact-size delivery (saves ~76 KiB)
+const LOGO_URL = 'https://res.cloudinary.com/djvccbmtx/image/upload/w_332,h_160,c_fit,f_auto,q_auto/v1/Tsd%20logo.webp';
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -56,8 +58,10 @@ export function Header() {
                 className="flex items-center"
               >
                 <img 
-                  src={logo} 
+                  src={LOGO_URL} 
                   alt="TSD Events & Decor Logo" 
+                  width="166"
+                  height="80"
                   className="h-16 w-auto object-contain"
                 />
               </motion.div>
@@ -137,6 +141,7 @@ export function Header() {
                                   setIsServicesHovered(false);
                                   navigate('/services');
                                 }}
+                                aria-label="Explore all services"
                                 className="text-red-700/90 hover:text-red-800/90 font-bold text-sm flex items-center space-x-1 group"
                               >
                                 <span>View All</span>
