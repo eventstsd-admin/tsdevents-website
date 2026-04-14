@@ -35,7 +35,8 @@ export default defineConfig({
         pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn'],
         collapse_vars: true,
         reduce_vars: true,
-        booleans_as_integers: true,
+        // NOTE: Do NOT enable booleans_as_integers — it converts false to 0,
+        // which React renders as visible text in JSX conditionals.
         hoist_funs: true,
         unsafe_arrows: true,
       },
