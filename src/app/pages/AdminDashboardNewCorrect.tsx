@@ -136,16 +136,16 @@ function AdminLayoutWithTabs({
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Sidebar */}
-      <div className="w-64 bg-white shadow-lg">
+    <div className="h-screen overflow-hidden bg-gray-50 flex">
+      {/* Sidebar — fixed height, never scrolls */}
+      <div className="w-64 flex-shrink-0 bg-white shadow-lg flex flex-col h-full">
         <div className="p-6 border-b">
           <h1 className="text-2xl font-bold text-red-700">TSD Admin</h1>
           <p className="text-sm text-gray-600 mt-2">Welcome, {userName}</p>
         </div>
 
         {/* Menu Items */}
-        <nav className="p-4">
+        <nav className="p-4 flex-1 overflow-y-auto">
           {menuItems.map((item) => (
             <button
               key={item.id}
@@ -161,8 +161,8 @@ function AdminLayoutWithTabs({
           ))}
         </nav>
 
-        {/* Logout Button */}
-        <div className="p-4 border-t absolute bottom-0 w-64">
+        {/* Logout Button — always visible at bottom */}
+        <div className="p-4 border-t flex-shrink-0">
           <button
             onClick={onLogout}
             className="w-full flex items-center justify-center gap-2 bg-red-700 hover:bg-red-800 text-white font-medium py-2 rounded-lg transition-colors"
@@ -172,17 +172,17 @@ function AdminLayoutWithTabs({
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+      {/* Main Content — only this area scrolls */}
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Header */}
-        <div className="bg-white border-b shadow-sm p-6">
+        <div className="bg-white border-b shadow-sm p-6 flex-shrink-0">
           <h2 className="text-3xl font-bold text-gray-800">
             {menuItems.find((item) => item.id === activeTab)?.label}
           </h2>
         </div>
 
-        {/* Content Area */}
-        <div className="flex-1 p-6 overflow-auto">
+        {/* Content Area — scrollable */}
+        <div className="flex-1 p-6 overflow-y-auto overflow-x-hidden">
           {children}
         </div>
       </div>

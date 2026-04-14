@@ -5,8 +5,10 @@ import { CATEGORIES } from '../constants';
 import { Button } from './ui/button';
 import { Trash2, ChevronDown, Plus, X } from 'lucide-react';
 
-// Image compression function with strict 100KB limit
+// Image compression function — iteratively loops on quality AND dimensions until < 100KB
 async function compressImage(file: File): Promise<File> {
+  const TARGET_SIZE = 100 * 1024; // 100 KB
+
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -14,43 +16,58 @@ async function compressImage(file: File): Promise<File> {
       const img = new Image();
       img.src = event.target?.result as string;
       img.onload = () => {
-        const canvas = document.createElement('canvas');
+        // Start at most 1200px on the longest side
+        const MAX_START = 1200;
         let width = img.width;
         let height = img.height;
-
-        const MAX_DIMENSION = 800;
-        if (width > height && width > MAX_DIMENSION) {
-          height = (height * MAX_DIMENSION) / width;
-          width = MAX_DIMENSION;
-        } else if (height > MAX_DIMENSION) {
-          width = (width * MAX_DIMENSION) / height;
-          height = MAX_DIMENSION;
+        if (width > height && width > MAX_START) {
+          height = Math.round((height * MAX_START) / width);
+          width = MAX_START;
+        } else if (height > MAX_START) {
+          width = Math.round((width * MAX_START) / height);
+          height = MAX_START;
         }
 
-        canvas.width = width;
-        canvas.height = height;
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d')!;
 
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
+        // Redraw canvas at current dimensions
+        const drawCanvas = () => {
+          canvas.width = width;
+          canvas.height = height;
+          ctx.clearRect(0, 0, width, height);
           ctx.drawImage(img, 0, 0, width, height);
-        }
-
-        const compressWithQuality = (quality: number, attempt: number): void => {
-          if (quality < 0.1 || attempt > 10) {
-            canvas.toBlob((blob) => {
-              resolve(new File([blob || new Blob()], file.name, { type: 'image/jpeg' }));
-            }, 'image/jpeg', 0.1);
-            return;
-          }
-
-          canvas.toBlob((blob) => {
-            if (!blob) return resolve(file);
-            if (blob.size <= 100 * 1024) return resolve(new File([blob], file.name, { type: 'image/jpeg' }));
-            compressWithQuality(quality - 0.1, attempt + 1);
-          }, 'image/jpeg', quality);
         };
 
-        compressWithQuality(0.8, 0);
+        // Inner loop: step quality from 0.85 down to 0.05
+        const tryQuality = (quality: number): Promise<Blob | null> =>
+          new Promise((res) => canvas.toBlob(res, 'image/jpeg', quality));
+
+        const compressLoop = async (): Promise<File> => {
+          drawCanvas();
+
+          // Loop 1: reduce quality at current dimensions
+          for (let q = 0.85; q >= 0.05; q = Math.round((q - 0.1) * 100) / 100) {
+            const blob = await tryQuality(q);
+            if (!blob) break;
+            if (blob.size <= TARGET_SIZE) {
+              return new File([blob], file.name, { type: 'image/jpeg' });
+            }
+          }
+
+          // Still over 100KB — shrink dimensions by 20% and repeat
+          if (width > 100 && height > 100) {
+            width = Math.round(width * 0.8);
+            height = Math.round(height * 0.8);
+            return compressLoop();
+          }
+
+          // Last resort: minimum quality at current (tiny) size
+          const blob = await tryQuality(0.05);
+          return new File([blob || new Blob()], file.name, { type: 'image/jpeg' });
+        };
+
+        compressLoop().then(resolve);
       };
     };
   });
@@ -116,6 +133,27 @@ export function GalleryManager() {
     }
   };
 
+  // Returns the current total photo count for a given category (across all batches)
+  const getCategoryPhotoCount = async (category: string): Promise<number> => {
+    const { data, error } = await supabase
+      .from('gallery_photos')
+      .select('id, gallery_batches!inner(category)')
+      .eq('gallery_batches.category', category);
+
+    if (error) {
+      console.error('Error counting category photos:', error);
+      return 0;
+    }
+    return data?.length ?? 0;
+  };
+
+  // Generates a padded sequential name: "Religious_image_03"
+  const buildImageName = (category: string, number: number): string => {
+    const slug = category.replace(/\s+/g, '_');
+    const padded = String(number).padStart(2, '0');
+    return `${slug}_image_${padded}`;
+  };
+
   const handleUploadGallery = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedCategory) {
@@ -135,18 +173,19 @@ export function GalleryManager() {
 
     setLoading(true);
     try {
+      // Count how many images already exist in this category — determines the starting number
+      const existingCount = await getCategoryPhotoCount(selectedCategory);
+
       // Create a gallery batch first
       const { data, error } = await supabase
         .from('gallery_batches')
-        .insert([{
-          category: selectedCategory,
-        }])
+        .insert([{ category: selectedCategory }])
         .select();
 
       if (error) throw error;
 
       const batchId = data[0].id;
-      await uploadEventImages(batchId);
+      await uploadEventImages(batchId, existingCount);
 
       toast.success('Gallery photos uploaded successfully!');
       setSelectedCategory('');
@@ -161,13 +200,20 @@ export function GalleryManager() {
     }
   };
 
-  const uploadEventImages = async (batchId: string) => {
-    for (const file of selectedImages) {
+  const uploadEventImages = async (batchId: string, startingIndex: number = 0) => {
+    for (let i = 0; i < selectedImages.length; i++) {
+      const file = selectedImages[i];
+      // Sequential name: existing photos in category + position in this batch (1-based)
+      const imageNumber = startingIndex + i + 1;
+      const imageName = buildImageName(selectedCategory, imageNumber);
       try {
         let uploadFile = file;
 
         if (file.type.startsWith('image/')) {
+          toast.info(`🗜️ Compressing ${imageName} (${i + 1}/${selectedImages.length})`);
           uploadFile = await compressImage(file);
+          const kb = (uploadFile.size / 1024).toFixed(1);
+          toast.success(`✅ ${imageName} — compressed to ${kb}KB, uploading…`, { duration: 2000 });
         }
 
         const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -216,10 +262,10 @@ export function GalleryManager() {
           .insert({
             batch_id: batchId,
             url: cloudinaryData.secure_url,
-            alt_text: file.name,
+            alt_text: imageName,  // e.g. "Religious_image_03"
           });
 
-        toast.success(`✅ Uploaded: ${file.name}`);
+        toast.success(`📸 Saved as ${imageName}`);
       } catch (error) {
         console.error('Error uploading image:', error);
       }
@@ -337,8 +383,8 @@ export function GalleryManager() {
                     </p>
                     <div className="max-h-60 overflow-y-auto space-y-2 pr-2">
                       {selectedImages.map((file, index) => (
-                        <div key={index} className="flex items-center justify-between bg-white border border-gray-200 p-2 rounded">
-                          <span className="text-sm text-gray-700 truncate mr-4">{file.name}</span>
+                        <div key={index} className="flex items-center justify-between bg-white border border-gray-200 p-2 rounded min-w-0">
+                          <span className="text-sm text-gray-700 truncate min-w-0 flex-1 mr-3">{file.name}</span>
                           <button
                             type="button"
                             onClick={() => removeImage(index)}

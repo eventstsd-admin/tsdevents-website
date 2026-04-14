@@ -12,8 +12,10 @@ export interface TeamMember {
   sort_order: number;
 }
 
-// Intense Image compression function strictly aiming for < 50KB
+// Iterative compression — reduces quality then dimensions until < 50KB
 async function compressImage(file: File): Promise<File> {
+  const TARGET_SIZE = 50 * 1024; // 50 KB
+
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -21,56 +23,48 @@ async function compressImage(file: File): Promise<File> {
       const img = new Image();
       img.src = event.target?.result as string;
       img.onload = () => {
-        const canvas = document.createElement('canvas');
+        const MAX_START = 600;
         let width = img.width;
         let height = img.height;
-
-        // Downscale resolutions aggressively to help hit the 50KB limit easily
-        const MAX_DIMENSION = 600;
-        if (width > height && width > MAX_DIMENSION) {
-          height = Math.round((height * MAX_DIMENSION) / width);
-          width = MAX_DIMENSION;
-        } else if (height > MAX_DIMENSION) {
-          width = Math.round((width * MAX_DIMENSION) / height);
-          height = MAX_DIMENSION;
+        if (width > height && width > MAX_START) {
+          height = Math.round((height * MAX_START) / width);
+          width = MAX_START;
+        } else if (height > MAX_START) {
+          width = Math.round((width * MAX_START) / height);
+          height = MAX_START;
         }
 
-        canvas.width = width;
-        canvas.height = height;
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d')!;
 
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
+        const drawCanvas = () => {
+          canvas.width = width;
+          canvas.height = height;
+          ctx.clearRect(0, 0, width, height);
           ctx.drawImage(img, 0, 0, width, height);
-        }
-
-        const MAX_SIZE = 50 * 1024; // 50 KB
-
-        // Recursive loop dropping quality down
-        const compressWithQuality = (quality: number, attempt: number): void => {
-          // Absolute floor of 0.1 quality or 15 loops
-          if (quality <= 0.1 || attempt > 15) {
-            canvas.toBlob((blob) => {
-              resolve(new File([blob || new Blob()], file.name, { type: 'image/jpeg' }));
-            }, 'image/jpeg', 0.1);
-            return;
-          }
-
-          canvas.toBlob((blob) => {
-            if (!blob) {
-              resolve(file);
-              return;
-            }
-            if (blob.size <= MAX_SIZE) {
-              resolve(new File([blob], file.name, { type: 'image/jpeg' }));
-              return;
-            }
-            // Drop quality by 10% and recurse
-            compressWithQuality(quality - 0.1, attempt + 1);
-          }, 'image/jpeg', quality);
         };
 
-        // Start from 0.8
-        compressWithQuality(0.8, 0);
+        const tryQuality = (q: number): Promise<Blob | null> =>
+          new Promise((res) => canvas.toBlob(res, 'image/jpeg', q));
+
+        const compressLoop = async (): Promise<File> => {
+          drawCanvas();
+          for (let q = 0.85; q >= 0.05; q = Math.round((q - 0.1) * 100) / 100) {
+            const blob = await tryQuality(q);
+            if (!blob) break;
+            if (blob.size <= TARGET_SIZE)
+              return new File([blob], file.name, { type: 'image/jpeg' });
+          }
+          if (width > 80 && height > 80) {
+            width = Math.round(width * 0.8);
+            height = Math.round(height * 0.8);
+            return compressLoop();
+          }
+          const blob = await tryQuality(0.05);
+          return new File([blob || new Blob()], file.name, { type: 'image/jpeg' });
+        };
+
+        compressLoop().then(resolve);
       };
     };
   });
@@ -139,7 +133,7 @@ export function TeamManager() {
     const { cloud_name, api_key, signature, timestamp, upload_preset } = await signResponse.json();
 
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', compressedFile);  // ← use compressed, not original
     formData.append('upload_preset', upload_preset);
     formData.append('api_key', api_key);
     formData.append('signature', signature);

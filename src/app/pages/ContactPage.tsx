@@ -229,7 +229,7 @@ export default function ContactPage() {
 
       {/* Contact Section - Vertical Layout */}
       <section className="py-20 bg-white">
-        <div className="container mx-auto px-4 max-w-3xl">
+        <div className="container mx-auto px-4 max-w-4xl">
           {/* Contact Form - First */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -258,7 +258,7 @@ export default function ContactPage() {
                 <div>
                   <Label htmlFor="phone" className="flex items-center gap-2 mb-2">
                     <Phone className="w-4 h-4 text-red-800" />
-                    Phone Number *
+                    Phone Number (whatsapp)*
                   </Label>
                   <Input
                     id="phone"

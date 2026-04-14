@@ -11,8 +11,10 @@ export interface ClientLogo {
   created_at: string;
 }
 
-// Intense Image compression function strictly aiming for < 30KB
+// Iterative compression — reduces quality then dimensions until < 30KB
 async function compressLogoImage(file: File): Promise<File> {
+  const TARGET_SIZE = 30 * 1024; // 30 KB
+
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -20,58 +22,50 @@ async function compressLogoImage(file: File): Promise<File> {
       const img = new Image();
       img.src = event.target?.result as string;
       img.onload = () => {
-        const canvas = document.createElement('canvas');
+        const MAX_START = 400;
         let width = img.width;
         let height = img.height;
-
-        // Downscale resolutions aggressively to help hit the 30KB limit easily
-        const MAX_DIMENSION = 400;
-        if (width > height && width > MAX_DIMENSION) {
-          height = Math.round((height * MAX_DIMENSION) / width);
-          width = MAX_DIMENSION;
-        } else if (height > MAX_DIMENSION) {
-          width = Math.round((width * MAX_DIMENSION) / height);
-          height = MAX_DIMENSION;
+        if (width > height && width > MAX_START) {
+          height = Math.round((height * MAX_START) / width);
+          width = MAX_START;
+        } else if (height > MAX_START) {
+          width = Math.round((width * MAX_START) / height);
+          height = MAX_START;
         }
 
-        canvas.width = width;
-        canvas.height = height;
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d')!;
 
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
-          // Fill with transparent or white background if png?
+        const drawCanvas = () => {
+          canvas.width = width;
+          canvas.height = height;
+          ctx.clearRect(0, 0, width, height);
           ctx.drawImage(img, 0, 0, width, height);
-        }
-
-        const MAX_SIZE = 30 * 1024; // 30 KB
-
-        // Recursive loop dropping quality down
-        const compressWithQuality = (quality: number, attempt: number): void => {
-          // Absolute floor of 0.1 quality or 15 loops
-          if (quality <= 0.1 || attempt > 15) {
-            canvas.toBlob((blob) => {
-              // Note: using PNG to maintain transparency for logos, but WebP is better
-              resolve(new File([blob || new Blob()], file.name.replace(/\.[^/.]+$/, "") + ".webp", { type: 'image/webp' }));
-            }, 'image/webp', 0.1);
-            return;
-          }
-
-          canvas.toBlob((blob) => {
-            if (!blob) {
-              resolve(file);
-              return;
-            }
-            if (blob.size <= MAX_SIZE) {
-              resolve(new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".webp", { type: 'image/webp' }));
-              return;
-            }
-            // Drop quality by 10% and recurse
-            compressWithQuality(quality - 0.1, attempt + 1);
-          }, 'image/webp', quality);
         };
 
-        // Start from 0.8
-        compressWithQuality(0.8, 0);
+        const tryQuality = (q: number): Promise<Blob | null> =>
+          new Promise((res) => canvas.toBlob(res, 'image/webp', q));
+
+        const outName = file.name.replace(/\.[^/.]+$/, '') + '.webp';
+
+        const compressLoop = async (): Promise<File> => {
+          drawCanvas();
+          for (let q = 0.85; q >= 0.05; q = Math.round((q - 0.1) * 100) / 100) {
+            const blob = await tryQuality(q);
+            if (!blob) break;
+            if (blob.size <= TARGET_SIZE)
+              return new File([blob], outName, { type: 'image/webp' });
+          }
+          if (width > 60 && height > 60) {
+            width = Math.round(width * 0.8);
+            height = Math.round(height * 0.8);
+            return compressLoop();
+          }
+          const blob = await tryQuality(0.05);
+          return new File([blob || new Blob()], outName, { type: 'image/webp' });
+        };
+
+        compressLoop().then(resolve);
       };
     };
   });

@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import Masonry from 'react-responsive-masonry';
 import { Button } from '../components/ui/button';
@@ -19,7 +19,6 @@ interface PhotoItem {
 
 const categoryFilters = ['All', ...CATEGORIES];
 const IMAGES_PER_PAGE = 10;
-const MAX_IMAGES = 50;
 
 export default function GalleryPage() {
   const navigate = useNavigate();
@@ -29,6 +28,7 @@ export default function GalleryPage() {
   const [displayedImagesCount, setDisplayedImagesCount] = useState(IMAGES_PER_PAGE);
   const [loadingMore, setLoadingMore] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     fetchPhotos();
@@ -77,7 +77,7 @@ export default function GalleryPage() {
       : photos.filter((img) => img.category === selectedCategory);
 
   const displayedImages = filteredImages.slice(0, displayedImagesCount);
-  const hasMoreImages = displayedImagesCount < filteredImages.length && displayedImagesCount < MAX_IMAGES;
+  const hasMore = displayedImagesCount < filteredImages.length;
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -90,15 +90,30 @@ export default function GalleryPage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [lightboxIndex, displayedImages.length]);
 
-  const loadMoreImages = () => {
+  // Infinite scroll — load 10 more whenever the sentinel enters the viewport
+  const loadMore = useCallback(() => {
+    if (loadingMore || !hasMore) return;
     setLoadingMore(true);
-    
-    // Simulate loading delay for better UX
     setTimeout(() => {
-      setDisplayedImagesCount(prev => Math.min(prev + IMAGES_PER_PAGE, MAX_IMAGES, filteredImages.length));
+      setDisplayedImagesCount(prev => Math.min(prev + IMAGES_PER_PAGE, filteredImages.length));
       setLoadingMore(false);
-    }, 500);
-  };
+    }, 300);
+  }, [loadingMore, hasMore, filteredImages.length]);
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) loadMore();
+      },
+      { rootMargin: '200px' } // start loading 200px before the sentinel is visible
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [loadMore]);
 
   return (
     <div className="bg-white">
@@ -252,26 +267,18 @@ export default function GalleryPage() {
             </>
           )}
 
-          {/* View More Button */}
-          {!loading && filteredImages.length > displayedImagesCount && displayedImagesCount < MAX_IMAGES && (
-            <div className="text-center mt-12">
-              <Button
-                onClick={loadMoreImages}
-                disabled={loadingMore}
-                variant="ghost"
-                className="text-black hover:text-gray-700 bg-white hover:bg-gray-50 border border-gray-200 px-6 py-2 text-sm font-medium transition-all duration-300"
-              >
-                {loadingMore ? (
-                  <div className="flex items-center">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600 mr-2"></div>
-                    Loading...
-                  </div>
-                ) : (
-                  <>
-                    View More ({Math.min(IMAGES_PER_PAGE, filteredImages.length - displayedImagesCount)} more)
-                  </>
-                )}
-              </Button>
+          {/* Infinite scroll sentinel */}
+          {!loading && (
+            <div ref={sentinelRef} className="flex justify-center items-center mt-12 h-10">
+              {loadingMore && (
+                <div className="flex items-center gap-3 text-gray-500 text-sm">
+                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-gray-300 border-t-red-600" />
+                  Loading more photos…
+                </div>
+              )}
+              {!hasMore && photos.length > 0 && (
+                <p className="text-gray-400 text-sm">All {filteredImages.length} photos loaded</p>
+              )}
             </div>
           )}
         </div>
