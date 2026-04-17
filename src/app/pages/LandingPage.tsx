@@ -292,16 +292,18 @@ export default function LandingPage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => window.open('https://wa.me/919825413606?text=Hi%2C%20I%20want%20to%20plan%20an%20event.%20Can%20you%20share%20details%3F', '_blank')}
-                className="bg-green-600 hover:bg-green-700 text-white px-5 sm:px-8 py-3 sm:py-4 rounded-full text-sm sm:text-base font-semibold shadow-lg transition-all duration-300 transform"
+                className="bg-green-600 hover:bg-green-700 text-white px-5 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold shadow-lg transition-all duration-300 transform flex items-center gap-2 justify-center"
               >
+                <MessageCircle size={20} />
                 Get Free Quote on WhatsApp
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => navigate('/contact')}
-                className="bg-red-800 hover:bg-red-900 text-white px-5 sm:px-8 py-3 sm:py-4 rounded-full text-sm sm:text-base font-semibold shadow-lg transition-all duration-300 transform"
+                className="bg-red-800 hover:bg-red-900 text-white px-5 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold shadow-lg transition-all duration-300 transform flex items-center gap-2 justify-center"
               >
+                <Phone size={20} />
                 Contact Us
               </motion.button>
             </div>
