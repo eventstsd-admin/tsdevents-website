@@ -288,18 +288,22 @@ export default function LandingPage() {
               TSD Events - Professional Jain Event Management in Ahmedabad. From weddings to corporate events — we create unforgettable experiences. 12+ years of excellence, 500+ successful celebrations.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => window.open('https://wa.me/919825413606?text=Hi%2C%20I%20want%20to%20plan%20an%20event.%20Can%20you%20share%20details%3F', '_blank')}
-                className="bg-green-600 hover:bg-green-700 text-white px-6 sm:px-10 py-4 sm:py-6 rounded-md text-base sm:text-lg font-semibold shadow-lg transition-all duration-300"
+                className="bg-green-600 hover:bg-green-700 text-white px-5 sm:px-8 py-3 sm:py-4 rounded-full text-sm sm:text-base font-semibold shadow-lg transition-all duration-300 transform"
               >
                 Get Free Quote on WhatsApp
-              </button>
-              <button
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => navigate('/contact')}
-                className="bg-red-800 hover:bg-red-900 text-white px-6 sm:px-8 py-4 sm:py-6 rounded-md text-base sm:text-lg font-semibold shadow-lg transition-all duration-300"
+                className="bg-red-800 hover:bg-red-900 text-white px-5 sm:px-8 py-3 sm:py-4 rounded-full text-sm sm:text-base font-semibold shadow-lg transition-all duration-300 transform"
               >
                 Contact Us
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>

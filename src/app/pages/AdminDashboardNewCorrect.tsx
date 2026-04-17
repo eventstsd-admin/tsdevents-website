@@ -6,6 +6,7 @@ import { GalleryManager } from '../components/GalleryManager';
 import { TeamManager } from '../components/TeamManager';
 import { ClientLogoManager } from '../components/ClientLogoManager';
 import { InquiryManager } from '../components/InquiryManager';
+import { BlogManager } from '../components/BlogManager';
 import { Calendar, Users, DollarSign, TrendingUp } from 'lucide-react';
 
 export default function AdminDashboard() {
@@ -78,6 +79,8 @@ export default function AdminDashboard() {
         return <TeamManager />;
       case 'clients':
         return <ClientLogoManager />;
+      case 'blog':
+        return <BlogManager />;
       default:
         return <InquiryManager />;
     }
@@ -133,6 +136,7 @@ function AdminLayoutWithTabs({
     { id: 'gallery', label: 'Gallery Uploads' },
     { id: 'team', label: 'Team Members' },
     { id: 'clients', label: 'Client Logos' },
+    { id: 'blog', label: 'Blog' },
   ];
 
   return (

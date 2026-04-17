@@ -29,7 +29,7 @@ export function Header() {
     { name: 'Home', path: '/' },
     { name: 'Services', path: '/services', hasDropdown: true },
     { name: 'Gallery', path: '/gallery' },
-
+    { name: 'Blogs', path: '/blog' },
     { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' },
   ];

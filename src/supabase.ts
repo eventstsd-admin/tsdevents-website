@@ -50,6 +50,15 @@ export interface PastEvent {
   thumbnail_url?: string;
 }
 
+export interface Blog {
+  id: string;
+  title: string;
+  author_name: string;
+  body: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
 // Booking operations
 // bookingOperations removed - see unused/BookingFlow.tsx
 
@@ -259,5 +268,44 @@ export const pastEventOperations = {
       alt_text: photo.alt_text || 'Event photo',
       event_title: photo.past_events?.title || 'Event'
     }));
+  },
+};
+
+// Blog operations
+export const blogOperations = {
+  async getAll() {
+    const { data, error } = await supabase
+      .from('blogs')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+    return data;
+  },
+
+  async create(blog: Omit<Blog, 'id'>) {
+    const { data, error } = await supabase
+      .from('blogs')
+      .insert([blog])
+      .select();
+    if (error) throw error;
+    return data[0];
+  },
+
+  async update(id: string, blog: Partial<Blog>) {
+    const { data, error } = await supabase
+      .from('blogs')
+      .update(blog)
+      .eq('id', id)
+      .select();
+    if (error) throw error;
+    return data[0];
+  },
+
+  async delete(id: string) {
+    const { error } = await supabase
+      .from('blogs')
+      .delete()
+      .eq('id', id);
+    if (error) throw error;
   },
 };

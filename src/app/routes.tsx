@@ -9,6 +9,8 @@ const ServicesPage = lazy(() => import("./pages/ServicesPage"));
 const GalleryPage = lazy(() => import("./pages/GalleryPage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
+const BlogPage = lazy(() => import("./pages/BlogPage"));
+const BlogDetailPage = lazy(() => import("./pages/BlogDetailPage"));
 
 const AdminLoginPage = lazy(() => import("./pages/AdminLoginPage"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboardNewCorrect"));
@@ -50,6 +52,16 @@ export const router = createBrowserRouter([
         id: "contact",
         path: "contact", 
         element: <Suspense fallback={<LoadingFallback />}><ContactPage /></Suspense>
+      },
+      { 
+        id: "blog",
+        path: "blog", 
+        element: <Suspense fallback={<LoadingFallback />}><BlogPage /></Suspense>
+      },
+      { 
+        id: "blog-detail",
+        path: "blog/:id", 
+        element: <Suspense fallback={<LoadingFallback />}><BlogDetailPage /></Suspense>
       },
     ],
   },

@@ -39,6 +39,14 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- Blog Page -->
+  <url>
+    <loc>https://tsdevents.in/blog</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- Contact Page - High Priority for Conversions -->
   <url>
     <loc>https://tsdevents.in/contact</loc>

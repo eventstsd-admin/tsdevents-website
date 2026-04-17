@@ -13,6 +13,8 @@ Allow: /services
 Allow: /gallery
 Allow: /about
 Allow: /contact
+Allow: /blog
+Allow: /blog/*
 Disallow: /admin
 Disallow: /admin-dashboard
 Crawl-delay: 0
@@ -20,6 +22,8 @@ Crawl-delay: 0
 # Bing specific
 User-agent: Bingbot
 Allow: /
+Allow: /blog
+Allow: /blog/*
 Disallow: /admin
 Disallow: /admin-dashboard
 
