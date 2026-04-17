@@ -9,7 +9,7 @@ import { optimizeGalleryImage } from '../utils/cloudinaryOptimizer';
 import { MessageCircle, Phone, Mail, X, ChevronLeft, ChevronRight } from 'lucide-react';
 // Cloudinary URL
 const galleryHeroUrl = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312277/GalleryHero_j8bvra.jpg';
-const galleryHeroImageToUse = galleryHeroUrl;
+const galleryHeroImageToUse = optimizeGalleryImage(galleryHeroUrl, { width: 1920 });
 
 interface PhotoItem {
   id: string;
@@ -200,14 +200,16 @@ export default function GalleryPage() {
 
       {/* Hero Section */}
       <section className="relative h-[50vh] overflow-hidden text-white flex items-center justify-center pt-20">
+        <link rel="preload" as="image" href={galleryHeroImageToUse} />
         <div className="absolute inset-0">
           {/* Background Image */}
-          <motion.div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url(${galleryHeroImageToUse})` }}
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
+          <img 
+            src={galleryHeroImageToUse}
+            alt="Event Gallery"
+            className="absolute inset-0 w-full h-full object-cover"
+            fetchPriority="high"
+            loading="eager"
+            decoding="sync"
           />
           {/* Dark Overlay */}
           <div className="absolute inset-0 bg-black/60" />
@@ -215,21 +217,12 @@ export default function GalleryPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
         </div>
         <div className="relative z-10 text-center px-4 max-w-full sm:max-w-4xl w-full sm:w-11/12 mx-auto py-8 sm:py-0">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
-          >
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
             Event Gallery
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300"
-          >
+          </h1>
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300">
             Professional event photography showcasing our successful celebrations.
-          </motion.p>
+          </p>
         </div>
       </section>
 
@@ -241,10 +234,10 @@ export default function GalleryPage() {
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-2 font-medium transition-all ${
+                className={`px-6 py-2.5 rounded-full font-semibold transition-all duration-300 shadow-sm hover:-translate-y-0.5 ${
                   selectedCategory === category
-                    ? 'bg-red-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                    ? 'bg-red-600 text-white shadow-red-600/30 shadow-md ring-2 ring-red-600 ring-offset-2'
+                    : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-red-200 hover:text-red-500 hover:shadow-gray-200'
                 }`}
               >
                 {category}
@@ -283,6 +276,7 @@ export default function GalleryPage() {
                       width="400"
                       height="400"
                       loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     {/* Category overlay on hover */}
@@ -338,24 +332,24 @@ export default function GalleryPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 onClick={() => window.open('https://wa.me/919825413606?text=Hi%2C%20I%20saw%20your%20gallery%20and%20I%27m%20interested%20in%20planning%20an%20event.%20Can%20you%20help%3F', '_blank')}
-                className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
+                className="bg-[#25D366] hover:bg-white text-white hover:text-[#25D366] border-2 border-[#25D366] px-8 py-6 rounded-full text-lg font-medium transition-colors duration-300 inline-flex items-center justify-center shadow-none hover:shadow-lg"
               >
                 <MessageCircle className="mr-2 w-5 h-5" />
-                Contact on WhatsApp
+                <span>Contact on WhatsApp</span>
               </Button>
               <Button
                 onClick={() => window.location.href = 'mailto:info@tsdevents.in'}
-                className="bg-white hover:bg-gray-100 text-red-600 px-8 py-4 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
+                className="bg-white hover:bg-transparent text-red-600 hover:text-white border-2 border-white px-8 py-6 rounded-full text-lg font-medium transition-colors duration-300 inline-flex items-center justify-center shadow-none hover:shadow-lg"
               >
                 <Mail className="mr-2 w-5 h-5" />
-                Write an Email
+                <span>Write an Email</span>
               </Button>
               <Button
                 onClick={() => window.location.href = 'tel:+919825413606'}
-                className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-4 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
+                className="bg-transparent hover:bg-white text-white hover:text-red-600 border-2 border-white px-8 py-6 rounded-full text-lg font-medium transition-colors duration-300 inline-flex items-center justify-center shadow-none hover:shadow-lg"
               >
                 <Phone className="mr-2 w-5 h-5" />
-                Call Us
+                <span>Call Us</span>
               </Button>
             </div>
           </motion.div>

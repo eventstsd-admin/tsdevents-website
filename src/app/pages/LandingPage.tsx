@@ -8,26 +8,27 @@ import { OptimizedImage } from '../components/OptimizedImage';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
 import { supabase, pastEventOperations } from '../../supabase';
 
-import { optimizeCloudinaryUrl } from '../utils/cloudinaryOptimizer';
+import { optimizeGalleryImage } from '../utils/cloudinaryOptimizer';
 
-// Cloudinary hero images for slideshow — responsive widths reduce bandwidth
+// Cloudinary hero images - smaller file sizes, auto format
 const heroImages = [
-  'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_1200/v1775312300/1_pwqiu8.jpg',
-  'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_1200/v1775312301/2_pji1ep.webp',
-  'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_1200/v1775312302/3_ottjec.jpg',
+  // Auto-scaled: 1280px max width, auto format, optimized quality
+  'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_1280,h_720,c_fill/v1775312300/1_pwqiu8.jpg',
+  'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_1280,h_720,c_fill/v1775312301/2_pji1ep.webp',
+  'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_1280,h_720,c_fill/v1775312302/3_ottjec.jpg',
 ];
 
-// Cloudinary service card images
-const weddingCardImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_800/v1775312333/weddingcard_f0eq9x.jpg';
-const corpCardImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_800/v1775312333/corpcard_raxo2g.jpg';
-const religiousCardImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_800/v1775312333/religiousandbdaycard_ghaw71.jpg';
+// Cloudinary service card images - optimized for cards
+const weddingCardImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_600,h_400,c_fill/v1775312333/weddingcard_f0eq9x.jpg';
+const corpCardImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_600,h_400,c_fill/v1775312333/corpcard_raxo2g.jpg';
+const religiousCardImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_600,h_400,c_fill/v1775312333/religiousandbdaycard_ghaw71.jpg';
 
 const services = [
   {
     title: 'Religious Events & Ceremonies',
     description: 'Our core expertise. We organize spectacular religious ceremonies, 99 Yatra, Updhan Tap, Chaturmas, Shibir, and deeply spiritual celebrations with perfect traditional reverence and grand scale. Specialization in jain events, jain relegious events',
     icon: Sparkles,
-    image: 'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_800/v1776109063/WhatsApp_Image_2024-03-04_at_11.46.18_PM_lvlk8i.jpg',
+    image: 'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_600,h_400,c_fill/v1776109063/WhatsApp_Image_2024-03-04_at_11.46.18_PM_lvlk8i.jpg',
   },
   {
     title: 'Wedding Event Planning',
@@ -251,85 +252,55 @@ export default function LandingPage() {
       />
       
       <section className="relative w-full h-screen overflow-hidden bg-gray-900">
-        {/* Original Hero Images Background - CSS Background Style */}
-        <div className="absolute inset-0">
+        {/* Hero Images Background - NO MOTION */}
+        <div className="absolute inset-0 w-full h-full">
           {heroImages.map((image, idx) => (
-            <motion.div
+            <div
               key={idx}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: currentSlide === idx ? 1 : 0 }}
-              transition={{ duration: 1 }}
-              className="absolute inset-0"
-            >
-              {/* Background Image — only load non-LCP slides when visible */}
-              <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                style={idx === 0 || currentSlide === idx || currentSlide === idx - 1
-                  ? { backgroundImage: `url(${image})` }
-                  : undefined
-                }
-                data-bg={image}
-              />
-              
-              {/* Dark Overlay for text readability */}
-              <div className="absolute inset-0 bg-black/60" />
-              
-              {/* Gradient overlay for better text contrast */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
-            </motion.div>
+              className="absolute inset-0 w-full h-full"
+              style={{
+                backgroundImage: `url(${image})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                opacity: currentSlide === idx ? 1 : 0,
+                transition: 'opacity 0.6s ease-in-out',
+                width: '100%',
+                height: '100%',
+              }}
+            />
           ))}
         </div>
+
+        {/* Dark Overlay for text readability */}
+        <div className="absolute inset-0 bg-black/60" />
+        
+        {/* Gradient overlay for better text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
 
         {/* Hero Content Overlay */}
         <div className="absolute inset-0 z-20 flex items-center justify-center">
           <div className="text-center text-white px-4 max-w-4xl py-8 sm:py-0">
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-3xl xs:text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight"
-              style={{ fontFamily: 'Playfair Display, serif' }}
-            >
+            <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
               Best <span className="text-amber-400">Event Management in Ahmedabad</span> & Across India
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-base xs:text-lg sm:text-lg md:text-xl lg:text-2xl xl:text-3xl mb-6 sm:mb-8 text-gray-200 leading-relaxed max-w-3xl mx-auto"
-            >
+            </h1>
+            <p className="text-base xs:text-lg sm:text-lg md:text-xl lg:text-2xl xl:text-3xl mb-6 sm:mb-8 text-gray-200 leading-relaxed max-w-3xl mx-auto">
               TSD Events - Professional Jain Event Management in Ahmedabad. From weddings to corporate events — we create unforgettable experiences. 12+ years of excellence, 500+ successful celebrations.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-            >
-              <Button
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button
                 onClick={() => window.open('https://wa.me/919825413606?text=Hi%2C%20I%20want%20to%20plan%20an%20event.%20Can%20you%20share%20details%3F', '_blank')}
                 className="bg-green-600 hover:bg-green-700 text-white px-6 sm:px-10 py-4 sm:py-6 rounded-md text-base sm:text-lg font-semibold shadow-lg transition-all duration-300"
               >
-                <MessageCircle className="mr-2 w-5 h-5" />
                 Get Free Quote on WhatsApp
-              </Button>
-              <Button
-                onClick={() => {
-                  navigate('/contact');
-                  setTimeout(() => {
-                    const el = document.getElementById('contact-details');
-                    if (el) {
-                      el.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }, 300);
-                }}
+              </button>
+              <button
+                onClick={() => navigate('/contact')}
                 className="bg-red-800 hover:bg-red-900 text-white px-6 sm:px-8 py-4 sm:py-6 rounded-md text-base sm:text-lg font-semibold shadow-lg transition-all duration-300"
               >
-                <Phone className="mr-2 w-5 h-5" />
                 Contact Us
-              </Button>
-
-            </motion.div>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -357,9 +328,9 @@ export default function LandingPage() {
             {stats.map((stat, idx) => (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
                 viewport={{ once: true }}
                 className="text-center p-6 bg-gray-50 border border-gray-100 hover:shadow-md transition-shadow"
               >
@@ -394,9 +365,9 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
             {/* Main Mission */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
               viewport={{ once: true }}
               className="lg:col-span-3 bg-white p-8 md:p-12 border-l-4 border-red-800"
             >
@@ -410,9 +381,9 @@ export default function LandingPage() {
 
             {/* Services Specialization */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
               viewport={{ once: true }}
               className="lg:col-span-2 bg-white p-8 border-l-4 border-amber-500"
             >
@@ -426,9 +397,9 @@ export default function LandingPage() {
 
             {/* Our Process */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
               viewport={{ once: true }}
               className="lg:col-span-1 bg-white p-8 border-l-4 border-red-800"
             >
@@ -509,9 +480,9 @@ export default function LandingPage() {
               return (
                 <motion.div
                   key={idx}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: idx * 0.15, ease: "easeOut" }}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
                   viewport={{ once: true }}
                   className={`group relative overflow-hidden rounded-2xl cursor-pointer shadow-lg h-[400px]`}
                   onClick={() => navigate('/services')}
@@ -689,71 +660,30 @@ export default function LandingPage() {
             </p>
           </motion.div>
 
-          {/* Marquee Container - Two Rows Moving Opposite Directions */}
-          <div className="mx-auto w-full max-w-7xl relative">
-            {/* Left Edge Shadow Fade */}
-            <div className="absolute inset-y-0 left-0 w-24 sm:w-40 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-            {/* Right Edge Shadow Fade */}
-            <div className="absolute inset-y-0 right-0 w-24 sm:w-40 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
-            
+          {/* Client Logos Grid */}
+          <div className="mx-auto w-full max-w-7xl">
             {clientLogos.length > 0 ? (
-              <>
-                {/* First Row - Moving Left */}
-                <div className="relative overflow-hidden py-6">
-                  <motion.div 
-                    className="flex gap-8 w-max"
-                    animate={{ x: ["-50%", "0%"] }}
-                    transition={{
-                      repeat: Infinity,
-                      ease: "linear",
-                      duration: Math.max(20, Math.ceil(clientLogos.length / 2) * 3)
-                    }}
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 md:gap-8">
+                {clientLogos.map((logo) => (
+                  <motion.div
+                    key={logo.id}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4 }}
+                    viewport={{ once: true }}
+                    className="flex items-center justify-center p-4 hover:bg-gray-50 rounded-lg transition-colors duration-300 cursor-pointer"
                   >
-                    {[...Array(Math.max(2, Math.ceil(15 / Math.ceil(clientLogos.length / 2))))].flatMap(() => 
-                      clientLogos.slice(0, Math.ceil(clientLogos.length / 2))
-                    ).map((logo, index) => (
-                      <div 
-                        key={`row1-${logo.id}-${index}`} 
-                        className="min-w-[180px] flex items-center justify-center transition-all duration-500 cursor-pointer"
-                      >
-                        <img 
-                          src={logo.image_url} 
-                          alt={logo.alt_text} 
-                          className="h-28 object-contain scale-90 hover:scale-105 transition-transform duration-500 drop-shadow-sm"
-                        />
-                      </div>
-                    ))}
+                    <img
+                      src={logo.image_url}
+                      alt={logo.alt_text}
+                      className="h-20 md:h-24 object-contain drop-shadow-sm hover:drop-shadow-md transition-shadow duration-300"
+                      loading="lazy"
+                      width="180"
+                      height="96"
+                    />
                   </motion.div>
-                </div>
-
-                {/* Second Row - Moving Right (Opposite Direction) */}
-                <div className="relative overflow-hidden py-6">
-                  <motion.div 
-                    className="flex gap-8 w-max"
-                    animate={{ x: ["0%", "-50%"] }}
-                    transition={{
-                      repeat: Infinity,
-                      ease: "linear",
-                      duration: Math.max(20, Math.ceil(clientLogos.length / 2) * 3)
-                    }}
-                  >
-                    {[...Array(Math.max(2, Math.ceil(15 / Math.ceil(clientLogos.length / 2))))].flatMap(() => 
-                      clientLogos.slice(Math.ceil(clientLogos.length / 2))
-                    ).map((logo, index) => (
-                      <div 
-                        key={`row2-${logo.id}-${index}`} 
-                        className="min-w-[180px] flex items-center justify-center transition-all duration-500 cursor-pointer"
-                      >
-                        <img 
-                          src={logo.image_url} 
-                          alt={logo.alt_text} 
-                          className="h-28 object-contain scale-90 hover:scale-105 transition-transform duration-500 drop-shadow-sm"
-                        />
-                      </div>
-                    ))}
-                  </motion.div>
-                </div>
-              </>
+                ))}
+              </div>
             ) : (
               <div className="text-center text-gray-400 py-10">Client logos being updated...</div>
             )}
@@ -797,17 +727,19 @@ export default function LandingPage() {
                   key={photo.id}
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  transition={{ duration: 0.5 }}
                   viewport={{ once: true }}
                   whileHover={{ scale: 1.02 }}
                   className="relative h-64 overflow-hidden cursor-pointer group"
                   onClick={() => navigate('/gallery')}
                 >
                   <OptimizedImage
-                    src={photo.url}
+                    src={optimizeGalleryImage(photo.url, { width: 400, height: 320 })}
                     alt={photo.alt_text}
                     className="w-full h-full object-cover"
                     lazy={true}
+                    width="400"
+                    height="320"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
                     <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity font-semibold text-sm bg-black/50 px-4 py-2">

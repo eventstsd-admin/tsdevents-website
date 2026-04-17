@@ -1,4 +1,3 @@
-import { motion } from 'motion/react';
 import { useState, useEffect } from 'react';
 
 interface OptimizedImageProps {
@@ -7,6 +6,8 @@ interface OptimizedImageProps {
   className?: string;
   placeholder?: string;
   lazy?: boolean;
+  width?: string | number;
+  height?: string | number;
   onLoad?: () => void;
   onError?: () => void;
 }
@@ -17,6 +18,8 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   className = '',
   placeholder = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PC9zdmc+',
   lazy = false,
+  width,
+  height,
   onLoad,
   onError,
 }) => {
@@ -70,18 +73,15 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
-      {/* Loading skeleton */}
+      {/* Loading skeleton - CSS only, no animations */}
       {isLoading && (
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-pulse"
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-8 h-8 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin" />
+            <div className="w-8 h-8 border-4 border-gray-300 border-t-blue-500 rounded-full" />
           </div>
-        </motion.div>
+        </div>
       )}
 
       {/* Error state */}
@@ -96,20 +96,16 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
         </div>
       )}
 
-      {/* Actual image */}
+      {/* Actual image - NO MOTION ANIMATIONS */}
       {shouldLoad && (
-        <motion.img
+        <img
           src={src}
           alt={alt}
+          width={width}
+          height={height}
           className={`${className} ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
           onLoad={handleLoad}
           onError={handleError}
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ 
-            opacity: isLoading ? 0 : 1,
-            scale: isLoading ? 1.1 : 1
-          }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
         />
       )}
     </div>
