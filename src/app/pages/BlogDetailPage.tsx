@@ -99,34 +99,36 @@ export default function BlogDetailPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-3xl mx-auto"
+            className="flex flex-col lg:flex-row gap-4 w-full"
           >
-            {/* Author Info & Date Card */}
+            {/* Author Info & Date Card - Sidebar */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-white rounded-xl sm:rounded-2xl shadow-md p-4 sm:p-8 mb-8 sm:mb-12 border border-gray-100"
+              className="bg-white rounded-xl sm:rounded-2xl shadow-md p-3 sm:p-4 border border-gray-100 lg:w-44 lg:flex-shrink-0 h-fit"
             >
-              <div className="flex items-center gap-3 sm:gap-6">
+              <div className="flex lg:flex-col items-center gap-2 sm:gap-3">
                 <motion.div
                   whileHover={{ scale: 1.1 }}
-                  className="w-14 h-14 sm:w-20 sm:h-20 bg-gradient-to-br from-red-600 to-red-800 text-white rounded-full flex items-center justify-center font-bold text-lg sm:text-2xl flex-shrink-0 shadow-lg"
+                  className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-red-600 to-red-800 text-white rounded-full flex items-center justify-center font-bold text-sm sm:text-xl flex-shrink-0 shadow-lg"
                 >
                   {getInitials(blog.author_name)}
                 </motion.div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-lg sm:text-2xl font-bold text-gray-900 mb-1 truncate">
+                <div className="flex-1 lg:flex-none lg:w-full lg:text-center min-w-0">
+                  <h3 className="text-sm sm:text-lg font-bold text-gray-900 mb-1 truncate lg:truncate-none">
                     {blog.author_name}
                   </h3>
                   {blog.created_at && (
-                    <p className="text-xs sm:text-sm text-gray-600 flex items-center gap-2">
-                      <span className="inline-block w-2 h-2 bg-red-700 rounded-full flex-shrink-0"></span>
-                      <span className="truncate">
-                        {new Date(blog.created_at).toLocaleDateString('en-US', {
+                    <p className="text-xs text-gray-600 flex lg:flex-col items-center gap-2 lg:gap-1">
+                      <span className="inline-block w-2 h-2 bg-red-700 rounded-full flex-shrink-0 lg:hidden"></span>
+                      <span className="truncate lg:truncate-none text-xs">
+                        {new Date(blog.created_at).toLocaleString('en-US', {
                           year: 'numeric',
                           month: 'short',
                           day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
                         })}
                       </span>
                     </p>
@@ -143,6 +145,8 @@ export default function BlogDetailPage() {
               </div>
             </motion.div>
 
+            {/* Main Content Section */}
+            <div className="flex-1 min-w-0 flex flex-col">
             {/* Blog Header Section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -156,7 +160,7 @@ export default function BlogDetailPage() {
               </p>
 
               {/* Title - Responsive */}
-              <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6 sm:mb-8 leading-tight break-words">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6 sm:mb-8 leading-tight break-words">
                 {blog.title}
               </h1>
 
@@ -174,31 +178,31 @@ export default function BlogDetailPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="bg-white rounded-xl sm:rounded-2xl shadow-md p-5 sm:p-8 md:p-12 border border-gray-100 mb-8 sm:mb-12"
+              className="bg-white rounded-xl sm:rounded-2xl shadow-md p-5 sm:p-8 md:p-12 border border-gray-100 flex-1"
             >
               <div className="text-base sm:text-lg text-gray-700 leading-relaxed whitespace-pre-wrap font-medium break-words">
                 {blog.body}
               </div>
             </motion.div>
+            </div>
 
-            {/* Author Bio Footer */}
+            {/* Author Bio Footer - Right Sidebar */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="bg-gradient-to-r from-red-50 to-red-100 rounded-xl sm:rounded-2xl shadow-md p-5 sm:p-8 border border-red-200"
+              className="bg-gradient-to-r from-red-50 to-red-100 rounded-xl sm:rounded-2xl shadow-md p-3 sm:p-4 border border-red-200 lg:w-44 lg:flex-shrink-0 h-fit"
             >
-              <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-red-600 to-red-800 text-white rounded-full flex items-center justify-center font-bold text-sm sm:text-xl shadow-lg flex-shrink-0">
+              <div className="flex lg:flex-col items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                <div className="w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br from-red-600 to-red-800 text-white rounded-full flex items-center justify-center font-bold text-xs sm:text-lg shadow-lg flex-shrink-0">
                   {getInitials(blog.author_name)}
                 </div>
-                <div className="min-w-0">
-                  <p className="font-bold text-gray-900 text-base sm:text-lg truncate">{blog.author_name}</p>
-                  <p className="text-xs sm:text-sm text-gray-700 truncate">TSD Events & Decor Team</p>
+                <div className="min-w-0 flex-1 lg:flex-none lg:w-full lg:text-center">
+                  <p className="font-bold text-gray-900 text-xs sm:text-base truncate lg:truncate-none">{blog.author_name}</p>
+                  <p className="text-xs text-gray-700 truncate lg:truncate-none">TSD Events & Decor</p>
                 </div>
               </div>
-              <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
-                Dedicated to creating unforgettable events and sharing insights on event management, decoration, and celebration excellence.
+              <p className="text-xs text-gray-700 leading-tight">Dedicated to creating unforgettable events and insights on event management.
               </p>
             </motion.div>
           </motion.article>
