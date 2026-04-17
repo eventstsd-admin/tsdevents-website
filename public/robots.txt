@@ -6,17 +6,22 @@ Allow: /
 Disallow: /admin
 Disallow: /admin-dashboard
 
-# Sitemap location
-Sitemap: https://tsdevents.in/sitemap.xml
-
-# Google specific
+# Google specific - Prioritize crawling of main keyword pages
 User-agent: Googlebot
 Allow: /
+Allow: /services
+Allow: /gallery
+Allow: /about
+Allow: /contact
 Disallow: /admin
 Disallow: /admin-dashboard
+Crawl-delay: 0
 
 # Bing specific
 User-agent: Bingbot
 Allow: /
 Disallow: /admin
 Disallow: /admin-dashboard
+
+# Sitemap location
+Sitemap: https://tsdevents.in/sitemap.xml

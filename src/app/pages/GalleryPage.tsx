@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 import { Button } from '../components/ui/button';
 import { supabase, CATEGORIES } from '../../supabase';
 import { SEOComponent, PAGE_SEO } from '../components/SEO-fallback';
+import { optimizeGalleryImage } from '../utils/cloudinaryOptimizer';
 import { MessageCircle, Phone, Mail, X, ChevronLeft, ChevronRight } from 'lucide-react';
 // Cloudinary URL
 const galleryHeroUrl = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775312277/GalleryHero_j8bvra.jpg';
@@ -18,7 +19,7 @@ interface PhotoItem {
 }
 
 const categoryFilters = ['All', ...CATEGORIES];
-const IMAGES_PER_PAGE = 10;
+const IMAGES_PER_PAGE = 12;
 
 export default function GalleryPage() {
   const navigate = useNavigate();
@@ -53,10 +54,10 @@ export default function GalleryPage() {
 
       if (error) throw error;
 
-      // Flatten and shuffle photos
+      // Flatten and shuffle photos - cloudinary urls stored in database
       const flatPhotos: PhotoItem[] = (data || []).map((photo: any) => ({
         id: photo.id,
-        url: photo.url,
+        url: photo.url, // Full Cloudinary URL from database
         alt_text: photo.alt_text,
         category: photo.gallery_batches?.category || 'Uncategorized',
       }));
@@ -81,13 +82,13 @@ export default function GalleryPage() {
       return photos.filter((img) => img.category === selectedCategory);
     }
     
-    // For 'All' category: Limit to max 12 photos per category (removed overall limit)
+    // For 'All' category: Limit to max 6 photos per category
     const counts: Record<string, number> = {};
     const result: PhotoItem[] = [];
     
     for (const photo of photos) {
       const catCount = counts[photo.category] || 0;
-      if (catCount < 12) {
+      if (catCount < 6) {
         result.push(photo);
         counts[photo.category] = catCount + 1;
       }
@@ -95,7 +96,14 @@ export default function GalleryPage() {
     return result;
   })();
 
-  const displayedImages = filteredImages.slice(0, displayedImagesCount);
+  const displayedImages = (() => {
+    // For 'All' category: Show all 12 per category without pagination limit
+    if (selectedCategory === 'All') {
+      return filteredImages;
+    }
+    // For specific category: Use pagination
+    return filteredImages.slice(0, displayedImagesCount);
+  })();
   const hasMore = displayedImagesCount < filteredImages.length;
 
   useEffect(() => {
@@ -165,8 +173,10 @@ export default function GalleryPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.2 }}
-              src={displayedImages[lightboxIndex].url}
+              src={optimizeGalleryImage(displayedImages[lightboxIndex].url, { width: 1200 })}
               alt={displayedImages[lightboxIndex].alt_text}
+              width="1200"
+              height="800"
               className="max-w-full max-h-[85vh] object-contain cursor-default"
               onClick={(e) => e.stopPropagation()}
             />
@@ -268,8 +278,11 @@ export default function GalleryPage() {
                     onClick={() => setLightboxIndex(index)}
                   >
                     <img
-                      src={image.url}
+                      src={optimizeGalleryImage(image.url, { width: 400, height: 400 })}
                       alt={image.alt_text}
+                      width="400"
+                      height="400"
+                      loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     {/* Category overlay on hover */}

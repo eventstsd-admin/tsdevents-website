@@ -178,7 +178,7 @@ export default function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
           >
-            About TSD Events & Decor
+            Best Event Management in Ahmedabad - TSD Events & Decor
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -186,7 +186,7 @@ export default function AboutPage() {
             transition={{ delay: 0.2 }}
             className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300"
           >
-            Professional event planners and décor specialists creating unforgettable celebrations
+            Professional Jain event management & décor specialists creating unforgettable celebrations in Ahmedabad
           </motion.p>
         </div>
       </section>
@@ -201,15 +201,15 @@ export default function AboutPage() {
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">TSD Events & Decor - Professional Event Planners & Décor Specialists Since 2013</h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">TSD Events & Decor - Best Event Management in Ahmedabad Since 2013</h2>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                Founded in 2013, TSD Events & Decor began as India's premier event planning and décor company with a vision to transform ordinary celebrations into extraordinary memories. Starting as a dedicated team of professional event planners and décor specialists, we've grown into one of India's most trusted wedding and corporate event management companies.
+                Founded in 2013, TSD Events & Decor is Ahmedabad's premier event management and decoration company. Specializing in Jain event management, we transform celebrations into extraordinary memories. Our team of professional event planners and décor specialists has established a reputation as one of India's most trusted event management companies.
               </p>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                Over the past decade, we've successfully organized 500+ events across India, including luxury weddings, corporate conferences, religious ceremonies, and private celebrations. Our expertise spans traditional Indian weddings, destination wedding planning, corporate event management, and specialized religious ceremony coordination.
+                With 12+ years of experience, we've successfully organized 500+ events across India, including Jain religious ceremonies (99 Yatra, Chaturmas, Oli), luxury weddings, corporate events, and private celebrations. As specialists in Jain event management in Ahmedabad, our expertise spans traditional ceremonies, destination wedding planning, and comprehensive event management solutions.
               </p>
               <p className="text-lg text-gray-700 leading-relaxed">
-                As certified event planning professionals, we combine traditional Indian event expertise with modern project management. Our comprehensive services include venue selection, decoration design, catering coordination, entertainment booking, and complete event production - making us your single point of contact for all celebration needs.
+                As certified event planning professionals, we combine traditional Indian and Jain event expertise with modern project management. Our comprehensive services include venue selection, decoration design, catering coordination, entertainment booking, and complete event production - making us your trusted partner for the best event management in Ahmedabad.
               </p>
             </motion.div>
           </div>

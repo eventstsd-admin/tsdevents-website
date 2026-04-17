@@ -12,11 +12,11 @@ const servicesHeroUrl = 'https://res.cloudinary.com/djvccbmtx/image/upload/v1775
 const servicesHeroImageToUse = servicesHeroUrl;
 
 const categoryDescriptions: Record<string, string> = {
-  'Wedding': 'Complete wedding planning services for your perfect celebration.',
-  'Religious': 'Traditional ceremony coordination with cultural authenticity.',
-  'Corporate Event': 'Professional business event management and coordination.',
-  'Decoration': 'Creative decoration and venue transformation services.',
-  'Tours and Travels': 'Organized tours and travel services for groups and communities.',
+  'Wedding': 'Best event management in Ahmedabad for complete Jain wedding planning services.',
+  'Religious': 'Professional Jain event management - 99 Yatra, Chaturmas, Oli coordination with cultural authenticity.',
+  'Corporate Event': 'Expert event management in Ahmedabad for professional business events and corporate celebrations.',
+  'Decoration': 'Creative decoration and venue transformation services for all events in Ahmedabad.',
+  'Tours and Travels': 'Organized Jain pilgrimage tours and travel services for groups and religious communities.',
 };
 
 const categoryImages: Record<string, string> = {
@@ -80,7 +80,7 @@ export default function ServicesPage() {
             >
               {selectedCategory 
                 ? categoryDescriptions[selectedCategory]
-                : 'Expert event planning services across India for unforgettable celebrations.'
+                : 'Expert event management in Ahmedabad - TSD Events offers best event planning services for Jain events, weddings, corporate events, and more.'
               }
             </motion.p>
           </div>

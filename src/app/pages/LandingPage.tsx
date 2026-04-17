@@ -25,7 +25,7 @@ const religiousCardImage = 'https://res.cloudinary.com/djvccbmtx/image/upload/q_
 const services = [
   {
     title: 'Religious Events & Ceremonies',
-    description: 'Our core expertise. We organize spectacular religious ceremonies, 99 Yatra, Updhan Tap, Chaturmas, Shibir, and deeply spiritual celebrations with perfect traditional reverence and grand scale.',
+    description: 'Our core expertise. We organize spectacular religious ceremonies, 99 Yatra, Updhan Tap, Chaturmas, Shibir, and deeply spiritual celebrations with perfect traditional reverence and grand scale. Specialization in jain events, jain relegious events',
     icon: Sparkles,
     image: 'https://res.cloudinary.com/djvccbmtx/image/upload/q_auto,f_auto,w_800/v1776109063/WhatsApp_Image_2024-03-04_at_11.46.18_PM_lvlk8i.jpg',
   },
@@ -287,21 +287,18 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-2xl xs:text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight"
+              className="text-3xl xs:text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight"
               style={{ fontFamily: 'Playfair Display, serif' }}
             >
-              Exceptional{' '}
-              <span className="text-amber-400">Event Management</span>{' '}
-              Across India
+              Best <span className="text-amber-400">Event Management in Ahmedabad</span> & Across India
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl mb-6 sm:mb-8 text-gray-200 leading-relaxed max-w-3xl mx-auto"
+              className="text-base xs:text-lg sm:text-lg md:text-xl lg:text-2xl xl:text-3xl mb-6 sm:mb-8 text-gray-200 leading-relaxed max-w-3xl mx-auto"
             >
-              From weddings to corporate events — we create unforgettable experiences. 
-              12+ years of excellence, 500+ successful celebrations across India.
+              TSD Events - Professional Jain Event Management in Ahmedabad. From weddings to corporate events — we create unforgettable experiences. 12+ years of excellence, 500+ successful celebrations.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -311,7 +308,7 @@ export default function LandingPage() {
             >
               <Button
                 onClick={() => window.open('https://wa.me/919825413606?text=Hi%2C%20I%20want%20to%20plan%20an%20event.%20Can%20you%20share%20details%3F', '_blank')}
-                className="bg-green-600 hover:bg-green-700 text-white px-10 py-6 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
+                className="bg-green-600 hover:bg-green-700 text-white px-6 sm:px-10 py-4 sm:py-6 rounded-md text-base sm:text-lg font-semibold shadow-lg transition-all duration-300"
               >
                 <MessageCircle className="mr-2 w-5 h-5" />
                 Get Free Quote on WhatsApp
@@ -326,7 +323,7 @@ export default function LandingPage() {
                     }
                   }, 300);
                 }}
-                className="bg-red-800 hover:bg-red-900 text-white px-8 py-6 rounded-md text-lg font-semibold shadow-lg transition-all duration-300"
+                className="bg-red-800 hover:bg-red-900 text-white px-6 sm:px-8 py-4 sm:py-6 rounded-md text-base sm:text-lg font-semibold shadow-lg transition-all duration-300"
               >
                 <Phone className="mr-2 w-5 h-5" />
                 Contact Us
@@ -366,10 +363,10 @@ export default function LandingPage() {
                 viewport={{ once: true }}
                 className="text-center p-6 bg-gray-50 border border-gray-100 hover:shadow-md transition-shadow"
               >
-                <h3 className="text-4xl md:text-5xl font-bold text-red-800 mb-2">
+                <h3 className="text-3xl xs:text-4xl sm:text-4xl md:text-5xl font-bold text-red-800 mb-2">
                   {stat.number}
                 </h3>
-                <p className="text-gray-700 font-medium">{stat.label}</p>
+                <p className="text-base xs:text-base sm:text-lg text-gray-700 font-medium">{stat.label}</p>
               </motion.div>
             ))}
           </div>
@@ -386,11 +383,11 @@ export default function LandingPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
-              About TSD Events & Decor
+            <h2 className="text-3xl xs:text-4xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
+              TSD Events - Best Event Management in Ahmedabad
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Your trusted partner for creating unforgettable experiences
+            <p className="text-base xs:text-lg sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+              Premier event management & decoration services for all occasions
             </p>
           </motion.div>
 
@@ -403,11 +400,11 @@ export default function LandingPage() {
               viewport={{ once: true }}
               className="lg:col-span-3 bg-white p-8 md:p-12 border-l-4 border-red-800"
             >
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+              <h3 className="text-xl xs:text-2xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4">
                 Our Mission
               </h3>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                TSD Events & Decor is your trusted partner for creating unforgettable experiences, offering end-to-end event management and décor solutions across India. With a commitment to creativity, precision, and excellence, we transform every occasion into a seamless and memorable celebration.
+              <p className="text-base xs:text-base sm:text-lg md:text-lg text-gray-700 leading-relaxed">
+                TSD Events & Decor - Best event management in Ahmedabad, offering end-to-end event management and décor solutions. Specialists in Jain event management, wedding planning, corporate events, and religious ceremonies. With 12+ years of excellence and 500+ successful celebrations, we transform every occasion into a seamless and memorable celebration.
               </p>
             </motion.div>
 
@@ -419,11 +416,11 @@ export default function LandingPage() {
               viewport={{ once: true }}
               className="lg:col-span-2 bg-white p-8 border-l-4 border-amber-500"
             >
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-                Our Expertise
+              <h3 className="text-xl xs:text-2xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                Our Expertise - Jain Event Management Specialists
               </h3>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                We specialize in a wide range of services, including <span className="font-semibold text-red-700">weddings, corporate events, religious functions, exhibitions, and digital marketing solutions</span> making us a true one-stop destination for all your event needs.
+              <p className="text-base xs:text-base sm:text-lg md:text-lg text-gray-700 leading-relaxed">
+                Specializing in Jain event management in Ahmedabad, we offer comprehensive event management services including <span className="font-semibold text-red-700">Jain weddings, religious ceremonies (99 Yatra, Chaturmas, Oli), corporate events, and celebrations</span>. Expert event management in Ahmedabad & across India.
               </p>
             </motion.div>
 
@@ -692,43 +689,74 @@ export default function LandingPage() {
             </p>
           </motion.div>
 
-          {/* Marquee Container - Centered with max-width */}
+          {/* Marquee Container - Two Rows Moving Opposite Directions */}
           <div className="mx-auto w-full max-w-7xl relative">
             {/* Left Edge Shadow Fade */}
             <div className="absolute inset-y-0 left-0 w-24 sm:w-40 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
             {/* Right Edge Shadow Fade */}
             <div className="absolute inset-y-0 right-0 w-24 sm:w-40 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
             
-            <div className="relative overflow-hidden py-8">
-              {clientLogos.length > 0 ? (
-                <motion.div 
-                  className="flex gap-16 w-max"
-                  animate={{ x: ["-50%", "0%"] }}
-                  transition={{
-                    repeat: Infinity,
-                    ease: "linear",
-                    duration: Math.max(20, clientLogos.length * 3) // Dynamic duration based on logo count
-                  }}
-                >
-                  {/* Duplicate array up to 20 elements to ensure continuous smooth loop before the reset */}
-                  {[...Array(Math.max(2, Math.ceil(15 / clientLogos.length)))].flatMap(() => clientLogos).map((logo, index) => (
-                    <div 
-                      key={`${logo.id}-${index}`} 
-                      className="min-w-[180px] flex items-center justify-center transition-all duration-500 cursor-pointer"
-                    >
-                      <img 
-                        src={logo.image_url} 
-                        alt={logo.alt_text} 
-                        className="h-28 object-contain scale-90 hover:scale-105 transition-transform duration-500 drop-shadow-sm"
-                      />
-                    </div>
-                  ))}
-                </motion.div>
-              ) : (
-                <div className="text-center text-gray-400 py-10">Client logos being updated...</div>
-              )}
-            </div>
+            {clientLogos.length > 0 ? (
+              <>
+                {/* First Row - Moving Left */}
+                <div className="relative overflow-hidden py-6">
+                  <motion.div 
+                    className="flex gap-8 w-max"
+                    animate={{ x: ["-50%", "0%"] }}
+                    transition={{
+                      repeat: Infinity,
+                      ease: "linear",
+                      duration: Math.max(20, Math.ceil(clientLogos.length / 2) * 3)
+                    }}
+                  >
+                    {[...Array(Math.max(2, Math.ceil(15 / Math.ceil(clientLogos.length / 2))))].flatMap(() => 
+                      clientLogos.slice(0, Math.ceil(clientLogos.length / 2))
+                    ).map((logo, index) => (
+                      <div 
+                        key={`row1-${logo.id}-${index}`} 
+                        className="min-w-[180px] flex items-center justify-center transition-all duration-500 cursor-pointer"
+                      >
+                        <img 
+                          src={logo.image_url} 
+                          alt={logo.alt_text} 
+                          className="h-28 object-contain scale-90 hover:scale-105 transition-transform duration-500 drop-shadow-sm"
+                        />
+                      </div>
+                    ))}
+                  </motion.div>
+                </div>
 
+                {/* Second Row - Moving Right (Opposite Direction) */}
+                <div className="relative overflow-hidden py-6">
+                  <motion.div 
+                    className="flex gap-8 w-max"
+                    animate={{ x: ["0%", "-50%"] }}
+                    transition={{
+                      repeat: Infinity,
+                      ease: "linear",
+                      duration: Math.max(20, Math.ceil(clientLogos.length / 2) * 3)
+                    }}
+                  >
+                    {[...Array(Math.max(2, Math.ceil(15 / Math.ceil(clientLogos.length / 2))))].flatMap(() => 
+                      clientLogos.slice(Math.ceil(clientLogos.length / 2))
+                    ).map((logo, index) => (
+                      <div 
+                        key={`row2-${logo.id}-${index}`} 
+                        className="min-w-[180px] flex items-center justify-center transition-all duration-500 cursor-pointer"
+                      >
+                        <img 
+                          src={logo.image_url} 
+                          alt={logo.alt_text} 
+                          className="h-28 object-contain scale-90 hover:scale-105 transition-transform duration-500 drop-shadow-sm"
+                        />
+                      </div>
+                    ))}
+                  </motion.div>
+                </div>
+              </>
+            ) : (
+              <div className="text-center text-gray-400 py-10">Client logos being updated...</div>
+            )}
           </div>
         </div>
       </section>
@@ -773,7 +801,7 @@ export default function LandingPage() {
                   viewport={{ once: true }}
                   whileHover={{ scale: 1.02 }}
                   className="relative h-64 overflow-hidden cursor-pointer group"
-                  onClick={() => navigate('/events')}
+                  onClick={() => navigate('/gallery')}
                 >
                   <OptimizedImage
                     src={photo.url}
@@ -803,7 +831,7 @@ export default function LandingPage() {
 
           <div className="text-center">
             <Button
-              onClick={() => navigate('/events')}
+              onClick={() => navigate('/gallery')}
               className="bg-red-800 hover:bg-red-900 text-white px-8 py-6 rounded-md text-lg font-semibold shadow-lg"
             >
               View Full Gallery
