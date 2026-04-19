@@ -12,3 +12,4 @@ supabase/sqls
 !supabase/functions/*/README.md
 
 *.txt
+*.pdf

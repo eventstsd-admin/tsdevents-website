@@ -102,15 +102,15 @@ export default function LandingPage() {
           .from('gallery_photos')
           .select('id, url, alt_text, gallery_batches(category)')
           .limit(40);
-          
+
         if (error) throw error;
-        
+
         const validPhotos = (data || []).map((photo: any) => ({
           id: photo.id,
           url: photo.url,
           alt_text: photo.alt_text || 'Event photo',
         }));
-        
+
         // Shuffle and take 4
         const shuffled = validPhotos.sort(() => 0.5 - Math.random()).slice(0, 4);
         setGalleryPhotos(shuffled);
@@ -121,7 +121,7 @@ export default function LandingPage() {
         setLoadingPhotos(false);
       }
     };
-    
+
     // Fetch DB Logos
     const fetchLogos = async () => {
       const { data } = await supabase.from('client_logos').select('*').order('created_at', { ascending: false });
@@ -247,10 +247,10 @@ export default function LandingPage() {
 
   return (
     <div className="bg-white">
-      <SEOComponent 
+      <SEOComponent
         {...PAGE_SEO.home}
       />
-      
+
       <section className="relative w-full h-screen overflow-hidden bg-gray-900">
         {/* Hero Images Background - NO MOTION */}
         <div className="absolute inset-0 w-full h-full">
@@ -274,7 +274,7 @@ export default function LandingPage() {
 
         {/* Dark Overlay for text readability */}
         <div className="absolute inset-0 bg-black/60" />
-        
+
         {/* Gradient overlay for better text contrast */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
 
@@ -285,7 +285,7 @@ export default function LandingPage() {
               Best <span className="text-amber-400">Event Management in Ahmedabad</span> & Across India
             </h1>
             <p className="text-base xs:text-lg sm:text-lg md:text-xl lg:text-2xl xl:text-3xl mb-6 sm:mb-8 text-gray-200 leading-relaxed max-w-3xl mx-auto">
-              TSD Events - Professional Jain Event Management in Ahmedabad. From weddings to corporate events — we create unforgettable experiences. 12+ years of excellence, 500+ successful celebrations.
+              TSD Events - Professional Event Management in Ahmedabad. From weddings to corporate events to Jain & Religious Events - we create unforgettable experiences. 12+ years of excellence, 500+ successful celebrations.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.button
@@ -300,11 +300,11 @@ export default function LandingPage() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => navigate('/contact')}
+                onClick={() => window.location.href = 'tel:+919825413606'}
                 className="bg-red-800 hover:bg-red-900 text-white px-5 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold shadow-lg transition-all duration-300 transform flex items-center gap-2 justify-center"
               >
                 <Phone size={20} />
-                Contact Us
+                Call Us
               </motion.button>
             </div>
           </div>
@@ -316,11 +316,10 @@ export default function LandingPage() {
             <button
               key={idx}
               onClick={() => setCurrentSlide(idx)}
-              className={`transition-all duration-300 ${
-                currentSlide === idx
+              className={`transition-all duration-300 ${currentSlide === idx
                   ? 'bg-red-800 w-8 h-2 rounded-sm'
                   : 'bg-white/50 w-2 h-2 rounded-sm hover:bg-white/70'
-              }`}
+                }`}
               aria-label={`Go to slide ${idx + 1}`}
             />
           ))}
@@ -498,7 +497,7 @@ export default function LandingPage() {
                     <motion.div
                       className="w-full h-full bg-cover bg-center origin-center"
                       style={{ backgroundImage: `url(${service.image})` }}
-                      whileHover={{ 
+                      whileHover={{
                         scale: 1.1,
                         rotate: idx % 2 === 0 ? 1 : -1
                       }}
@@ -509,20 +508,20 @@ export default function LandingPage() {
                   {/* Dual layered gradient for sleek contrast */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
                   <div className="absolute inset-0 bg-red-900/40 opacity-0 group-hover:opacity-100 mix-blend-multiply transition-opacity duration-500" />
-                  
+
                   {/* Content Overlay */}
                   <div className="absolute inset-0 p-6 flex flex-col justify-end">
-                    <motion.div 
+                    <motion.div
                       className="transform translate-y-0 md:translate-y-8 md:group-hover:translate-y-0 transition-transform duration-500 ease-out"
                     >
                       <div className="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-full bg-amber-400/20 backdrop-blur-sm border border-amber-400/30 text-amber-400 group-hover:bg-amber-400 group-hover:text-black transition-all duration-500 shadow-[0_0_15px_rgba(251,191,36,0)] group-hover:shadow-[0_0_20px_rgba(251,191,36,0.5)]">
                         <Icon className="w-6 h-6" />
                       </div>
-                      
+
                       <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 md:mb-3 tracking-wide">
                         {service.title}
                       </h3>
-                      
+
                       <div className="overflow-hidden">
                         <p className="text-gray-200 text-sm leading-relaxed opacity-100 md:opacity-0 md:group-hover:opacity-100 transform translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-all duration-500 delay-100 ease-out h-auto md:h-0 md:group-hover:h-auto mb-4">
                           {service.description}
@@ -535,7 +534,7 @@ export default function LandingPage() {
                       </div>
                     </motion.div>
                   </div>
-                  
+
                   {/* Animated Border Glow */}
                   <div className="absolute inset-0 border-2 border-white/0 group-hover:border-amber-400/30 rounded-2xl transition-colors duration-500 pointer-events-none" />
                 </motion.div>
@@ -548,11 +547,11 @@ export default function LandingPage() {
       {/* Testimonials Section */}
       <section className="py-24 bg-gray-50 relative overflow-hidden">
         {/* Ambient Static Blobs in the Background (Optimized for Performance) */}
-        <div 
-          className="absolute top-1/2 left-1/4 w-96 h-96 bg-amber-400/20 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none transform -translate-y-1/2" 
+        <div
+          className="absolute top-1/2 left-1/4 w-96 h-96 bg-amber-400/20 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none transform -translate-y-1/2"
         />
-        <div 
-          className="absolute top-1/2 right-1/4 w-96 h-96 bg-red-800/10 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none transform -translate-y-1/2" 
+        <div
+          className="absolute top-1/2 right-1/4 w-96 h-96 bg-red-800/10 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none transform -translate-y-1/2"
         />
 
         <div className="container mx-auto px-4 mb-12 relative z-10">
@@ -580,70 +579,70 @@ export default function LandingPage() {
         {/* Centralized Testimonial Carousel */}
         <div className="relative z-10 container mx-auto px-4 max-w-5xl">
           <Slider {...testimonialSettings}>
-          {testimonials.map((testimonial, idx) => (
-            <div key={idx} className="w-full px-2 md:px-6 outline-none py-10">
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                className="bg-white/70 backdrop-blur-xl border border-white p-8 md:p-14 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] relative overflow-hidden"
-              >
-                {/* Giant Quote Icon Background Decal */}
-                <Quote className="absolute -top-6 -left-6 w-48 h-48 text-gray-100 rotate-180 -z-10 opacity-60" />
-                
-                <div className="flex flex-col items-center text-center min-h-[300px]">
-                  {/* Rating Badge */}
-                  <motion.div 
-                    initial={{ y: 20, opacity: 0 }}
-                    whileInView={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.2 }}
-                    className="flex gap-1 mb-8 bg-white py-2 px-5 rounded-full shadow-sm border border-gray-100"
-                  >
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400 drop-shadow-sm" />
-                    ))}
-                  </motion.div>
+            {testimonials.map((testimonial, idx) => (
+              <div key={idx} className="w-full px-2 md:px-6 outline-none py-10">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  className="bg-white/70 backdrop-blur-xl border border-white p-8 md:p-14 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] relative overflow-hidden"
+                >
+                  {/* Giant Quote Icon Background Decal */}
+                  <Quote className="absolute -top-6 -left-6 w-48 h-48 text-gray-100 rotate-180 -z-10 opacity-60" />
 
-                  {/* Testimonial Text */}
-                  <motion.p 
-                    initial={{ y: 20, opacity: 0 }}
-                    whileInView={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                    className="text-xl md:text-3xl text-gray-800 italic leading-relaxed flex-grow font-medium" 
-                    style={{ fontFamily: 'Playfair Display, serif' }}
-                  >
-                    "{testimonial.text}"
-                  </motion.p>
+                  <div className="flex flex-col items-center text-center min-h-[300px]">
+                    {/* Rating Badge */}
+                    <motion.div
+                      initial={{ y: 20, opacity: 0 }}
+                      whileInView={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.2 }}
+                      className="flex gap-1 mb-8 bg-white py-2 px-5 rounded-full shadow-sm border border-gray-100"
+                    >
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400 drop-shadow-sm" />
+                      ))}
+                    </motion.div>
 
-                  {/* Author Info connecting bridge */}
-                  <div className="w-16 h-1 bg-gradient-to-r from-transparent via-red-800/30 to-transparent my-8" />
+                    {/* Testimonial Text */}
+                    <motion.p
+                      initial={{ y: 20, opacity: 0 }}
+                      whileInView={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.3 }}
+                      className="text-xl md:text-3xl text-gray-800 italic leading-relaxed flex-grow font-medium"
+                      style={{ fontFamily: 'Playfair Display, serif' }}
+                    >
+                      "{testimonial.text}"
+                    </motion.p>
 
-                  {/* Author Details with floating avatar */}
-                  <motion.div 
-                    initial={{ y: 20, opacity: 0 }}
-                    whileInView={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                    className="flex flex-col items-center gap-3"
-                  >
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-red-800 blur-md rounded-full opacity-30 animate-pulse" />
-                      <div className="w-16 h-16 bg-gradient-to-br from-red-800 to-red-900 flex items-center justify-center text-white text-xl font-bold rounded-full relative shadow-lg ring-4 ring-white">
-                        {testimonial.name.charAt(0)}
+                    {/* Author Info connecting bridge */}
+                    <div className="w-16 h-1 bg-gradient-to-r from-transparent via-red-800/30 to-transparent my-8" />
+
+                    {/* Author Details with floating avatar */}
+                    <motion.div
+                      initial={{ y: 20, opacity: 0 }}
+                      whileInView={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.4 }}
+                      className="flex flex-col items-center gap-3"
+                    >
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-red-800 blur-md rounded-full opacity-30 animate-pulse" />
+                        <div className="w-16 h-16 bg-gradient-to-br from-red-800 to-red-900 flex items-center justify-center text-white text-xl font-bold rounded-full relative shadow-lg ring-4 ring-white">
+                          {testimonial.name.charAt(0)}
+                        </div>
                       </div>
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-gray-900 text-lg tracking-wide uppercase">
-                        {testimonial.name}
-                      </h4>
-                      <p className="text-amber-600 font-medium text-sm tracking-widest uppercase mt-1">
-                        {testimonial.event}
-                      </p>
-                    </div>
-                  </motion.div>
-                </div>
-              </motion.div>
-            </div>
-          ))}
+                      <div>
+                        <h4 className="font-bold text-gray-900 text-lg tracking-wide uppercase">
+                          {testimonial.name}
+                        </h4>
+                        <p className="text-amber-600 font-medium text-sm tracking-widest uppercase mt-1">
+                          {testimonial.event}
+                        </p>
+                      </div>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              </div>
+            ))}
           </Slider>
         </div>
       </section>
