@@ -30,6 +30,8 @@ export interface Inquiry {
   customer_name: string;
   email: string;
   message: string;
+  replied?: boolean;
+  bookmarked?: boolean;
   created_at?: string;
 }
 
@@ -116,6 +118,16 @@ export const inquiryOperations = {
     const { data, error } = await supabase
       .from('inquiries')
       .insert([inquiry])
+      .select();
+    if (error) throw error;
+    return data[0];
+  },
+
+  async update(id: string, inquiry: Partial<Inquiry>) {
+    const { data, error } = await supabase
+      .from('inquiries')
+      .update(inquiry)
+      .eq('id', id)
       .select();
     if (error) throw error;
     return data[0];

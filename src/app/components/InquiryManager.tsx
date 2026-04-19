@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Trash2, Mail, User, Calendar, MessageSquare, MessageCircle, Phone, ChevronDown, X, Send } from 'lucide-react';
+import { Trash2, Mail, User, Calendar, MessageSquare, MessageCircle, Phone, ChevronDown, X, Send, Bookmark, CheckCircle } from 'lucide-react';
 import { Button } from './ui/button';
 import { toast } from 'sonner';
 import { inquiryOperations, type Inquiry } from '../../supabase';
@@ -47,6 +47,7 @@ export function InquiryManager() {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [filter, setFilter] = useState<'all' | 'replied' | 'unreplied' | 'bookmarked'>('all');
 
   // Email compose modal
   const [emailTarget, setEmailTarget] = useState<Inquiry | null>(null);
@@ -81,6 +82,28 @@ export function InquiryManager() {
       toast.error('Failed to delete inquiry');
     } finally {
       setDeletingId(null);
+    }
+  };
+
+  const handleToggleReplied = async (id: string, currentStatus: boolean) => {
+    try {
+      await inquiryOperations.update(id, { replied: !currentStatus });
+      setInquiries(inquiries.map(inv => inv.id === id ? { ...inv, replied: !currentStatus } : inv));
+      toast.success(currentStatus ? 'Marked as unreplied' : 'Marked as replied');
+    } catch (error) {
+      console.error('Error updating inquiry:', error);
+      toast.error('Failed to update status');
+    }
+  };
+
+  const handleToggleBookmarked = async (id: string, currentStatus: boolean) => {
+    try {
+      await inquiryOperations.update(id, { bookmarked: !currentStatus });
+      setInquiries(inquiries.map(inv => inv.id === id ? { ...inv, bookmarked: !currentStatus } : inv));
+      toast.success(currentStatus ? 'Bookmark removed' : 'Bookmarked successfully');
+    } catch (error) {
+      console.error('Error updating inquiry:', error);
+      toast.error('Failed to update bookmark');
     }
   };
 
@@ -166,28 +189,72 @@ export function InquiryManager() {
     );
   }
 
-  if (inquiries.length === 0) {
-    return (
-      <div className="text-center py-12">
-        <MessageSquare className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-        <h3 className="text-lg font-medium text-gray-900 mb-2">No inquiries yet</h3>
-        <p className="text-gray-500">Customer inquiries will appear here when submitted through the contact form.</p>
-      </div>
-    );
-  }
+  const filteredInquiries = inquiries.filter(inquiry => {
+    if (filter === 'replied') return inquiry.replied;
+    if (filter === 'unreplied') return !inquiry.replied;
+    if (filter === 'bookmarked') return inquiry.bookmarked;
+    return true; // 'all'
+  });
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold text-gray-900">Customer Inquiries</h2>
-        <div className="text-sm text-gray-500">
-          {inquiries.length} {inquiries.length === 1 ? 'inquiry' : 'inquiries'}
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <h2 className="text-3xl font-bold text-gray-900">Customer Inquiries</h2>
+          <div className="text-sm text-gray-500 mt-1">
+            {filteredInquiries.length} {filteredInquiries.length === 1 ? 'inquiry' : 'inquiries'}
+          </div>
+        </div>
+        
+        {/* Filters */}
+        <div className="flex flex-wrap items-center gap-2">
+          <Button 
+            size="sm" 
+            variant={filter === 'all' ? 'default' : 'outline'}
+            onClick={() => setFilter('all')}
+          >
+            All
+          </Button>
+          <Button 
+            size="sm" 
+            variant={filter === 'unreplied' ? 'default' : 'outline'}
+            onClick={() => setFilter('unreplied')}
+          >
+            Unreplied
+          </Button>
+          <Button 
+            size="sm" 
+            variant={filter === 'replied' ? 'default' : 'outline'}
+            onClick={() => setFilter('replied')}
+            className={filter === 'replied' ? 'bg-green-600 hover:bg-green-700 text-white' : 'text-green-600 border-green-600 hover:bg-green-50'}
+          >
+            Replied
+          </Button>
+          <Button 
+            size="sm" 
+            variant={filter === 'bookmarked' ? 'default' : 'outline'}
+            onClick={() => setFilter('bookmarked')}
+            className={filter === 'bookmarked' ? 'bg-yellow-500 hover:bg-yellow-600 text-white' : 'text-yellow-600 border-yellow-500 hover:bg-yellow-50'}
+          >
+            Bookmarked
+          </Button>
         </div>
       </div>
 
-      <div className="grid gap-4">
-        <AnimatePresence>
-          {inquiries.map((inquiry) => {
+      {inquiries.length === 0 ? (
+        <div className="text-center py-12">
+          <MessageSquare className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+          <h3 className="text-lg font-medium text-gray-900 mb-2">No inquiries yet</h3>
+          <p className="text-gray-500">Customer inquiries will appear here when submitted through the contact form.</p>
+        </div>
+      ) : filteredInquiries.length === 0 ? (
+        <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
+          <p className="text-gray-500">No inquiries match the selected filter.</p>
+        </div>
+      ) : (
+        <div className="grid gap-4">
+          <AnimatePresence>
+            {filteredInquiries.map((inquiry) => {
             const phone = parsePhone(inquiry.message);
             const displayMessage = stripPhone(inquiry.message);
 
@@ -228,6 +295,24 @@ export function InquiryManager() {
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
+                    <Button
+                      variant={inquiry.replied ? "default" : "outline"}
+                      size="sm"
+                      onClick={(e) => { e.stopPropagation(); handleToggleReplied(inquiry.id, !!inquiry.replied); }}
+                      className={inquiry.replied ? "bg-green-600 hover:bg-green-700 text-white" : "text-green-600 border-green-600 hover:bg-green-50"}
+                    >
+                      <CheckCircle className="h-4 w-4 mr-1.5" />
+                      Replied
+                    </Button>
+                    <Button
+                      variant={inquiry.bookmarked ? "default" : "outline"}
+                      size="sm"
+                      onClick={(e) => { e.stopPropagation(); handleToggleBookmarked(inquiry.id, !!inquiry.bookmarked); }}
+                      className={inquiry.bookmarked ? "bg-yellow-500 hover:bg-yellow-600 text-white" : "text-yellow-600 border-yellow-500 hover:bg-yellow-50"}
+                    >
+                      <Bookmark className="h-4 w-4 mr-1.5" />
+                      Bookmark
+                    </Button>
                     {/* Delete — inline confirm */}
                     {confirmDeleteId === inquiry.id ? (
                       <motion.div
@@ -326,6 +411,7 @@ export function InquiryManager() {
           })}
         </AnimatePresence>
       </div>
+      )}
 
       {/* ── Email Compose Modal ── */}
       <AnimatePresence>

@@ -125,7 +125,7 @@ export function TeamManager() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${supabaseAnonKey}`,
         },
-        body: JSON.stringify({ folder: 'tsd-events/team' }),
+        body: JSON.stringify({ folder: 'Team Photos' }),
       }
     );
 
@@ -138,7 +138,7 @@ export function TeamManager() {
     formData.append('api_key', api_key);
     formData.append('signature', signature);
     formData.append('timestamp', timestamp.toString());
-    formData.append('folder', 'tsd-events/team');
+    formData.append('folder', 'Team Photos');
 
     const uploadRes = await fetch(
       `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
@@ -197,6 +197,13 @@ export function TeamManager() {
   const handleDelete = async (id: string, imageUrl: string) => {
     if (!confirm('Are you sure you want to remove this team member?')) return;
     try {
+      if (imageUrl && imageUrl.includes('cloudinary.com')) {
+        const { cloudinaryUpload } = await import('../../cloudinary');
+        await cloudinaryUpload.deleteImage(imageUrl).catch(err => {
+          console.error("Cloudinary deletion error:", err);
+        });
+      }
+
       await supabase.from('team_members').delete().eq('id', id);
       toast.success('Removed team member');
       fetchMembers();

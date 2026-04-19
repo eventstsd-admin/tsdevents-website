@@ -12,7 +12,7 @@ export interface ClientLogo {
 }
 
 // Iterative compression — reduces quality then dimensions until < 30KB
-async function compressLogoImage(file: File): Promise<File> {
+async function compressLogoImage(file: File, clientName: string): Promise<File> {
   const TARGET_SIZE = 30 * 1024; // 30 KB
 
   return new Promise((resolve) => {
@@ -46,7 +46,8 @@ async function compressLogoImage(file: File): Promise<File> {
         const tryQuality = (q: number): Promise<Blob | null> =>
           new Promise((res) => canvas.toBlob(res, 'image/webp', q));
 
-        const outName = file.name.replace(/\.[^/.]+$/, '') + '.webp';
+        const safeName = clientName.replace(/[^a-zA-Z0-9]/g, '-').replace(/-+/g, '-').toLowerCase() || 'logo';
+        const outName = `${safeName}.webp`;
 
         const compressLoop = async (): Promise<File> => {
           drawCanvas();
@@ -100,11 +101,11 @@ export function ClientLogoManager() {
     setLoading(false);
   };
 
-  const uploadImage = async (file: File): Promise<string> => {
+  const uploadImage = async (file: File, clientName: string): Promise<string> => {
     toast.loading('Optimizing logo...', { id: 'logo_upload' });
     
     // Strict compression to 30KB
-    const compressedFile = await compressLogoImage(file);
+    const compressedFile = await compressLogoImage(file, clientName);
     
     if (compressedFile.size > 30 * 1024) {
       toast.error('Image is too complex to fit in 30KB. Please select a simpler image.', { id: 'logo_upload' });
@@ -123,7 +124,7 @@ export function ClientLogoManager() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${supabaseAnonKey}`,
         },
-        body: JSON.stringify({ folder: 'tsd-events/clients' }),
+        body: JSON.stringify({ folder: 'clientLogo' }),
       }
     );
 
@@ -136,7 +137,7 @@ export function ClientLogoManager() {
     formData.append('api_key', api_key);
     formData.append('signature', signature);
     formData.append('timestamp', timestamp.toString());
-    formData.append('folder', 'tsd-events/clients');
+    formData.append('folder', 'clientLogo');
 
     const uploadRes = await fetch(
       `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
@@ -156,7 +157,7 @@ export function ClientLogoManager() {
 
     setSaving(true);
     try {
-      const finalImageUrl = await uploadImage(imageFile);
+      const finalImageUrl = await uploadImage(imageFile, altText);
 
       const { error } = await supabase.from('client_logos').insert({
         alt_text: altText, image_url: finalImageUrl
@@ -181,6 +182,13 @@ export function ClientLogoManager() {
   const handleDelete = async (id: string, imageUrl: string) => {
     if (!confirm('Are you sure you want to remove this client logo?')) return;
     try {
+      if (imageUrl && imageUrl.includes('cloudinary.com')) {
+        const { cloudinaryUpload } = await import('../../cloudinary');
+        await cloudinaryUpload.deleteImage(imageUrl).catch(err => {
+          console.error("Cloudinary deletion error:", err);
+        });
+      }
+
       await supabase.from('client_logos').delete().eq('id', id);
       toast.success('Removed client logo');
       fetchLogos();
