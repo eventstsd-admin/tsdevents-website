@@ -136,46 +136,6 @@ export default function LandingPage() {
   // NOTE: LocalBusiness schema is already defined STATICALLY in index.html.
   // Adding it here again causes "multiple aggregate ratings" error in Google Search Console.
   useEffect(() => {
-    // FAQ Schema for common searches
-    const faqSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: [
-        {
-          '@type': 'Question',
-          name: 'What is TSD Events and Decor?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'TSD Events & Decor is a premier event management and decoration company providing services across India. With 12+ years of experience and 500+ events managed, we specialize in wedding planning, corporate events, religious ceremonies, and celebration décor.',
-          },
-        },
-        {
-          '@type': 'Question',
-          name: 'What services does TSD Events & Decor provide?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'TSD Events & Decor provides comprehensive services including wedding event planning (Kankotri Lekhan, Haldi, Mehndi, Sangit, Entry, Whole Decoration), corporate event management (Exhibition, Brand Launch, Store Inauguration, Annual Function), religious ceremony planning (99 Yatra, Chaturmas, Shibir), and decoration services (Birthday Party, Mandap Decoration, Engagement, Baby Shower, Anniversary).',
-          },
-        },
-        {
-          '@type': 'Question',
-          name: 'How can I contact TSD Events and Decor?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'You can contact TSD Events & Decor at +91 98254 13606 (phone/WhatsApp), email info@tsdevents.in, or visit our office at 3, Jamnasagar Flats, opp. Dharmeshwar Mahadev Road, Sabarmati, Ahmedabad, Gujarat 380005. We are open Monday-Saturday 9AM-7PM.',
-          },
-        },
-        {
-          '@type': 'Question',
-          name: 'What areas does TSD Events & Decor serve?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'TSD Events & Decor serves clients across India. We flawlessly handle local, national, and destination events throughout the country.',
-          },
-        },
-      ],
-    };
-
     // Service Schema
     const serviceSchema = {
       '@context': 'https://schema.org',
@@ -203,8 +163,8 @@ export default function LandingPage() {
       },
     };
 
-    // Inject only page-specific schemas (LocalBusiness is in index.html)
-    const schemas = [faqSchema, serviceSchema];
+    // Inject only page-specific schemas (LocalBusiness and FAQPage are in index.html)
+    const schemas = [serviceSchema];
 
     schemas.forEach((schema, index) => {
       const script = document.createElement('script');
