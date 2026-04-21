@@ -1,5 +1,5 @@
 # TSD Events & Decor - Robots.txt
-# https://tsdevents.in
+# https://www.tsdevents.in
 
 User-agent: *
 Allow: /
@@ -28,4 +28,4 @@ Disallow: /admin
 Disallow: /admin-dashboard
 
 # Sitemap location
-Sitemap: https://tsdevents.in/sitemap.xml
+Sitemap: https://www.tsdevents.in/sitemap.xml

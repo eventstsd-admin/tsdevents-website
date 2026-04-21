@@ -1,7 +1,7 @@
 // Enhanced SEO component that injects meta tags dynamically per page
 import React from 'react';
 
-const SITE_URL = 'https://tsdevents.in';
+const SITE_URL = 'https://www.tsdevents.in';
 
 export const SEOComponent = ({ title, description, keywords, image, type, canonicalPath }: any) => {
   React.useEffect(() => {

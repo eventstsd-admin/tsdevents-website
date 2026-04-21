@@ -58,13 +58,13 @@ export default function AboutPage() {
           '@type': 'ListItem',
           position: 1,
           name: 'Home',
-          item: 'https://tsdevents.in',
+          item: 'https://www.tsdevents.in',
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'About',
-          item: 'https://tsdevents.in/about',
+          item: 'https://www.tsdevents.in/about',
         },
       ],
     };
@@ -74,7 +74,7 @@ export default function AboutPage() {
       '@context': 'https://schema.org',
       '@type': 'Organization',
       name: 'TSD Events & Decor',
-      url: 'https://tsdevents.in',
+      url: 'https://www.tsdevents.in',
       member: [
         {
           '@type': 'Person',
@@ -121,10 +121,10 @@ export default function AboutPage() {
       '@type': 'AboutPage',
       name: 'About TSD Events & Decor - Best Event Management Company Across India',
       description: 'Learn about TSD Events & Decor - India\'s leading event planning and decoration company with 500+ events managed and 12+ years of expertise',
-      url: 'https://tsdevents.in/about',
+      url: 'https://www.tsdevents.in/about',
       mainEntity: {
         '@type': 'LocalBusiness',
-        '@id': 'https://tsdevents.in',
+        '@id': 'https://www.tsdevents.in',
         name: 'TSD Events & Decor',
       },
     };

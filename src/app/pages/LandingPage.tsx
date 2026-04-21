@@ -144,7 +144,7 @@ export default function LandingPage() {
       provider: {
         '@type': 'LocalBusiness',
         name: 'TSD Events & Decor',
-        url: 'https://tsdevents.in',
+        url: 'https://www.tsdevents.in',
       },
       areaServed: [
         { '@type': 'City', name: 'Ahmedabad' },

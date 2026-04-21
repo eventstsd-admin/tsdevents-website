@@ -4,12 +4,12 @@
 
   <!-- Homepage - Highest Priority -->
   <url>
-    <loc>https://tsdevents.in/</loc>
+    <loc>https://www.tsdevents.in/</loc>
     <lastmod>2026-04-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://tsdevents.in/icon.svg</image:loc>
+      <image:loc>https://www.tsdevents.in/icon.svg</image:loc>
       <image:title>TSD Events and Decor - Best Event Management and Decoration Company in Ahmedabad Gujarat India</image:title>
       <image:caption>TSD Event and Decor - Premier event planning and decoration services for weddings, corporate events, religious ceremonies, and celebrations in Ahmedabad, Gujarat, India</image:caption>
     </image:image>
@@ -17,7 +17,7 @@
 
   <!-- About Page -->
   <url>
-    <loc>https://tsdevents.in/about</loc>
+    <loc>https://www.tsdevents.in/about</loc>
     <lastmod>2026-04-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -25,7 +25,7 @@
 
   <!-- Services Page - High Priority for Business -->
   <url>
-    <loc>https://tsdevents.in/services</loc>
+    <loc>https://www.tsdevents.in/services</loc>
     <lastmod>2026-04-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -33,7 +33,7 @@
 
   <!-- Gallery Page -->
   <url>
-    <loc>https://tsdevents.in/gallery</loc>
+    <loc>https://www.tsdevents.in/gallery</loc>
     <lastmod>2026-04-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -41,7 +41,7 @@
 
   <!-- Blog Page -->
   <url>
-    <loc>https://tsdevents.in/blog</loc>
+    <loc>https://www.tsdevents.in/blog</loc>
     <lastmod>2026-04-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -49,7 +49,7 @@
 
   <!-- Contact Page - High Priority for Conversions -->
   <url>
-    <loc>https://tsdevents.in/contact</loc>
+    <loc>https://www.tsdevents.in/contact</loc>
     <lastmod>2026-04-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>

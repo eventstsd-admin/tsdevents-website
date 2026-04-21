@@ -68,7 +68,7 @@ function buildHtmlEmail(customerName: string, replyMessage: string): string {
                   &nbsp;&nbsp;|&nbsp;&nbsp;
                   💬 <a href="https://wa.me/919825413606" style="color:#16a34a;text-decoration:none;">WhatsApp</a>
                   &nbsp;&nbsp;|&nbsp;&nbsp;
-                  🌐 <a href="https://tsdevents.in" style="color:#b91c1c;text-decoration:none;">tsdevents.in</a>
+                  🌐 <a href="https://www.tsdevents.in" style="color:#b91c1c;text-decoration:none;">www.tsdevents.in</a>
                 </p>
               </td>
             </tr>
@@ -95,7 +95,7 @@ function buildHtmlEmail(customerName: string, replyMessage: string): string {
 
 // Helper: Build plain-text fallback
 function buildTextEmail(customerName: string, replyMessage: string): string {
-  return `Dear ${customerName},\n\n${replyMessage}\n\n---\nTSD Events & Decor\n📞 +91 98254 13606\n🌐 tsdevents.in\n✉️ info@tsdevents.in`;
+  return `Dear ${customerName},\n\n${replyMessage}\n\n---\nTSD Events & Decor\n📞 +91 98254 13606\n🌐 www.tsdevents.in\n✉️ info@tsdevents.in`;
 }
 
 serve(async (req: Request) => {
